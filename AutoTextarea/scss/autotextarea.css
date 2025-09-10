@@ -1,0 +1,295 @@
+/**
+ * AutoTextarea CSS - Compiled from SCSS
+ * Bootstrap 5.3 Compatible Styles
+ */
+
+/* Base AutoTextarea styles */
+.autotextarea {
+	resize: none !important;
+	overflow: hidden;
+	transition: height 150ms ease-out;
+	border-radius: var(--bs-border-radius);
+	border-width: var(--bs-border-width);
+	border-style: solid;
+	border-color: var(--bs-border-color);
+	background-color: var(--bs-body-bg);
+	color: var(--bs-body-color);
+	min-height: 60px;
+}
+
+.autotextarea::placeholder {
+	color: var(--bs-secondary-color);
+	opacity: 0.75;
+	transition: opacity 0.15s ease-in-out;
+}
+
+.autotextarea:focus {
+	outline: none;
+	border-color: var(--bs-primary);
+	box-shadow: 0 0 0 2px rgba(var(--bs-primary-rgb), 0.25);
+}
+
+.autotextarea:focus::placeholder {
+	opacity: 0.5;
+}
+
+.autotextarea:hover:not(:focus) {
+	border-color: var(--bs-gray-400);
+}
+
+.autotextarea:disabled {
+	background-color: var(--bs-gray-100);
+	border-color: var(--bs-gray-300);
+	color: var(--bs-gray-600);
+	cursor: not-allowed;
+	resize: none;
+}
+
+.autotextarea[readonly] {
+	background-color: var(--bs-gray-50);
+	border-color: var(--bs-gray-300);
+}
+
+/* Focused state class (applied via JavaScript) */
+.autotextarea-focused {
+	border-color: var(--bs-primary) !important;
+	box-shadow: 0 0 0 2px rgba(var(--bs-primary-rgb), 0.25) !important;
+}
+
+/* Initialization state */
+.autotextarea-initialized {
+	animation: autotextarea-init 0.3s ease-out;
+}
+
+/* Resize indicator (optional visual cue) */
+.autotextarea-with-indicator {
+	position: relative;
+}
+
+.autotextarea-with-indicator::after {
+	content: '';
+	position: absolute;
+	bottom: 2px;
+	right: 2px;
+	width: 12px;
+	height: 12px;
+	background: linear-gradient(
+		135deg,
+		transparent 0%,
+		transparent 40%,
+		var(--bs-gray-400) 40%,
+		var(--bs-gray-400) 50%,
+		transparent 50%,
+		transparent 60%,
+		var(--bs-gray-400) 60%,
+		var(--bs-gray-400) 70%,
+		transparent 70%
+	);
+	opacity: 0.3;
+	pointer-events: none;
+	transition: opacity 0.15s ease-in-out;
+}
+
+.autotextarea-with-indicator:hover::after {
+	opacity: 0.6;
+}
+
+/* Size variants */
+.autotextarea-sm {
+	min-height: 40px;
+	font-size: var(--bs-font-size-sm);
+	padding: 0.375rem 0.5rem;
+}
+
+.autotextarea-lg {
+	min-height: 80px;
+	font-size: var(--bs-font-size-lg);
+	padding: 0.75rem 1rem;
+}
+
+/* Dark mode support */
+[data-bs-theme="dark"] .autotextarea {
+	background-color: var(--bs-dark);
+	border-color: var(--bs-gray-700);
+	color: var(--bs-gray-100);
+}
+
+[data-bs-theme="dark"] .autotextarea::placeholder {
+	color: var(--bs-gray-400);
+}
+
+[data-bs-theme="dark"] .autotextarea:hover:not(:focus) {
+	border-color: var(--bs-gray-600);
+}
+
+[data-bs-theme="dark"] .autotextarea:disabled {
+	background-color: var(--bs-gray-800);
+	border-color: var(--bs-gray-700);
+	color: var(--bs-gray-500);
+}
+
+[data-bs-theme="dark"] .autotextarea[readonly] {
+	background-color: var(--bs-gray-900);
+	border-color: var(--bs-gray-700);
+}
+
+[data-bs-theme="dark"] .autotextarea-with-indicator::after {
+	background: linear-gradient(
+		135deg,
+		transparent 0%,
+		transparent 40%,
+		var(--bs-gray-500) 40%,
+		var(--bs-gray-500) 50%,
+		transparent 50%,
+		transparent 60%,
+		var(--bs-gray-500) 60%,
+		var(--bs-gray-500) 70%,
+		transparent 70%
+	);
+}
+
+/* Animation keyframes */
+@keyframes autotextarea-init {
+	0% {
+		opacity: 0.8;
+		transform: scale(0.998);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes autotextarea-resize {
+	0% {
+		transform: scaleY(0.98);
+	}
+	100% {
+		transform: scaleY(1);
+	}
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+	.autotextarea {
+		border-width: 2px;
+		border-color: var(--bs-dark);
+	}
+
+	.autotextarea:focus {
+		border-color: var(--bs-primary);
+		box-shadow: 0 0 0 3px rgba(var(--bs-primary-rgb), 0.5);
+	}
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+	.autotextarea {
+		transition: none !important;
+		animation: none !important;
+	}
+
+	.autotextarea-initialized {
+		animation: none !important;
+	}
+}
+
+/* Print styles */
+@media print {
+	.autotextarea {
+		border: 1px solid #000 !important;
+		background: transparent !important;
+		box-shadow: none !important;
+	}
+
+	.autotextarea::after {
+		display: none !important;
+	}
+}
+
+/* Bootstrap form integration */
+.form-floating .autotextarea {
+	padding-top: 1.625rem;
+	padding-bottom: 0.625rem;
+	min-height: calc(3.5rem + 2px);
+}
+
+.form-floating .autotextarea:focus,
+.form-floating .autotextarea:not(:placeholder-shown) {
+	padding-top: 1.625rem;
+	padding-bottom: 0.625rem;
+}
+
+.form-floating .autotextarea.autotextarea-sm {
+	padding-top: 1.25rem;
+	padding-bottom: 0.375rem;
+	min-height: calc(2.5rem + 2px);
+}
+
+.form-floating .autotextarea.autotextarea-lg {
+	padding-top: 2rem;
+	padding-bottom: 0.75rem;
+	min-height: calc(4rem + 2px);
+}
+
+/* Input group integration */
+.input-group .autotextarea:not(:first-child) {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.input-group .autotextarea:not(:last-child) {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+/* Validation states */
+.autotextarea.is-valid {
+	border-color: var(--bs-success);
+}
+
+.autotextarea.is-valid:focus {
+	border-color: var(--bs-success);
+	box-shadow: 0 0 0 2px rgba(var(--bs-success-rgb), 0.25);
+}
+
+.autotextarea.is-invalid {
+	border-color: var(--bs-danger);
+}
+
+.autotextarea.is-invalid:focus {
+	border-color: var(--bs-danger);
+	box-shadow: 0 0 0 2px rgba(var(--bs-danger-rgb), 0.25);
+}
+
+/* Custom scrollbar for when max height is reached */
+.autotextarea::-webkit-scrollbar {
+	width: 8px;
+}
+
+.autotextarea::-webkit-scrollbar-track {
+	background: var(--bs-gray-100);
+	border-radius: 4px;
+}
+
+.autotextarea::-webkit-scrollbar-thumb {
+	background: var(--bs-gray-400);
+	border-radius: 4px;
+}
+
+.autotextarea::-webkit-scrollbar-thumb:hover {
+	background: var(--bs-gray-500);
+}
+
+/* Dark mode scrollbar */
+[data-bs-theme="dark"] .autotextarea::-webkit-scrollbar-track {
+	background: var(--bs-gray-800);
+}
+
+[data-bs-theme="dark"] .autotextarea::-webkit-scrollbar-thumb {
+	background: var(--bs-gray-600);
+}
+
+[data-bs-theme="dark"] .autotextarea::-webkit-scrollbar-thumb:hover {
+	background: var(--bs-gray-500);
+}

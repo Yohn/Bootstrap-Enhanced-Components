@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MultiSelect Component - Bootstrap 5.3 Example</title>
+
+	<!-- Bootstrap 5.3.7 CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+
+	<!-- MultiSelect CSS -->
+	<link href="scss/multiselect.css" rel="stylesheet">
+
+	<style>
+		body {
+			padding-top: 2rem;
+		}
+
+		.example-section {
+			margin-bottom: 3rem;
+		}
+
+		.code-example {
+			background-color: var(--bs-gray-900);
+			border: 1px solid var(--bs-border-color);
+			border-radius: var(--bs-border-radius);
+			padding: 1rem;
+			margin-top: 1rem;
+		}
+
+		.theme-toggle {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			z-index: 1060;
+		}
+
+		.result-display {
+			background-color: var(--bs-body-bg);
+			border: 1px solid var(--bs-border-color);
+			border-radius: var(--bs-border-radius);
+			padding: 1rem;
+			margin-top: 1rem;
+			font-family: monospace;
+		}
+	</style>
+</head>
+<body>
+	<!-- Theme Toggle -->
+	<button type="button" class="btn btn-outline-primary theme-toggle" id="themeToggle">
+		<i class="bi bi-sun-fill"></i> Toggle Theme
+	</button>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-10 mx-auto">
+				<h1 class="display-4 mb-4">MultiSelect Component</h1>
+				<p class="lead mb-5">Enhanced select component for Bootstrap 5.3 with search, tags, and grouping capabilities.</p>
+
+				<!-- Basic Example -->
+				<div class="example-section">
+					<h2>Basic MultiSelect</h2>
+					<p>Simple multiple selection with search functionality.</p>
+
+					<div class="row">
+						<div class="col-md-6">
+							<label for="basic-select" class="form-label">Select Programming Languages</label>
+							<select id="basic-select" class="form-select" multiple>
+								<option value="js">JavaScript</option>
+								<option value="py">Python</option>
+								<option value="java">Java</option>
+								<option value="cpp">C++</option>
+								<option value="cs">C#</option>
+								<option value="php">PHP</option>
+								<option value="rb">Ruby</option>
+								<option value="go">Go</option>
+							</select>
+
+							<div class="result-display">
+								<strong>Selected Values:</strong>
+								<div id="basic-result">[]</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="code-example">
+<pre><code>const multiSelect = new MultiSelect('#basic-select', {
+	searchable: true,
+	placeholder: 'Select languages...',
+	showTags: true
+});</code></pre>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Grouped Options Example -->
+				<div class="example-section">
+					<h2>Grouped Options</h2>
+					<p>Options organized by categories with custom group headers.</p>
+
+					<div class="row">
+						<div class="col-md-6">
+							<label for="grouped-select" class="form-label">Select Technologies</label>
+							<select id="grouped-select" class="form-select" multiple>
+								<!-- Will be populated by JavaScript -->
+							</select>
+
+							<div class="result-display">
+								<strong>Selected Technologies:</strong>
+								<div id="grouped-result">[]</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="code-example">
+<pre><code>const groupedSelect = new MultiSelect('#grouped-select', {
+	searchable: true,
+	groupBy: 'category',
+	maxSelections: 6,
+	sortSelected: true
+});</code></pre>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Advanced Example with Custom Rendering -->
+				<div class="example-section">
+					<h2>Custom Rendering</h2>
+					<p>Custom option and tag templates with rich content.</p>
+
+					<div class="row">
+						<div class="col-md-6">
+							<label for="custom-select" class="form-label">Select Team Members</label>
+							<select id="custom-select" class="form-select" multiple>
+								<!-- Will be populated by JavaScript -->
+							</select>
+
+							<div class="result-display">
+								<strong>Selected Members:</strong>
+								<div id="custom-result">[]</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="code-example">
+<pre><code>const customSelect = new MultiSelect('#custom-select', {
+	customRenderer: (option) => {
+		return `&lt;div class="d-flex align-items-center"&gt;
+			&lt;div class="avatar me-2"&gt;${option.avatar}&lt;/div&gt;
+			&lt;div&gt;
+				&lt;div&gt;${option.text}&lt;/div&gt;
+				&lt;small&gt;${option.role}&lt;/small&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;`;
+	}
+});</code></pre>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Size Variations -->
+				<div class="example-section">
+					<h2>Size Variations</h2>
+					<p>Different component sizes to match your design.</p>
+
+					<div class="row">
+						<div class="col-md-4">
+							<label for="small-select" class="form-label">Small</label>
+							<select id="small-select" class="form-select form-select-sm" multiple>
+								<option value="1">Option 1</option>
+								<option value="2">Option 2</option>
+								<option value="3">Option 3</option>
+							</select>
+						</div>
+						<div class="col-md-4">
+							<label for="normal-select" class="form-label">Normal</label>
+							<select id="normal-select" class="form-select" multiple>
+								<option value="1">Option 1</option>
+								<option value="2">Option 2</option>
+								<option value="3">Option 3</option>
+							</select>
+						</div>
+						<div class="col-md-4">
+							<label for="large-select" class="form-label">Large</label>
+							<select id="large-select" class="form-select form-select-lg" multiple>
+								<option value="1">Option 1</option>
+								<option value="2">Option 2</option>
+								<option value="3">Option 3</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<!-- API Demonstration -->
+				<div class="example-section">
+					<h2>API Methods</h2>
+					<p>Programmatic control of the component.</p>
+
+					<div class="row">
+						<div class="col-md-6">
+							<label for="api-select" class="form-label">API Demo</label>
+							<select id="api-select" class="form-select" multiple>
+								<option value="red">Red</option>
+								<option value="blue">Blue</option>
+								<option value="green">Green</option>
+								<option value="yellow">Yellow</option>
+								<option value="purple">Purple</option>
+								<option value="orange">Orange</option>
+							</select>
+
+							<div class="mt-3">
+								<button type="button" class="btn btn-sm btn-primary" id="selectRed">Select Red</button>
+								<button type="button" class="btn btn-sm btn-success" id="selectAll">Select All</button>
+								<button type="button" class="btn btn-sm btn-warning" id="clearAll">Clear All</button>
+								<button type="button" class="btn btn-sm btn-secondary" id="disableToggle">Toggle Disable</button>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="result-display">
+								<strong>API Events Log:</strong>
+								<div id="api-log" style="height: 200px; overflow-y: auto; font-size: 0.8em;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Form Integration -->
+				<div class="example-section">
+					<h2>Form Integration</h2>
+					<p>Integration with Bootstrap form validation.</p>
+
+					<form id="demo-form" novalidate>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label for="required-select" class="form-label">Required Selection *</label>
+									<select id="required-select" class="form-select" multiple required>
+										<option value="opt1">Option 1</option>
+										<option value="opt2">Option 2</option>
+										<option value="opt3">Option 3</option>
+									</select>
+									<div class="invalid-feedback">Please select at least one option.</div>
+								</div>
+
+								<div class="mb-3">
+									<label for="limited-select" class="form-label">Max 2 Selections</label>
+									<select id="limited-select" class="form-select" multiple>
+										<option value="a">Alpha</option>
+										<option value="b">Beta</option>
+										<option value="c">Gamma</option>
+										<option value="d">Delta</option>
+										<option value="e">Epsilon</option>
+									</select>
+									<div class="form-text">You can select up to 2 items.</div>
+								</div>
+
+								<button type="submit" class="btn btn-primary">Submit Form</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap 5.3.7 JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- MultiSelect JavaScript -->
+	<script src="js/MultiSelect.js"></script>
+
+	<!-- Example JavaScript -->
+	<script src="ExampleJS/example.js"></script>
+</body>
+</html>

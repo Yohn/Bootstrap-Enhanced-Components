@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>InputMask Component - Bootstrap 5.3 Demo</title>
+
+	<!-- Bootstrap 5.3.7 CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom InputMask Styles -->
+	<style>
+		/* InputMask Component Styles */
+		:root {
+			--input-mask-placeholder-color: #6c757d;
+			--input-mask-focus-placeholder-color: #adb5bd;
+			--input-mask-invalid-placeholder-color: #dc3545;
+		}
+
+		.input-mask {
+			font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+			letter-spacing: 0.02em;
+		}
+
+		.input-mask::placeholder {
+			color: var(--input-mask-placeholder-color);
+			opacity: 1;
+			font-style: italic;
+			letter-spacing: 0.05em;
+		}
+
+		.input-mask:focus::placeholder {
+			color: var(--input-mask-focus-placeholder-color);
+			transition: all 0.15s ease-in-out;
+		}
+
+		.input-mask.is-invalid::placeholder {
+			color: var(--input-mask-invalid-placeholder-color);
+		}
+
+		.input-mask[data-mask="phone"],
+		.input-mask[data-mask="ssn"],
+		.input-mask[data-mask="creditCard"] {
+			background-repeat: no-repeat;
+			background-position: right 12px center;
+			background-size: 16px;
+			padding-right: 40px;
+		}
+
+		.input-mask[data-mask="phone"] {
+			background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23198754' viewBox='0 0 16 16'><path d='M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122L9.98 10.654a.678.678 0 0 1-.122-.58L8.064 7.767a.678.678 0 0 0-1.015-.063L5.364 9.389a.678.678 0 0 1-.58-.122L2.477 7.473a.678.678 0 0 0-.122-.58L3.654 1.328z'/></svg>");
+		}
+
+		.input-mask[data-mask="ssn"] {
+			background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23fd7e14' viewBox='0 0 16 16'><path d='M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zM3 6V3a5 5 0 0 1 10 0v3a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z'/></svg>");
+		}
+
+		.input-mask[data-mask="creditCard"] {
+			background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230d6efd' viewBox='0 0 16 16'><path d='M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z'/><path d='M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z'/></svg>");
+		}
+
+		.demo-section {
+			background: var(--bs-body-bg);
+			border: 1px solid var(--bs-border-color);
+			border-radius: var(--bs-border-radius);
+			padding: 2rem;
+			margin-bottom: 2rem;
+		}
+
+		.feature-icon {
+			width: 3rem;
+			height: 3rem;
+			background: var(--bs-primary);
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 1rem;
+		}
+
+		.output-display {
+			background: var(--bs-dark);
+			border: 1px solid var(--bs-border-color);
+			border-radius: var(--bs-border-radius);
+			padding: 1rem;
+			font-family: monospace;
+			color: var(--bs-success);
+			min-height: 3rem;
+		}
+
+		@keyframes mask-complete {
+			0% { box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.5); }
+			50% { box-shadow: 0 0 0 0.5rem rgba(var(--bs-success-rgb), 0.25); }
+			100% { box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0); }
+		}
+
+		.mask-complete {
+			animation: mask-complete 0.6s ease-out;
+		}
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<div class="container">
+			<a class="navbar-brand" href="#">
+				<strong>InputMask</strong> Component
+			</a>
+			<button class="btn btn-outline-light btn-sm" onclick="toggleTheme()">
+				🌓 Toggle Theme
+			</button>
+		</div>
+	</nav>
+
+	<div class="container my-5">
+		<!-- Header -->
+		<div class="row mb-5">
+			<div class="col-12 text-center">
+				<h1 class="display-4 fw-bold mb-3">InputMask for Bootstrap 5.3</h1>
+				<p class="lead text-muted">Advanced input formatting with real-time masking, validation, and Bootstrap integration</p>
+			</div>
+		</div>
+
+		<!-- Features Overview -->
+		<div class="row mb-5">
+			<div class="col-md-4 text-center mb-4">
+				<div class="feature-icon mx-auto">
+					<svg width="24" height="24" fill="white" viewBox="0 0 16 16">
+						<path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+						<path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+					</svg>
+				</div>
+				<h5>Real-time Formatting</h5>
+				<p class="text-muted small">Input is formatted as you type with intelligent pattern recognition</p>
+			</div>
+			<div class="col-md-4 text-center mb-4">
+				<div class="feature-icon mx-auto">
+					<svg width="24" height="24" fill="white" viewBox="0 0 16 16">
+						<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+						<path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.061L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+					</svg>
+				</div>
+				<h5>Bootstrap Integration</h5>
+				<p class="text-muted small">Seamlessly integrates with Bootstrap 5.3 forms and validation</p>
+			</div>
+			<div class="col-md-4 text-center mb-4">
+				<div class="feature-icon mx-auto">
+					<svg width="24" height="24" fill="white" viewBox="0 0 16 16">
+						<path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+					</svg>
+				</div>
+				<h5>Highly Customizable</h5>
+				<p class="text-muted small">Extensive options for patterns, validation, and behavior customization</p>
+			</div>
+		</div>
+
+		<!-- Basic Patterns Demo -->
+		<div class="demo-section">
+			<h2 class="h4 mb-4">📱 Common Input Patterns</h2>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="phone-basic" class="form-label">Phone Number</label>
+						<input type="tel" id="phone-basic" class="form-control input-mask" data-mask="phone" placeholder="Enter phone number">
+						<div class="form-text">Format: (555) 123-4567</div>
+					</div>
+
+					<div class="mb-3">
+						<label for="ssn-basic" class="form-label">Social Security Number</label>
+						<input type="text" id="ssn-basic" class="form-control input-mask" data-mask="ssn" data-mask-showmaskonfocus="true" placeholder="Enter SSN">
+						<div class="form-text">Format: 123-45-6789</div>
+					</div>
+
+					<div class="mb-3">
+						<label for="date-basic" class="form-label">Date</label>
+						<input type="text" id="date-basic" class="form-control input-mask" data-mask="date" placeholder="Enter date">
+						<div class="form-text">Format: MM/DD/YYYY</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="credit-card-basic" class="form-label">Credit Card</label>
+						<input type="text" id="credit-card-basic" class="form-control input-mask" data-mask="creditCard" placeholder="Enter card number">
+						<div class="form-text">Format: 1234 5678 9012 3456</div>
+					</div>
+
+					<div class="mb-3">
+						<label for="zip-basic" class="form-label">ZIP Code</label>
+						<input type="text" id="zip-basic" class="form-control input-mask" data-mask="zipCodePlus4" data-mask-allowincomplete="true" placeholder="Enter ZIP">
+						<div class="form-text">Format: 12345 or 12345-6789</div>
+					</div>
+
+					<div class="mb-3">
+						<label for="time-basic" class="form-label">Time</label>
+						<input type="text" id="time-basic" class="form-control input-mask" data-mask="time24" placeholder="Enter time">
+						<div class="form-text">Format: 23:59</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Advanced Features Demo -->
+		<div class="demo-section">
+			<h2 class="h4 mb-4">🔧 Advanced Features</h2>
+
+			<div class="row mb-4">
+				<div class="col-md-6">
+					<h5 class="h6">Custom Pattern Example</h5>
+					<div class="mb-3">
+						<label for="product-code" class="form-label">Product Code</label>
+						<input type="text" id="product-code" class="form-control input-mask" placeholder="Enter product code">
+						<div class="form-text">Format: ABC-1234 (auto uppercase)</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<h5 class="h6">Currency Input</h5>
+					<div class="mb-3">
+						<label for="currency-amount" class="form-label">Amount</label>
+						<div class="input-group">
+							<span class="input-group-text">$</span>
+							<input type="text" id="currency-amount" class="form-control input-mask text-end" placeholder="0.00">
+						</div>
+						<div class="form-text">Right-aligned numeric input</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<h5 class="h6">IP Address</h5>
+					<div class="mb-3">
+						<label for="ip-address" class="form-label">IP Address</label>
+						<input type="text" id="ip-address" class="form-control input-mask" placeholder="Enter IP address">
+						<div class="form-text">Format: 192.168.1.1</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<h5 class="h6">MAC Address</h5>
+					<div class="mb-3">
+						<label for="mac-address" class="form-label">MAC Address</label>
+						<input type="text" id="mac-address" class="form-control input-mask" placeholder="Enter MAC address">
+						<div class="form-text">Format: AA:BB:CC:DD:EE:FF</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Validation Demo -->
+		<div class="demo-section">
+			<h2 class="h4 mb-4">✅ Validation Integration</h2>
+			<form class="needs-validation" novalidate>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label for="phone-validation" class="form-label">Phone Number *</label>
+							<input type="tel" id="phone-validation" class="form-control input-mask" required data-mask="phone">
+							<div class="valid-feedback">Phone number looks good!</div>
+							<div class="invalid-feedback">Please provide a valid phone number.</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label for="email-validation" class="form-label">Email Address *</label>
+							<input type="email" id="email-validation" class="form-control" required placeholder="Enter email">
+							<div class="valid-feedback">Email looks good!</div>
+							<div class="invalid-feedback">Please provide a valid email.</div>
+						</div>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary">Validate Form</button>
+			</form>
+		</div>
+
+		<!-- Real-time Output Demo -->
+		<div class="demo-section">
+			<h2 class="h4 mb-4">📊 Real-time Output</h2>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="output-demo" class="form-label">Try typing a phone number</label>
+						<input type="tel" id="output-demo" class="form-control input-mask" data-mask="phone" placeholder="(___) ___-____">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label class="form-label">Live Output</label>
+						<div class="output-display">
+							<div><strong>Masked Value:</strong> <span id="masked-output">-</span></div>
+							<div><strong>Unmasked Value:</strong> <span id="unmasked-output">-</span></div>
+							<div><strong>Is Complete:</strong> <span id="complete-output">false</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Bootstrap Components Demo -->
+		<div class="demo-section">
+			<h2 class="h4 mb-4">🎨 Bootstrap Component Integration</h2>
+
+			<div class="row mb-4">
+				<div class="col-md-6">
+					<h5 class="h6">Input Groups</h5>
+					<div class="input-group mb-3">
+						<span class="input-group-text">📞</span>
+						<input type="tel" class="form-control input-mask" data-mask="phone" placeholder="Phone number">
+						<button class="btn btn-outline-secondary" type="button">Call</button>
+					</div>
+
+					<div class="input-group mb-3">
+						<span class="input-group-text">💳</span>
+						<input type="text" class="form-control input-mask" data-mask="creditCard" placeholder="Card number">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<h5 class="h6">Floating Labels</h5>
+					<div class="form-floating mb-3">
+						<input type="tel" id="floating-phone" class="form-control input-mask" data-mask="phone" placeholder="Phone">
+						<label for="floating-phone">Phone Number</label>
+					</div>
+
+					<div class="form-floating mb-3">
+						<input type="text" id="floating-ssn" class="form-control input-mask" data-mask="ssn" placeholder="SSN">
+						<label for="floating-ssn">Social Security Number</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-4">
+					<h5 class="h6">Small Size</h5>
+					<input type="tel" class="form-control form-control-sm input-mask" data-mask="phone" placeholder="Small phone input">
+				</div>
+				<div class="col-md-4">
+					<h5 class="h6">Default Size</h5>
+					<input type="tel" class="form-control input-mask" data-mask="phone" placeholder="Default phone input">
+				</div>
+				<div class="col-md-4">
+					<h5 class="h6">Large Size</h5>
+					<input type="tel" class="form-control form-control-lg input-mask" data-mask="phone" placeholder="Large phone input">
+				</div>
+			</div>
+		</div>
+
+		<!-- API Demo -->
+		<div class="demo-section">
+			<h2 class="h4 mb-4">⚡ JavaScript API</h2>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="api-demo" class="form-label">API Test Input</label>
+						<input type="tel" id="api-demo" class="form-control input-mask" placeholder="Phone number for API testing">
+					</div>
+					<div class="d-flex gap-2 flex-wrap">
+						<button type="button" class="btn btn-sm btn-outline-primary" onclick="setValue()">Set Value</button>
+						<button type="button" class="btn btn-sm btn-outline-secondary" onclick="getValue()">Get Value</button>
+						<button type="button" class="btn btn-sm btn-outline-warning" onclick="clearValue()">Clear</button>
+						<button type="button" class="btn btn-sm btn-outline-info" onclick="validateInput()">Validate</button>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<label class="form-label">API Results</label>
+					<div class="output-display" id="api-results">
+						Click the buttons to test the API methods
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<footer class="bg-dark text-light py-4 mt-5">
+		<div class="container text-center">
+			<p class="mb-2">InputMask Component for Bootstrap 5.3</p>
+			<p class="text-muted small">Built with modern JavaScript and Bootstrap CSS Variables</p>
+		</div>
+	</footer>
+
+	<!-- Bootstrap 5.3.7 JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- InputMask Component Scripts -->
+	<script>
+		// Include InputMask and PatternHelpers classes here
+		// (In production, these would be separate files)
+	</script>
+	<script src="js/InputMask.js"></script>
+	<script src="js/PatternHelpers.js"></script>
+	<script src="ExampleJS/demo.js"></script>
+</body>
+</html>

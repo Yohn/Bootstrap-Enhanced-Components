@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>RateLimiter - Bootstrap Component</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="scss/ratelimiter.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container py-5">
+		<header class="text-center mb-5">
+			<h1 class="display-4 text-primary mb-3">RateLimiter Component</h1>
+			<p class="lead">Client-side rate limiting for API calls with queuing and priority support</p>
+		</header>
+		<!-- Status Dashboard -->
+		<div class="row mb-5">
+			<div class="col-12">
+				<div class="card bg-dark border-secondary">
+					<div class="card-header">
+						<h5 class="card-title mb-0">
+							<i class="fas fa-tachometer-alt me-2"></i>Rate Limiter Dashboard
+						</h5>
+					</div>
+					<div class="card-body">
+						<div id="statusContainer"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Control Panel -->
+		<div class="row mb-4">
+			<div class="col-lg-6 mb-4">
+				<div class="card bg-dark border-secondary">
+					<div class="card-header">
+						<h6 class="card-title mb-0">Request Controls</h6>
+					</div>
+					<div class="card-body">
+						<div class="row g-3">
+							<div class="col-md-6">
+								<button id="makeNormalRequest" class="btn btn-primary w-100">
+									<i class="fas fa-paper-plane me-2"></i>Normal Request </button>
+							</div>
+							<div class="col-md-6">
+								<button id="makeHighPriorityRequest" class="btn btn-warning w-100">
+									<i class="fas fa-exclamation me-2"></i>High Priority </button>
+							</div>
+							<div class="col-md-6">
+								<button id="makeLowPriorityRequest" class="btn btn-secondary w-100">
+									<i class="fas fa-hourglass me-2"></i>Low Priority </button>
+							</div>
+							<div class="col-md-6">
+								<button id="makeBulkRequests" class="btn btn-info w-100">
+									<i class="fas fa-layer-group me-2"></i>Bulk (10) </button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 mb-4">
+				<div class="card bg-dark border-secondary">
+					<div class="card-header">
+						<h6 class="card-title mb-0">Settings</h6>
+					</div>
+					<div class="card-body">
+						<div class="row g-3">
+							<div class="col-md-6">
+								<label class="form-label">Max Requests</label>
+								<input type="number" id="maxRequests" class="form-control" value="5" min="1">
+							</div>
+							<div class="col-md-6">
+								<label class="form-label">Window (seconds)</label>
+								<input type="number" id="windowSize" class="form-control" value="10" min="1">
+							</div>
+							<div class="col-md-6">
+								<label class="form-label">Storage Type</label>
+								<select id="storageType" class="form-select">
+									<option value="memory">Memory</option>
+									<option value="localStorage">Local Storage</option>
+									<option value="sessionStorage">Session Storage</option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<label class="form-label">Backoff Strategy</label>
+								<select id="backoffStrategy" class="form-select">
+									<option value="exponential">Exponential</option>
+									<option value="linear">Linear</option>
+									<option value="fixed">Fixed</option>
+								</select>
+							</div>
+						</div>
+						<div class="mt-3">
+							<button id="updateSettings" class="btn btn-success">
+								<i class="fas fa-sync me-2"></i>Update Settings </button>
+							<button id="resetLimiter" class="btn btn-danger">
+								<i class="fas fa-trash me-2"></i>Reset </button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Request History -->
+		<div class="row mb-4">
+			<div class="col-12">
+				<div class="card bg-dark border-secondary">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h6 class="card-title mb-0">Request History</h6>
+						<button id="clearHistory" class="btn btn-sm btn-outline-danger">
+							<i class="fas fa-trash me-1"></i>Clear </button>
+					</div>
+					<div class="card-body">
+						<div id="requestHistory" class="request-history" style="max-height: 300px; overflow-y: auto;">
+							<p class="text-muted text-center">No requests yet...</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Metrics -->
+		<div class="row">
+			<div class="col-12">
+				<div class="card bg-dark border-secondary">
+					<div class="card-header">
+						<h6 class="card-title mb-0">Performance Metrics</h6>
+					</div>
+					<div class="card-body">
+						<div id="metricsContainer">
+							<div class="row text-center">
+								<div class="col-md-3">
+									<div class="border rounded p-3">
+										<h4 id="totalRequests" class="text-primary mb-1">0</h4>
+										<small class="text-muted">Total Requests</small>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="border rounded p-3">
+										<h4 id="successfulRequests" class="text-success mb-1">0</h4>
+										<small class="text-muted">Successful</small>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="border rounded p-3">
+										<h4 id="rejectedRequests" class="text-danger mb-1">0</h4>
+										<small class="text-muted">Rejected</small>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="border rounded p-3">
+										<h4 id="averageWaitTime" class="text-info mb-1">0ms</h4>
+										<small class="text-muted">Avg Wait Time</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+	<script src="js/RateLimiter.js"></script>
+	<script src="js/RequestQueue.js"></script>
+	<script src="js/BackoffStrategy.js"></script>
+	<script src="js/StorageManager.js"></script>
+	<script src="ExampleJS/demo.js"></script>
+</body>
+</html>
