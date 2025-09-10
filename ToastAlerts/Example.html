@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ToastAlerts - Bootstrap 5.3 Component Demo</title>
+
+	<!-- Bootstrap 5.3.7 CSS -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Bootstrap Icons -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+
+	<!-- ToastAlerts CSS -->
+	<link href="scss/toast-alerts.css" rel="stylesheet">
+	<link href="scss/toast-animations.css" rel="stylesheet">
+	<link href="scss/toast-themes.css" rel="stylesheet">
+
+	<style>
+		/* Demo page specific styles */
+		.demo-section {
+			margin-bottom: 2rem;
+			padding: 1.5rem;
+			border: 1px solid var(--bs-border-color);
+			border-radius: var(--bs-border-radius);
+			background: var(--bs-tertiary-bg);
+		}
+
+		.control-group {
+			margin-bottom: 1rem;
+		}
+
+		.control-group label {
+			font-weight: 600;
+			margin-bottom: 0.5rem;
+			display: block;
+		}
+
+		.stats-badge {
+			font-size: 0.875rem;
+			padding: 0.25rem 0.5rem;
+		}
+
+		.keyboard-shortcuts {
+			font-family: 'Courier New', monospace;
+			background: var(--bs-gray-100);
+			padding: 0.5rem;
+			border-radius: var(--bs-border-radius);
+			margin-top: 1rem;
+		}
+
+		[data-bs-theme="dark"] .keyboard-shortcuts {
+			background: var(--bs-gray-800);
+		}
+
+		.feature-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 1rem;
+			margin-top: 1rem;
+		}
+
+		.action-button {
+			width: 100%;
+			margin-bottom: 0.5rem;
+		}
+
+		.demo-header {
+			background: linear-gradient(135deg, var(--bs-primary), var(--bs-info));
+			color: white;
+			padding: 2rem;
+			margin-bottom: 2rem;
+			border-radius: var(--bs-border-radius);
+		}
+
+		.settings-panel {
+			background: var(--bs-body-bg);
+			border: 1px solid var(--bs-border-color);
+			border-radius: var(--bs-border-radius);
+			padding: 1.5rem;
+			position: sticky;
+			top: 1rem;
+		}
+	</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<!-- Header -->
+		<div class="demo-header text-center">
+			<h1 class="display-4 mb-3">
+				<i class="bi bi-bell-fill me-3"></i>
+				ToastAlerts Demo
+			</h1>
+			<p class="lead mb-4">
+				Advanced Toast Component for Bootstrap 5.3 with dynamic creation, positioning, queueing, and accessibility features.
+			</p>
+			<div class="d-flex justify-content-center gap-3 flex-wrap">
+				<button type="button" class="btn btn-light" id="theme-toggle">
+					🌙 Dark Mode
+				</button>
+				<button type="button" class="btn btn-outline-light" id="show-shortcuts">
+					⌨️ Keyboard Shortcuts
+				</button>
+				<button type="button" class="btn btn-outline-light" onclick="demo.exportConfig()">
+					💾 Export Config
+				</button>
+				<button type="button" class="btn btn-outline-light" onclick="demo.resetDemo()">
+					🔄 Reset Demo
+				</button>
+			</div>
+		</div>
+
+		<div class="row">
+			<!-- Controls Panel -->
+			<div class="col-lg-4">
+				<div class="settings-panel">
+					<h5 class="mb-3">
+						<i class="bi bi-gear-fill me-2"></i>
+						Toast Settings
+					</h5>
+
+					<!-- Basic Settings -->
+					<div class="control-group">
+						<label for="position-select">Position</label>
+						<select class="form-select" id="position-select">
+							<option value="top-left">Top Left</option>
+							<option value="top-center">Top Center</option>
+							<option value="top-right" selected>Top Right</option>
+							<option value="center">Center</option>
+							<option value="bottom-left">Bottom Left</option>
+							<option value="bottom-center">Bottom Center</option>
+							<option value="bottom-right">Bottom Right</option>
+						</select>
+					</div>
+
+					<div class="control-group">
+						<label for="type-select">Type</label>
+						<select class="form-select" id="type-select">
+							<option value="success">Success</option>
+							<option value="error">Error</option>
+							<option value="warning">Warning</option>
+							<option value="info" selected>Info</option>
+							<option value="default">Default</option>
+						</select>
+					</div>
+
+					<div class="control-group">
+						<label for="animation-select">Animation</label>
+						<select class="form-select" id="animation-select">
+							<option value="slide" selected>Slide</option>
+							<option value="fade">Fade</option>
+							<option value="bounce">Bounce</option>
+							<option value="zoom">Zoom</option>
+							<option value="flip">Flip</option>
+							<option value="none">None</option>
+						</select>
+					</div>
+
+					<!-- Duration Slider -->
+					<div class="control-group">
+						<label for="duration-slider">Duration: <span id="duration-value">5000ms</span></label>
+						<input type="range" class="form-range" id="duration-slider"
+							   min="1000" max="15000" step="500" value="5000">
+					</div>
+
+					<!-- Max Visible Slider -->
+					<div class="control-group">
+						<label for="maxVisible-slider">Max Visible: <span id="maxVisible-value">5</span></label>
+						<input type="range" class="form-range" id="maxVisible-slider"
+							   min="1" max="10" step="1" value="5">
+					</div>
+
+					<!-- Content Controls -->
+					<div class="control-group">
+						<label for="title-input">Title</label>
+						<input type="text" class="form-control" id="title-input"
+							   value="Demo Toast" placeholder="Toast title...">
+					</div>
+
+					<div class="control-group">
+						<label for="content-textarea">Content</label>
+						<textarea class="form-control" id="content-textarea" rows="3"
+								  placeholder="Toast content...">This is a demonstration of the ToastAlerts component.</textarea>
+					</div>
+
+					<!-- Feature Toggles -->
+					<div class="control-group">
+						<label>Features</label>
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" id="show-icon-toggle" checked>
+							<label class="form-check-label" for="show-icon-toggle">Show Icon</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" id="show-close-toggle" checked>
+							<label class="form-check-label" for="show-close-toggle">Show Close Button</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" id="progress-bar-toggle" checked>
+							<label class="form-check-label" for="progress-bar-toggle">Progress Bar</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" id="persistent-toggle">
+							<label class="form-check-label" for="persistent-toggle">Persistent</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" id="pause-hover-toggle" checked>
+							<label class="form-check-label" for="pause-hover-toggle">Pause on Hover</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" id="click-close-toggle" checked>
+							<label class="form-check-label" for="click-close-toggle">Click to Close</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" id="swipe-dismiss-toggle" checked>
+							<label class="form-check-label" for="swipe-dismiss-toggle">Swipe to Dismiss</label>
+						</div>
+					</div>
+
+					<!-- Action Buttons -->
+					<div class="d-grid gap-2 mt-4">
+						<button type="button" class="btn btn-primary" id="show-demo-toast">
+							<i class="bi bi-plus-circle me-2"></i>Show Demo Toast
+						</button>
+						<button type="button" class="btn btn-outline-danger" id="hide-all-toasts">
+							<i class="bi bi-x-circle me-2"></i>Hide All Toasts
+						</button>
+						<button type="button" class="btn btn-outline-secondary" id="clear-queue">
+							<i class="bi bi-trash me-2"></i>Clear Queue
+						</button>
+					</div>
+
+					<!-- Statistics -->
+					<div class="mt-4 p-3 bg-light rounded" data-bs-theme-override="light">
+						<h6 class="mb-2">Statistics</h6>
+						<div class="d-flex justify-content-between mb-2">
+							<span>Visible Toasts:</span>
+							<span class="badge bg-primary stats-badge" id="visible-count">0</span>
+						</div>
+						<div class="d-flex justify-content-between mb-2">
+							<span>Queued Toasts:</span>
+							<span class="badge bg-secondary stats-badge" id="queue-count">0</span>
+						</div>
+						<div id="queue-stats"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Demo Content -->
+			<div class="col-lg-8">
+				<!-- Quick Actions -->
+				<div class="demo-section">
+					<h5 class="mb-3">
+						<i class="bi bi-lightning-fill me-2"></i>
+						Quick Actions
+					</h5>
+					<div class="feature-grid">
+						<button type="button" class="btn btn-success action-button" id="show-success">
+							<i class="bi bi-check-circle-fill me-2"></i>Success Toast
+						</button>
+						<button type="button" class="btn btn-danger action-button" id="show-error">
+							<i class="bi bi-x-circle-fill me-2"></i>Error Toast
+						</button>
+						<button type="button" class="btn btn-warning action-button" id="show-warning">
+							<i class="bi bi-exclamation-triangle-fill me-2"></i>Warning Toast
+						</button>
+						<button type="button" class="btn btn-info action-button" id="show-info">
+							<i class="bi bi-info-circle-fill me-2"></i>Info Toast
+						</button>
+					</div>
+				</div>
+
+				<!-- Test Scenarios -->
+				<div class="demo-section">
+					<h5 class="mb-3">
+						<i class="bi bi-play-circle-fill me-2"></i>
+						Test Scenarios
+					</h5>
+					<div class="feature-grid">
+						<button type="button" class="btn btn-outline-primary action-button" id="stress-test">
+							<i class="bi bi-speedometer2 me-2"></i>Stress Test (20 toasts)
+						</button>
+						<button type="button" class="btn btn-outline-info action-button" id="animation-showcase">
+							<i class="bi bi-magic me-2"></i>Animation Showcase
+						</button>
+						<button type="button" class="btn btn-outline-success action-button" id="position-test">
+							<i class="bi bi-grid-3x3-gap me-2"></i>Position Test
+						</button>
+						<button type="button" class="btn btn-outline-warning action-button" id="interactive-demo">
+							<i class="bi bi-hand-index me-2"></i>Interactive Demo
+						</button>
+						<button type="button" class="btn btn-outline-secondary action-button" id="accessibility-demo">
+							<i class="bi bi-universal-access me-2"></i>Accessibility Demo
+						</button>
+					</div>
+				</div>
+
+				<!-- Features Overview -->
+				<div class="demo-section">
+					<h5 class="mb-3">
+						<i class="bi bi-list-check me-2"></i>
+						Features Overview
+					</h5>
+					<div class="row">
+						<div class="col-md-6">
+							<h6>Core Features</h6>
+							<ul class="list-unstyled">
+								<li><i class="bi bi-check-circle text-success me-2"></i>Dynamic toast creation</li>
+								<li><i class="bi bi-check-circle text-success me-2"></i>Multiple positioning options</li>
+								<li><i class="bi bi-check-circle text-success me-2"></i>Queue management with priority</li>
+								<li><i class="bi bi-check-circle text-success me-2"></i>Custom animation effects</li>
+								<li><i class="bi bi-check-circle text-success me-2"></i>Auto-hide with pause/resume</li>
+								<li><i class="bi bi-check-circle text-success me-2"></i>Progress indicators</li>
+							</ul>
+						</div>
+						<div class="col-md-6">
+							<h6>Advanced Features</h6>
+							<ul class="list-unstyled">
+								<li><i class="bi bi-check-circle text-success me-2"></i>Touch gesture support</li>
+								<li><i class="bi bi-check-circle text-success me-2"></i>Keyboard navigation</li>
+								<li><i class="bi bi-check-circle text-success me-2"></i>Screen reader compatibility</li>
+								<li><i class="bi bi-check-circle text-success me-2"></i>Theme system integration</li>
+								<li><i class="bi bi-check-circle text-success me-2"></i>Event system with callbacks</li>
+								<li><i class="bi bi-check-circle text-success me-2"></i>Template customization</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<!-- API Examples -->
+				<div class="demo-section">
+					<h5 class="mb-3">
+						<i class="bi bi-code-slash me-2"></i>
+						API Examples
+					</h5>
+					<div class="accordion" id="api-examples">
+						<!-- Basic Usage -->
+						<div class="accordion-item">
+							<h2 class="accordion-header">
+								<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#basic-usage">
+									Basic Usage
+								</button>
+							</h2>
+							<div id="basic-usage" class="accordion-collapse collapse show" data-bs-parent="#api-examples">
+								<div class="accordion-body">
+									<pre><code class="language-javascript">// Initialize ToastAlerts
+const toastAlerts = new ToastAlerts();
+
+// Show a simple toast
+toastAlerts.show('Hello, World!');
+
+// Show with options
+toastAlerts.show('Success message!', {
+	type: 'success',
+	position: 'top-right',
+	duration: 5000
+});</code></pre>
+								</div>
+							</div>
+						</div>
+
+						<!-- Advanced Usage -->
+						<div class="accordion-item">
+							<h2 class="accordion-header">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#advanced-usage">
+									Advanced Usage
+								</button>
+							</h2>
+							<div id="advanced-usage" class="accordion-collapse collapse" data-bs-parent="#api-examples">
+								<div class="accordion-body">
+									<pre><code class="language-javascript">// Toast with callbacks
+toastAlerts.show('Processing...', {
+	type: 'info',
+	persistent: true,
+	callbacks: {
+		shown: (toast) => console.log('Toast shown:', toast.id),
+		hidden: (toast) => console.log('Toast hidden:', toast.id)
+	}
+});
+
+// Update existing toast
+const toastId = toastAlerts.show('Loading...');
+setTimeout(() => {
+	toastAlerts.update(toastId, 'Complete!', { type: 'success' });
+}, 2000);</code></pre>
+								</div>
+							</div>
+						</div>
+
+						<!-- Custom Templates -->
+						<div class="accordion-item">
+							<h2 class="accordion-header">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#custom-templates">
+									Custom Templates
+								</button>
+							</h2>
+							<div id="custom-templates" class="accordion-collapse collapse" data-bs-parent="#api-examples">
+								<div class="accordion-body">
+									<pre><code class="language-javascript">// Register custom template
+toastAlerts.templates.register('custom', `
+	&lt;div class="toast" role="alert"&gt;
+		&lt;div class="toast-body"&gt;
+			&lt;strong&gt;{{title}}&lt;/strong&gt;
+			&lt;p&gt;{{content}}&lt;/p&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+`);
+
+// Use custom template
+toastAlerts.show('Custom content', {
+	template: 'custom',
+	title: 'Custom Title'
+});</code></pre>
+								</div>
+							</div>
+						</div>
+
+						<!-- Event Handling -->
+						<div class="accordion-item">
+							<h2 class="accordion-header">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#event-handling">
+									Event Handling
+								</button>
+							</h2>
+							<div id="event-handling" class="accordion-collapse collapse" data-bs-parent="#api-examples">
+								<div class="accordion-body">
+									<pre><code class="language-javascript">// Listen to global events
+document.addEventListener('shown.toast-alerts', (e) => {
+	console.log('Toast shown:', e.detail);
+});
+
+document.addEventListener('hidden.toast-alerts', (e) => {
+	console.log('Toast hidden:', e.detail);
+});
+
+// Queue management
+document.addEventListener('queueUpdated.toast-alerts', (e) => {
+	console.log('Queue updated:', e.detail.queue);
+});</code></pre>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Keyboard Shortcuts Reference -->
+				<div class="demo-section">
+					<h5 class="mb-3">
+						<i class="bi bi-keyboard me-2"></i>
+						Keyboard Shortcuts
+					</h5>
+					<div class="keyboard-shortcuts">
+						<div class="row">
+							<div class="col-md-6">
+								<strong>Demo Controls:</strong>
+								<ul class="list-unstyled mt-2">
+									<li><kbd>Ctrl/Cmd + S</kbd> - Show demo toast</li>
+									<li><kbd>Ctrl/Cmd + H</kbd> - Hide all toasts</li>
+									<li><kbd>1-4</kbd> - Quick toast types</li>
+								</ul>
+							</div>
+							<div class="col-md-6">
+								<strong>Toast Navigation:</strong>
+								<ul class="list-unstyled mt-2">
+									<li><kbd>Tab</kbd> - Focus toast</li>
+									<li><kbd>Enter/Space</kbd> - Interact with toast</li>
+									<li><kbd>Escape</kbd> - Close focused toast</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Browser Support -->
+				<div class="demo-section">
+					<h5 class="mb-3">
+						<i class="bi bi-browser-chrome me-2"></i>
+						Browser Support
+					</h5>
+					<div class="row">
+						<div class="col-md-6">
+							<h6>Fully Supported</h6>
+							<ul class="list-unstyled">
+								<li><i class="bi bi-check-circle text-success me-2"></i>Chrome 80+</li>
+								<li><i class="bi bi-check-circle text-success me-2"></i>Firefox 75+</li>
+								<li><i class="bi bi-check-circle text-success me-2"></i>Safari 13+</li>
+								<li><i class="bi bi-check-circle text-success me-2"></i>Edge 80+</li>
+							</ul>
+						</div>
+						<div class="col-md-6">
+							<h6>Graceful Degradation</h6>
+							<ul class="list-unstyled">
+								<li><i class="bi bi-exclamation-triangle text-warning me-2"></i>IE 11 (limited animations)</li>
+								<li><i class="bi bi-exclamation-triangle text-warning me-2"></i>Older mobile browsers</li>
+								<li><i class="bi bi-info-circle text-info me-2"></i>Respects reduced motion preferences</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Footer -->
+		<footer class="mt-5 py-4 bg-light text-center">
+			<p class="mb-0">
+				<strong>ToastAlerts</strong> - Advanced Bootstrap 5.3 Toast Component
+				<br>
+				<small class="text-muted">
+					Built with accessibility, performance, and developer experience in mind.
+				</small>
+			</p>
+		</footer>
+	</div>
+
+	<!-- Bootstrap 5.3.7 JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.bundle.min.js"></script>
+
+	<!-- ToastAlerts JavaScript -->
+	<script src="js/ToastQueue.js"></script>
+	<script src="js/ToastAnimations.js"></script>
+	<script src="js/ToastTemplates.js"></script>
+	<script src="js/ToastAlerts.js"></script>
+
+	<!-- Demo JavaScript -->
+	<script src="ExampleJS/example-demo.js"></script>
+
+	<script>
+		// Theme toggle functionality
+		document.getElementById('theme-toggle').addEventListener('click', function() {
+			if (window.toastAlertsDemo) {
+				window.toastAlertsDemo.toggleDarkMode();
+			}
+		});
+
+		// Initialize syntax highlighting for code blocks
+		document.addEventListener('DOMContentLoaded', function() {
+			// Simple syntax highlighting for demo purposes
+			const codeBlocks = document.querySelectorAll('code.language-javascript');
+			codeBlocks.forEach(block => {
+				let html = block.innerHTML;
+				// Basic JavaScript syntax highlighting
+				html = html.replace(/\/\/(.*)/g, '<span style="color: #6a737d;">// $1</span>');
+				html = html.replace(/(const|let|var|function|if|else|for|while|return|new|class)/g, '<span style="color: #d73a49;">$1</span>');
+				html = html.replace(/('.*?'|".*?")/g, '<span style="color: #032f62;">$1</span>');
+				html = html.replace(/(\d+)/g, '<span style="color: #005cc5;">$1</span>');
+				block.innerHTML = html;
+			});
+		});
+
+		// Console helpers for testing
+		window.showToast = function(content, options = {}) {
+			if (window.toastAlertsDemo && window.toastAlertsDemo.toastAlerts) {
+				return window.toastAlertsDemo.toastAlerts.show(content, options);
+			}
+		};
+
+		window.hideAllToasts = function() {
+			if (window.toastAlertsDemo && window.toastAlertsDemo.toastAlerts) {
+				return window.toastAlertsDemo.toastAlerts.hideAll();
+			}
+		};
+
+		// Log instructions to console
+		console.log('%cToastAlerts Demo Loaded!', 'color: #0d6efd; font-size: 16px; font-weight: bold;');
+		console.log('Try these commands in the console:');
+		console.log('showToast("Hello from console!", {type: "success"})');
+		console.log('hideAllToasts()');
+		console.log('window.toastAlertsDemo.toastAlerts // Access the main instance');
+	</script>
+</body>
+</html>

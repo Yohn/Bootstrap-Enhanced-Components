@@ -1,0 +1,641 @@
+// ToastAlerts Animation SCSS - Animation keyframes and transitions
+// Handles all entrance, exit, and interaction animations
+
+// Animation Variables
+$toast-animation-duration: 300ms !default;
+$toast-animation-easing: cubic-bezier(0.25, 0.46, 0.45, 0.94) !default;
+$toast-bounce-easing: cubic-bezier(0.68, -0.55, 0.265, 1.55) !default;
+$toast-back-easing: cubic-bezier(0.175, 0.885, 0.32, 1.275) !default;
+
+// Base Animation Classes
+.toast-animating {
+	transition: all $toast-animation-duration $toast-animation-easing;
+}
+
+// Slide Animations
+@keyframes toast-slide-in-right {
+	0% {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@keyframes toast-slide-out-right {
+	0% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+	100% {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+}
+
+@keyframes toast-slide-in-left {
+	0% {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@keyframes toast-slide-out-left {
+	0% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+	100% {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+}
+
+@keyframes toast-slide-in-up {
+	0% {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+@keyframes toast-slide-out-down {
+	0% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	100% {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+}
+
+@keyframes toast-slide-in-down {
+	0% {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+@keyframes toast-slide-out-up {
+	0% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	100% {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+}
+
+// Fade Animations
+@keyframes toast-fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes toast-fade-out {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes toast-fade-in-scale {
+	0% {
+		opacity: 0;
+		transform: scale(0.8);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes toast-fade-out-scale {
+	0% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0.8);
+	}
+}
+
+// Bounce Animations
+@keyframes toast-bounce-in {
+	0% {
+		opacity: 0;
+		transform: scale(0.3);
+	}
+	50% {
+		opacity: 0.9;
+		transform: scale(1.05);
+	}
+	80% {
+		opacity: 1;
+		transform: scale(0.95);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes toast-bounce-out {
+	0% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	25% {
+		opacity: 1;
+		transform: scale(0.95);
+	}
+	50% {
+		opacity: 0.9;
+		transform: scale(1.05);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0.3);
+	}
+}
+
+@keyframes toast-bounce-in-right {
+	0% {
+		opacity: 0;
+		transform: translateX(100%) scale(0.3);
+	}
+	50% {
+		opacity: 0.8;
+		transform: translateX(-10%) scale(1.05);
+	}
+	70% {
+		opacity: 0.9;
+		transform: translateX(5%) scale(0.95);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
+
+@keyframes toast-bounce-out-right {
+	0% {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+	30% {
+		opacity: 0.9;
+		transform: translateX(-5%) scale(0.95);
+	}
+	100% {
+		opacity: 0;
+		transform: translateX(100%) scale(0.3);
+	}
+}
+
+// Zoom Animations
+@keyframes toast-zoom-in {
+	0% {
+		opacity: 0;
+		transform: scale(0);
+	}
+	60% {
+		opacity: 0.8;
+		transform: scale(1.1);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes toast-zoom-out {
+	0% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	40% {
+		opacity: 0.8;
+		transform: scale(1.1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0);
+	}
+}
+
+@keyframes toast-zoom-in-from-center {
+	0% {
+		opacity: 0;
+		transform: scale(0) translateX(50%);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1) translateX(0);
+	}
+}
+
+@keyframes toast-zoom-out-to-center {
+	0% {
+		opacity: 1;
+		transform: scale(1) translateX(0);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0) translateX(50%);
+	}
+}
+
+// Flip Animations
+@keyframes toast-flip-in-y {
+	0% {
+		opacity: 0;
+		transform: perspective(400px) rotateY(-90deg);
+	}
+	40% {
+		opacity: 0.8;
+		transform: perspective(400px) rotateY(-10deg);
+	}
+	70% {
+		opacity: 0.9;
+		transform: perspective(400px) rotateY(10deg);
+	}
+	100% {
+		opacity: 1;
+		transform: perspective(400px) rotateY(0deg);
+	}
+}
+
+@keyframes toast-flip-out-y {
+	0% {
+		opacity: 1;
+		transform: perspective(400px) rotateY(0deg);
+	}
+	30% {
+		opacity: 0.9;
+		transform: perspective(400px) rotateY(-10deg);
+	}
+	100% {
+		opacity: 0;
+		transform: perspective(400px) rotateY(90deg);
+	}
+}
+
+@keyframes toast-flip-in-x {
+	0% {
+		opacity: 0;
+		transform: perspective(400px) rotateX(-90deg);
+	}
+	40% {
+		opacity: 0.8;
+		transform: perspective(400px) rotateX(-10deg);
+	}
+	70% {
+		opacity: 0.9;
+		transform: perspective(400px) rotateX(10deg);
+	}
+	100% {
+		opacity: 1;
+		transform: perspective(400px) rotateX(0deg);
+	}
+}
+
+@keyframes toast-flip-out-x {
+	0% {
+		opacity: 1;
+		transform: perspective(400px) rotateX(0deg);
+	}
+	30% {
+		opacity: 0.9;
+		transform: perspective(400px) rotateX(10deg);
+	}
+	100% {
+		opacity: 0;
+		transform: perspective(400px) rotateX(90deg);
+	}
+}
+
+// Elastic Animations
+@keyframes toast-elastic-in {
+	0% {
+		opacity: 0;
+		transform: scale(0.1);
+	}
+	20% {
+		opacity: 0.8;
+		transform: scale(1.2);
+	}
+	40% {
+		opacity: 1;
+		transform: scale(0.9);
+	}
+	60% {
+		transform: scale(1.05);
+	}
+	80% {
+		transform: scale(0.98);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes toast-elastic-out {
+	0% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	20% {
+		transform: scale(0.98);
+	}
+	40% {
+		transform: scale(1.05);
+	}
+	60% {
+		opacity: 1;
+		transform: scale(0.9);
+	}
+	80% {
+		opacity: 0.8;
+		transform: scale(1.2);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0.1);
+	}
+}
+
+// Wobble Effects
+@keyframes toast-wobble {
+	0%, 100% {
+		transform: translateX(0);
+	}
+	10%, 30%, 50%, 70%, 90% {
+		transform: translateX(-10px);
+	}
+	20%, 40%, 60%, 80% {
+		transform: translateX(10px);
+	}
+}
+
+@keyframes toast-shake {
+	0%, 100% {
+		transform: translateX(0);
+	}
+	10%, 30%, 50%, 70%, 90% {
+		transform: translateX(-5px);
+	}
+	20%, 40%, 60%, 80% {
+		transform: translateX(5px);
+	}
+}
+
+// Pulse Effects
+@keyframes toast-pulse {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.05);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes toast-heartbeat {
+	0%, 50%, 100% {
+		transform: scale(1);
+	}
+	5%, 10% {
+		transform: scale(1.1);
+	}
+	15%, 20% {
+		transform: scale(1.05);
+	}
+	25%, 30% {
+		transform: scale(1.15);
+	}
+	35%, 40% {
+		transform: scale(1.05);
+	}
+}
+
+// Attention-seeking Animations
+@keyframes toast-jello {
+	0%, 11.1%, 100% {
+		transform: translate3d(0, 0, 0);
+	}
+	22.2% {
+		transform: skewX(-12.5deg) skewY(-12.5deg);
+	}
+	33.3% {
+		transform: skewX(6.25deg) skewY(6.25deg);
+	}
+	44.4% {
+		transform: skewX(-3.125deg) skewY(-3.125deg);
+	}
+	55.5% {
+		transform: skewX(1.5625deg) skewY(1.5625deg);
+	}
+	66.6% {
+		transform: skewX(-0.78125deg) skewY(-0.78125deg);
+	}
+	77.7% {
+		transform: skewX(0.390625deg) skewY(0.390625deg);
+	}
+	88.8% {
+		transform: skewX(-0.1953125deg) skewY(-0.1953125deg);
+	}
+}
+
+// Utility Classes
+.toast-enter-slide-right {
+	animation: toast-slide-in-right $toast-animation-duration $toast-animation-easing;
+}
+
+.toast-exit-slide-right {
+	animation: toast-slide-out-right $toast-animation-duration $toast-animation-easing;
+}
+
+.toast-enter-slide-left {
+	animation: toast-slide-in-left $toast-animation-duration $toast-animation-easing;
+}
+
+.toast-exit-slide-left {
+	animation: toast-slide-out-left $toast-animation-duration $toast-animation-easing;
+}
+
+.toast-enter-fade {
+	animation: toast-fade-in $toast-animation-duration $toast-animation-easing;
+}
+
+.toast-exit-fade {
+	animation: toast-fade-out $toast-animation-duration $toast-animation-easing;
+}
+
+.toast-enter-bounce {
+	animation: toast-bounce-in-right 0.6s $toast-bounce-easing;
+}
+
+.toast-exit-bounce {
+	animation: toast-bounce-out-right 0.4s $toast-animation-easing;
+}
+
+.toast-enter-zoom {
+	animation: toast-zoom-in $toast-animation-duration $toast-back-easing;
+}
+
+.toast-exit-zoom {
+	animation: toast-zoom-out $toast-animation-duration $toast-animation-easing;
+}
+
+.toast-enter-flip {
+	animation: toast-flip-in-y 0.6s $toast-animation-easing;
+}
+
+.toast-exit-flip {
+	animation: toast-flip-out-y 0.4s $toast-animation-easing;
+}
+
+// Reduced Motion Overrides
+@media (prefers-reduced-motion: reduce) {
+	.toast-enter-slide-right,
+	.toast-enter-slide-left,
+	.toast-enter-bounce,
+	.toast-enter-zoom,
+	.toast-enter-flip {
+		animation: toast-fade-in 150ms ease;
+	}
+
+	.toast-exit-slide-right,
+	.toast-exit-slide-left,
+	.toast-exit-bounce,
+	.toast-exit-zoom,
+	.toast-exit-flip {
+		animation: toast-fade-out 150ms ease;
+	}
+
+	// Disable all complex animations
+@keyframes toast-bounce-in {
+	0%, 100% {
+		opacity: 1;
+		transform: none;
+	}
+}
+	@keyframes toast-bounce-out{
+		0%, 100% {
+			opacity: 1;
+			transform: none;
+		}
+	}
+	@keyframes toast-zoom-in{
+		0%, 100% {
+			opacity: 1;
+			transform: none;
+		}
+	}
+	@keyframes toast-zoom-out{
+		0%, 100% {
+			opacity: 1;
+			transform: none;
+		}
+	}
+	@keyframes toast-flip-in-y{
+		0%, 100% {
+			opacity: 1;
+			transform: none;
+		}
+	}
+	@keyframes toast-flip-out-y{
+		0%, 100% {
+			opacity: 1;
+			transform: none;
+		}
+	}
+	@keyframes toast-slide-in-right{
+		0%, 100% {
+			opacity: 1;
+			transform: none;
+		}
+	}
+	@keyframes toast-slide-out-right{
+		0%, 100% {
+			opacity: 1;
+			transform: none;
+		}
+	}
+	@keyframes toast-slide-in-left{
+		0%, 100% {
+			opacity: 1;
+			transform: none;
+		}
+	}
+	@keyframes toast-slide-out-left{
+		0%, 100% {
+			opacity: 1;
+			transform: none;
+		}
+	}
+	@keyframes toast-wobble{
+		0%, 100% {
+			opacity: 1;
+			transform: none;
+		}
+	}
+	@keyframes toast-shake{
+		0%, 100% {
+			opacity: 1;
+			transform: none;
+		}
+	}
+	@keyframes toast-jello{
+		0%, 100% {
+			opacity: 1;
+			transform: none;
+		}
+	}
+}
+
+// Stagger Animation Delays
+.toast-stagger-1 { animation-delay: 0ms; }
+.toast-stagger-2 { animation-delay: 100ms; }
+.toast-stagger-3 { animation-delay: 200ms; }
+.toast-stagger-4 { animation-delay: 300ms; }
+.toast-stagger-5 { animation-delay: 400ms; }
+
+// Animation State Classes
+.toast-will-animate {
+	animation-fill-mode: both;
+}
+
+.toast-animation-paused {
+	animation-play-state: paused;
+}
+
+.toast-animation-running {
+	animation-play-state: running;
+}

@@ -1,0 +1,394 @@
+/* Image Lightbox CSS - Compiled from SCSS */
+
+/* CSS Variables */
+:root {
+	--image-lightbox-overlay-bg: rgba(0, 0, 0, 0.9);
+	--image-lightbox-thumbnail-size: 80px;
+	--image-lightbox-thumbnail-height: 60px;
+	--image-lightbox-thumbnail-opacity: 0.6;
+	--image-lightbox-thumbnail-opacity-active: 1;
+	--image-lightbox-caption-bg: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+	--image-lightbox-transition-duration: 0.3s;
+	--image-lightbox-border-radius: var(--bs-border-radius);
+	--image-lightbox-box-shadow: var(--bs-box-shadow-lg);
+}
+
+/* Main modal styling */
+.image-lightbox-modal .modal-backdrop {
+	background-color: var(--image-lightbox-overlay-bg) !important;
+	opacity: 1 !important;
+}
+
+.image-lightbox-modal .modal-dialog {
+	margin: 0;
+}
+
+.image-lightbox-modal .modal-content {
+	background: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 100vh;
+}
+
+.image-lightbox-modal .modal-header {
+	background: transparent;
+	padding: var(--bs-modal-header-padding-y) var(--bs-modal-header-padding-x);
+	z-index: 1050;
+}
+
+.image-lightbox-modal .modal-header .btn-close {
+	filter: invert(1) grayscale(100%) brightness(200%);
+	opacity: 0.8;
+	transition: opacity var(--image-lightbox-transition-duration) ease;
+}
+
+.image-lightbox-modal .modal-header .btn-close:hover {
+	opacity: 1;
+}
+
+.image-lightbox-modal .modal-body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	height: 100vh;
+	overflow: hidden;
+}
+
+/* Carousel customization */
+.image-lightbox-modal .carousel {
+	height: 100%;
+}
+
+.image-lightbox-modal .carousel .carousel-inner {
+	height: 100%;
+}
+
+.image-lightbox-modal .carousel .carousel-inner .carousel-item {
+	height: 100%;
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+}
+
+.image-lightbox-modal .carousel .carousel-inner .carousel-item img {
+	max-width: 100%;
+	max-height: 100vh;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	cursor: zoom-in;
+	transition: transform var(--image-lightbox-transition-duration) ease;
+	transform-origin: center center;
+	user-select: none;
+}
+
+.image-lightbox-modal .carousel .carousel-inner .carousel-item.zoomed img {
+	cursor: zoom-out;
+}
+
+.image-lightbox-modal .carousel .carousel-control-prev,
+.image-lightbox-modal .carousel .carousel-control-next {
+	width: 60px;
+	height: 60px;
+	top: 50%;
+	transform: translateY(-50%);
+	background: rgba(0, 0, 0, 0.5);
+	border-radius: var(--image-lightbox-border-radius);
+	opacity: 0.7;
+	transition: opacity var(--image-lightbox-transition-duration) ease;
+}
+
+.image-lightbox-modal .carousel .carousel-control-prev:hover,
+.image-lightbox-modal .carousel .carousel-control-next:hover {
+	opacity: 1;
+}
+
+.image-lightbox-modal .carousel .carousel-control-prev .carousel-control-prev-icon,
+.image-lightbox-modal .carousel .carousel-control-prev .carousel-control-next-icon,
+.image-lightbox-modal .carousel .carousel-control-next .carousel-control-prev-icon,
+.image-lightbox-modal .carousel .carousel-control-next .carousel-control-next-icon {
+	width: 24px;
+	height: 24px;
+}
+
+.image-lightbox-modal .carousel .carousel-control-prev {
+	left: 20px;
+}
+
+.image-lightbox-modal .carousel .carousel-control-next {
+	right: 20px;
+}
+
+.image-lightbox-modal .carousel .carousel-indicators {
+	display: none;
+}
+
+/* Counter styling */
+.image-lightbox-counter {
+	background: rgba(0, 0, 0, 0.6);
+	color: var(--bs-white);
+	padding: 0.5rem 1rem;
+	border-radius: var(--image-lightbox-border-radius);
+	font-size: 0.875rem;
+	font-weight: 500;
+	backdrop-filter: blur(4px);
+}
+
+/* Thumbnail strip */
+.image-lightbox-thumbnails {
+	background: rgba(0, 0, 0, 0.8);
+	padding: var(--bs-modal-footer-gap);
+	border-top: none;
+	max-height: 120px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap;
+	backdrop-filter: blur(8px);
+}
+
+.image-lightbox-thumbnails::-webkit-scrollbar {
+	height: 6px;
+}
+
+.image-lightbox-thumbnails::-webkit-scrollbar-track {
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 3px;
+}
+
+.image-lightbox-thumbnails::-webkit-scrollbar-thumb {
+	background: rgba(255, 255, 255, 0.3);
+	border-radius: 3px;
+}
+
+.image-lightbox-thumbnails::-webkit-scrollbar-thumb:hover {
+	background: rgba(255, 255, 255, 0.5);
+}
+
+.image-lightbox-thumbnail {
+	width: var(--image-lightbox-thumbnail-size);
+	height: var(--image-lightbox-thumbnail-height);
+	object-fit: cover;
+	cursor: pointer;
+	opacity: var(--image-lightbox-thumbnail-opacity);
+	transition: opacity var(--image-lightbox-transition-duration) ease, transform var(--image-lightbox-transition-duration) ease;
+	border-radius: calc(var(--image-lightbox-border-radius) * 0.5);
+	border: 2px solid transparent;
+}
+
+.image-lightbox-thumbnail:hover {
+	opacity: var(--image-lightbox-thumbnail-opacity-active);
+	transform: scale(1.05);
+}
+
+.image-lightbox-thumbnail.active {
+	opacity: var(--image-lightbox-thumbnail-opacity-active);
+	border-color: var(--bs-primary);
+	box-shadow: var(--image-lightbox-box-shadow);
+}
+
+/* Caption styling */
+.image-lightbox-caption {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: var(--image-lightbox-caption-bg);
+	color: var(--bs-white);
+	padding: 2rem 1rem 1rem;
+	text-align: center;
+	font-size: 1rem;
+	line-height: 1.4;
+	backdrop-filter: blur(4px);
+}
+
+.image-lightbox-caption:empty {
+	display: none;
+}
+
+/* Control buttons styling */
+.image-lightbox-modal .btn-group .btn {
+	background: rgba(0, 0, 0, 0.6);
+	border-color: rgba(255, 255, 255, 0.2);
+	color: var(--bs-white);
+	transition: all var(--image-lightbox-transition-duration) ease;
+	backdrop-filter: blur(4px);
+}
+
+.image-lightbox-modal .btn-group .btn:hover {
+	background: rgba(0, 0, 0, 0.8);
+	border-color: rgba(255, 255, 255, 0.4);
+	color: var(--bs-white);
+}
+
+.image-lightbox-modal .btn-group .btn:focus {
+	box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+}
+
+.image-lightbox-modal .image-lightbox-slideshow {
+	background: rgba(0, 0, 0, 0.6);
+	border-color: rgba(255, 255, 255, 0.2);
+	color: var(--bs-white);
+	transition: all var(--image-lightbox-transition-duration) ease;
+	backdrop-filter: blur(4px);
+}
+
+.image-lightbox-modal .image-lightbox-slideshow:hover {
+	background: rgba(0, 0, 0, 0.8);
+	border-color: rgba(255, 255, 255, 0.4);
+	color: var(--bs-white);
+}
+
+.image-lightbox-modal .image-lightbox-slideshow:focus {
+	box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+}
+
+.image-lightbox-modal .image-lightbox-slideshow i {
+	font-size: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+	.image-lightbox-modal .modal-header {
+		padding: 0.75rem;
+	}
+
+	.image-lightbox-modal .modal-header .image-lightbox-counter {
+		font-size: 0.75rem;
+		padding: 0.375rem 0.75rem;
+	}
+
+	.image-lightbox-modal .carousel .carousel-control-prev,
+	.image-lightbox-modal .carousel .carousel-control-next {
+		width: 50px;
+		height: 50px;
+	}
+
+	.image-lightbox-modal .carousel .carousel-control-prev .carousel-control-prev-icon,
+	.image-lightbox-modal .carousel .carousel-control-prev .carousel-control-next-icon,
+	.image-lightbox-modal .carousel .carousel-control-next .carousel-control-prev-icon,
+	.image-lightbox-modal .carousel .carousel-control-next .carousel-control-next-icon {
+		width: 20px;
+		height: 20px;
+	}
+
+	.image-lightbox-modal .carousel .carousel-control-prev {
+		left: 10px;
+	}
+
+	.image-lightbox-modal .carousel .carousel-control-next {
+		right: 10px;
+	}
+
+	.image-lightbox-modal .image-lightbox-thumbnails {
+		max-height: 80px;
+	}
+
+	.image-lightbox-modal .image-lightbox-thumbnail {
+		width: 60px;
+		height: 45px;
+	}
+
+	.image-lightbox-modal .image-lightbox-caption {
+		font-size: 0.875rem;
+		padding: 1.5rem 0.75rem 0.75rem;
+	}
+
+	.image-lightbox-modal .position-absolute.bottom-0.start-0 {
+		top: 60px !important;
+		bottom: auto !important;
+		left: 10px !important;
+	}
+
+	.image-lightbox-modal .position-absolute.bottom-0.end-0 {
+		top: 60px !important;
+		bottom: auto !important;
+		right: 60px !important;
+	}
+
+	.image-lightbox-modal .btn-group .btn,
+	.image-lightbox-modal .image-lightbox-slideshow {
+		font-size: 0.75rem;
+		padding: 0.25rem 0.5rem;
+	}
+}
+
+/* Animation classes for different transition types */
+.image-lightbox-modal.fade-transition .carousel-item {
+	transition: opacity var(--image-lightbox-transition-duration) ease-in-out;
+}
+
+.image-lightbox-modal.fade-transition .carousel-item:not(.active) {
+	opacity: 0;
+}
+
+.image-lightbox-modal.slide-transition .carousel-item {
+	transition: transform var(--image-lightbox-transition-duration) ease-in-out;
+}
+
+.image-lightbox-modal.zoom-transition .carousel-item {
+	transition: transform var(--image-lightbox-transition-duration) ease-in-out, opacity var(--image-lightbox-transition-duration) ease-in-out;
+}
+
+.image-lightbox-modal.zoom-transition .carousel-item:not(.active) {
+	opacity: 0;
+	transform: scale(0.8);
+}
+
+/* Loading state */
+.image-lightbox-loading::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 40px;
+	height: 40px;
+	margin: -20px 0 0 -20px;
+	border: 3px solid rgba(255, 255, 255, 0.3);
+	border-top-color: var(--bs-white);
+	border-radius: 50%;
+	animation: image-lightbox-spin 1s linear infinite;
+	z-index: 1051;
+}
+
+@keyframes image-lightbox-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* Accessibility improvements */
+.image-lightbox-modal .visually-hidden {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0, 0, 0, 0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+	.image-lightbox-modal .btn-close,
+	.image-lightbox-modal .carousel-control-prev,
+	.image-lightbox-modal .carousel-control-next,
+	.image-lightbox-modal .btn-group .btn,
+	.image-lightbox-modal .image-lightbox-slideshow {
+		border: 2px solid var(--bs-white);
+	}
+
+	.image-lightbox-modal .image-lightbox-thumbnail {
+		border-width: 3px;
+	}
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+	.image-lightbox-modal * {
+		transition-duration: 0.01s !important;
+		animation-duration: 0.01s !important;
+	}
+}

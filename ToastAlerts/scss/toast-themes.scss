@@ -1,0 +1,331 @@
+// ToastAlerts Theme SCSS - Theme variations and color schemes
+// Extends Bootstrap 5.3 theming system with custom toast themes
+
+// Theme Variables
+$toast-theme-border-width: 1px !default;
+$toast-theme-border-opacity: 0.2 !default;
+$toast-theme-shadow-opacity: 0.15 !default;
+
+// Custom Theme Colors
+$toast-themes: (
+	"primary": (
+		bg: var(--bs-primary),
+		text: var(--bs-white),
+		border: var(--bs-primary),
+		icon: "bi-info-circle-fill"
+	),
+	"secondary": (
+		bg: var(--bs-secondary),
+		text: var(--bs-white),
+		border: var(--bs-secondary),
+		icon: "bi-gear-fill"
+	),
+	"accent": (
+		bg: #6f42c1,
+		text: var(--bs-white),
+		border: #6f42c1,
+		icon: "bi-star-fill"
+	),
+	"gradient-primary": (
+		bg: linear-gradient(135deg, var(--bs-primary), var(--bs-info)),
+		text: var(--bs-white),
+		border: var(--bs-primary),
+		icon: "bi-lightning-fill"
+	),
+	"gradient-success": (
+		bg: linear-gradient(135deg, var(--bs-success), #20c997),
+		text: var(--bs-white),
+		border: var(--bs-success),
+		icon: "bi-check-circle-fill"
+	),
+	"gradient-warning": (
+		bg: linear-gradient(135deg, var(--bs-warning), #fd7e14),
+		text: var(--bs-dark),
+		border: var(--bs-warning),
+		icon: "bi-exclamation-triangle-fill"
+	),
+	"gradient-danger": (
+		bg: linear-gradient(135deg, var(--bs-danger), #e83e8c),
+		text: var(--bs-white),
+		border: var(--bs-danger),
+		icon: "bi-x-circle-fill"
+	)
+) !default;
+
+// Generate theme classes
+@each $theme, $props in $toast-themes {
+	.toast-theme-#{$theme} {
+		background: map-get($props, "bg") !important;
+		color: map-get($props, "text") !important;
+		border: $toast-theme-border-width solid rgba(#{map-get($props, "border")}, $toast-theme-border-opacity);
+
+		.toast-alerts-icon::before {
+			content: map-get($props, "icon");
+		}
+
+		.btn-close {
+			@if map-get($props, "text") == var(--bs-white) {
+				filter: invert(1) grayscale(100%) brightness(200%);
+			}
+		}
+	}
+}
+
+// Glassmorphism Themes
+.toast-theme-glass-light {
+	background: rgba(255, 255, 255, 0.8) !important;
+	backdrop-filter: blur(20px);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	color: var(--bs-dark) !important;
+
+	.toast-progress-bar {
+		background: rgba(0, 0, 0, 0.1);
+	}
+}
+
+.toast-theme-glass-dark {
+	background: rgba(0, 0, 0, 0.6) !important;
+	backdrop-filter: blur(20px);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	color: var(--bs-light) !important;
+
+	.toast-progress-bar {
+		background: rgba(255, 255, 255, 0.2);
+	}
+
+	.btn-close {
+		filter: invert(1) grayscale(100%) brightness(200%);
+	}
+}
+
+// Neon Themes
+.toast-theme-neon-blue {
+	background: #001122 !important;
+	color: #00ffff !important;
+	border: 2px solid #00ffff;
+	box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1);
+
+	.toast-alerts-icon {
+		color: #00ffff;
+		text-shadow: 0 0 10px currentColor;
+	}
+
+	.btn-close {
+		color: #00ffff;
+		filter: none;
+		text-shadow: 0 0 5px currentColor;
+	}
+}
+
+.toast-theme-neon-pink {
+	background: #220011 !important;
+	color: #ff00ff !important;
+	border: 2px solid #ff00ff;
+	box-shadow: 0 0 20px rgba(255, 0, 255, 0.3), inset 0 0 20px rgba(255, 0, 255, 0.1);
+
+	.toast-alerts-icon {
+		color: #ff00ff;
+		text-shadow: 0 0 10px currentColor;
+	}
+
+	.btn-close {
+		color: #ff00ff;
+		filter: none;
+		text-shadow: 0 0 5px currentColor;
+	}
+}
+
+.toast-theme-neon-green {
+	background: #001100 !important;
+	color: #00ff00 !important;
+	border: 2px solid #00ff00;
+	box-shadow: 0 0 20px rgba(0, 255, 0, 0.3), inset 0 0 20px rgba(0, 255, 0, 0.1);
+
+	.toast-alerts-icon {
+		color: #00ff00;
+		text-shadow: 0 0 10px currentColor;
+	}
+
+	.btn-close {
+		color: #00ff00;
+		filter: none;
+		text-shadow: 0 0 5px currentColor;
+	}
+}
+
+// Material Design Themes
+.toast-theme-material-elevated {
+	background: var(--bs-body-bg) !important;
+	color: var(--bs-body-color) !important;
+	border: none;
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.24), 0 4px 8px rgba(0, 0, 0, 0.12);
+	border-radius: 8px;
+
+	.toast-body {
+		padding: 1rem 1.25rem;
+	}
+}
+
+.toast-theme-material-outlined {
+	background: transparent !important;
+	color: var(--bs-body-color) !important;
+	border: 2px solid var(--bs-border-color);
+	box-shadow: none;
+	border-radius: 8px;
+
+	&:hover {
+		background: var(--bs-tertiary-bg) !important;
+	}
+}
+
+// Neumorphism Themes
+.toast-theme-neumorphism-light {
+	background: #e0e5ec !important;
+	color: #4a5568 !important;
+	border: none;
+	box-shadow:
+		9px 9px 16px rgba(163, 177, 198, 0.6),
+		-9px -9px 16px rgba(255, 255, 255, 0.5);
+	border-radius: 16px;
+
+	.btn-close {
+		background: #e0e5ec;
+		border-radius: 50%;
+		box-shadow:
+			4px 4px 8px rgba(163, 177, 198, 0.6),
+			-4px -4px 8px rgba(255, 255, 255, 0.5);
+	}
+}
+
+.toast-theme-neumorphism-dark {
+	background: #2d3748 !important;
+	color: #e2e8f0 !important;
+	border: none;
+	box-shadow:
+		9px 9px 16px rgba(0, 0, 0, 0.4),
+		-9px -9px 16px rgba(74, 85, 104, 0.4);
+	border-radius: 16px;
+
+	.btn-close {
+		background: #2d3748;
+		border-radius: 50%;
+		box-shadow:
+			4px 4px 8px rgba(0, 0, 0, 0.4),
+			-4px -4px 8px rgba(74, 85, 104, 0.4);
+		filter: invert(1) grayscale(100%) brightness(200%);
+	}
+}
+
+// Vintage/Retro Themes
+.toast-theme-retro-amber {
+	background: #ff8f00 !important;
+	color: #1a1a1a !important;
+	border: 3px solid #e65100;
+	font-family: 'Courier New', monospace;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+
+	.toast-body {
+		font-weight: bold;
+		letter-spacing: 0.5px;
+	}
+}
+
+.toast-theme-retro-green {
+	background: #00e676 !important;
+	color: #1a1a1a !important;
+	border: 3px solid #00c853;
+	font-family: 'Courier New', monospace;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+
+	.toast-body {
+		font-weight: bold;
+		letter-spacing: 0.5px;
+	}
+}
+
+// Seasonal Themes
+.toast-theme-christmas {
+	background: linear-gradient(45deg, #c41e3a, #228b22) !important;
+	color: var(--bs-white) !important;
+	border: 2px solid #ffd700;
+
+	&::before {
+		content: '🎄';
+		position: absolute;
+		top: -10px;
+		right: -10px;
+		font-size: 1.5rem;
+		z-index: 1;
+	}
+}
+
+.toast-theme-halloween {
+	background: linear-gradient(45deg, #ff4500, #1a1a1a) !important;
+	color: #ffa500 !important;
+	border: 2px solid #ff4500;
+
+	&::before {
+		content: '🎃';
+		position: absolute;
+		top: -10px;
+		right: -10px;
+		font-size: 1.5rem;
+		z-index: 1;
+	}
+}
+
+.toast-theme-valentine {
+	background: linear-gradient(45deg, #ff69b4, #ff1493) !important;
+	color: var(--bs-white) !important;
+	border: 2px solid #ff69b4;
+
+	&::before {
+		content: '💖';
+		position: absolute;
+		top: -10px;
+		right: -10px;
+		font-size: 1.5rem;
+		z-index: 1;
+	}
+}
+
+// Professional Themes
+.toast-theme-corporate {
+	background: #f8f9fa !important;
+	color: #495057 !important;
+	border: 1px solid #dee2e6;
+	border-left: 4px solid var(--bs-primary);
+	border-radius: 0;
+
+	.toast-alerts-icon {
+		color: var(--bs-primary);
+	}
+}
+
+.toast-theme-minimal {
+	background: var(--bs-white) !important;
+	color: var(--bs-dark) !important;
+	border: 1px solid #e9ecef;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	border-radius: 2px;
+
+	.toast-body {
+		font-size: 0.875rem;
+		padding: 0.75rem 1rem;
+	}
+}
+
+.toast-theme-elegant {
+	background: var(--bs-dark) !important;
+	color: var(--bs-light) !important;
+	border: 1px solid #495057;
+
+	.toast-body {
+		font-family: Georgia, serif;
+		font-style: italic;
+	}
+
+	.btn-close {
+		filter: invert(1) grayscale(100%) brightness(200%);
+	}
+}

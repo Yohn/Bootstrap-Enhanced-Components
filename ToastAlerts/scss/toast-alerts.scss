@@ -1,0 +1,467 @@
+// ToastAlerts SCSS - Main stylesheet for ToastAlerts component
+// Uses Bootstrap 5.3 CSS variables and follows BEM methodology
+
+// Component Variables
+$toast-alerts-z-index: 1055 !default;
+$toast-alerts-container-padding: 1rem !default;
+$toast-alerts-max-width: 400px !default;
+$toast-alerts-min-width: 320px !default;
+$toast-alerts-gap: 0.75rem !default;
+$toast-alerts-border-radius: var(--bs-border-radius) !default;
+$toast-alerts-box-shadow: var(--bs-box-shadow-lg) !default;
+$toast-alerts-backdrop-blur: 10px !default;
+
+// Animation Variables
+$toast-alerts-transition-duration: 300ms !default;
+$toast-alerts-transition-easing: cubic-bezier(0.25, 0.46, 0.45, 0.94) !default;
+$toast-alerts-bounce-easing: cubic-bezier(0.68, -0.55, 0.265, 1.55) !default;
+
+// Progress Bar Variables
+$toast-alerts-progress-height: 3px !default;
+$toast-alerts-progress-bg: rgba(255, 255, 255, 0.3) !default;
+$toast-alerts-progress-bg-dark: rgba(0, 0, 0, 0.2) !default;
+
+// Icon Variables
+$toast-alerts-icon-size: 1.25rem !default;
+$toast-alerts-icon-margin: 0.5rem !default;
+
+// Container Styling
+.toast-alerts-container {
+	position: fixed;
+	z-index: $toast-alerts-z-index;
+	pointer-events: none;
+	display: flex;
+	flex-direction: column;
+	gap: $toast-alerts-gap;
+	max-width: $toast-alerts-max-width;
+	min-width: $toast-alerts-min-width;
+	padding: $toast-alerts-container-padding;
+
+	// Position variants
+	&.toast-alerts-top-left {
+		top: 0;
+		left: 0;
+		align-items: flex-start;
+	}
+
+	&.toast-alerts-top-center {
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		align-items: center;
+	}
+
+	&.toast-alerts-top-right {
+		top: 0;
+		right: 0;
+		align-items: flex-end;
+	}
+
+	&.toast-alerts-center {
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		align-items: center;
+	}
+
+	&.toast-alerts-bottom-left {
+		bottom: 0;
+		left: 0;
+		align-items: flex-start;
+		flex-direction: column-reverse;
+	}
+
+	&.toast-alerts-bottom-center {
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		align-items: center;
+		flex-direction: column-reverse;
+	}
+
+	&.toast-alerts-bottom-right {
+		bottom: 0;
+		right: 0;
+		align-items: flex-end;
+		flex-direction: column-reverse;
+	}
+
+	// Responsive adjustments
+	@media (max-width: 576px) {
+		max-width: calc(100vw - 2rem);
+		min-width: calc(100vw - 2rem);
+		left: 1rem !important;
+		right: 1rem !important;
+		transform: none !important;
+
+		&.toast-alerts-center {
+			top: 50%;
+			transform: translateY(-50%) !important;
+		}
+	}
+}
+
+// Enhanced Toast Styling
+.toast-alerts-container .toast {
+	pointer-events: auto;
+	position: relative;
+	width: 100%;
+	margin-bottom: 0;
+	border-radius: $toast-alerts-border-radius;
+	box-shadow: $toast-alerts-box-shadow;
+	backdrop-filter: blur($toast-alerts-backdrop-blur);
+	transition: all $toast-alerts-transition-duration $toast-alerts-transition-easing;
+
+	// Hover effects
+	&:hover {
+		transform: translateY(-2px);
+		box-shadow: var(--bs-box-shadow-lg);
+	}
+
+	// Focus styles for accessibility
+	&:focus-within {
+		outline: 2px solid var(--bs-focus-ring-color);
+		outline-offset: 2px;
+	}
+
+	// Enhanced close button
+	.btn-close {
+		transition: all 0.2s ease;
+
+		&:hover {
+			transform: scale(1.1);
+		}
+
+		&:focus {
+			box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-close-color-rgb), 0.25);
+		}
+	}
+}
+
+// Icon Styling
+.toast-alerts-icon {
+	font-size: $toast-alerts-icon-size;
+	margin-right: $toast-alerts-icon-margin;
+	flex-shrink: 0;
+
+	// Icon color variations
+	.text-bg-success & {
+		color: var(--bs-success);
+	}
+
+	.text-bg-danger & {
+		color: var(--bs-danger);
+	}
+
+	.text-bg-warning & {
+		color: var(--bs-warning);
+	}
+
+	.text-bg-info & {
+		color: var(--bs-info);
+	}
+
+	.text-bg-light & {
+		color: var(--bs-gray-600);
+	}
+
+	.text-bg-dark & {
+		color: var(--bs-light);
+	}
+}
+
+// Progress Bar Styling
+.toast-progress-bar {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: $toast-alerts-progress-height;
+	background: $toast-alerts-progress-bg;
+	width: 100%;
+	border-radius: 0 0 $toast-alerts-border-radius $toast-alerts-border-radius;
+	overflow: hidden;
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background: linear-gradient(90deg,
+			transparent 0%,
+			rgba(255, 255, 255, 0.2) 50%,
+			transparent 100%);
+		animation: toast-progress-shimmer 2s infinite;
+	}
+
+	// Dark theme variant
+	[data-bs-theme="dark"] & {
+		background: $toast-alerts-progress-bg-dark;
+	}
+}
+
+// Progress indicator for progress template
+.toast-progress-indicator {
+	transition: width 0.3s ease;
+}
+
+// Action Buttons Styling
+.toast .toast-body {
+	.btn {
+		font-size: 0.875rem;
+		padding: 0.25rem 0.75rem;
+		margin-right: 0.5rem;
+		margin-bottom: 0.25rem;
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+}
+
+// Enhanced Typography
+.toast-alerts-container .toast {
+	.toast-header {
+		font-weight: 600;
+		border-bottom: 1px solid rgba(var(--bs-border-color-rgb), 0.2);
+	}
+
+	.toast-body {
+		font-size: 0.9rem;
+		line-height: 1.4;
+
+		.fw-bold {
+			font-size: 1rem;
+			margin-bottom: 0.25rem;
+		}
+	}
+}
+
+// Accessibility Enhancements
+.toast-alerts-container .toast {
+	// High contrast mode support
+	@media (prefers-contrast: high) {
+		border: 2px solid currentColor;
+		box-shadow: none;
+
+		.btn-close {
+			border: 1px solid currentColor;
+		}
+	}
+
+	// Reduced motion support
+	@media (prefers-reduced-motion: reduce) {
+		transition: none;
+
+		&:hover {
+			transform: none;
+		}
+
+		.toast-progress-bar::after {
+			animation: none;
+		}
+	}
+
+	// Focus management
+	&[tabindex] {
+		outline: none;
+
+		&:focus {
+			outline: 2px solid var(--bs-focus-ring-color);
+			outline-offset: 2px;
+		}
+	}
+}
+
+// Touch Device Enhancements
+@media (hover: none) and (pointer: coarse) {
+	.toast-alerts-container .toast {
+		// Larger touch targets
+		.btn-close {
+			min-width: 44px;
+			min-height: 44px;
+		}
+
+		// Remove hover effects on touch devices
+		&:hover {
+			transform: none;
+			box-shadow: $toast-alerts-box-shadow;
+		}
+
+		// Swipe gesture indicator
+		&::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			right: 0.5rem;
+			width: 4px;
+			height: 20px;
+			background: rgba(255, 255, 255, 0.3);
+			border-radius: 2px;
+			transform: translateY(-50%);
+			transition: opacity 0.3s ease;
+			opacity: 0;
+		}
+
+		&:active::after {
+			opacity: 1;
+		}
+	}
+}
+
+// Theme Enhancements
+[data-bs-theme="dark"] {
+	.toast-alerts-container .toast {
+		// Enhanced dark mode styling
+		&.text-bg-light {
+			background-color: var(--bs-gray-800) !important;
+			color: var(--bs-gray-100) !important;
+
+			.toast-header {
+				background-color: var(--bs-gray-700) !important;
+				color: var(--bs-gray-100) !important;
+			}
+		}
+
+		// Dark mode progress bar
+		.toast-progress-bar {
+			background: rgba(255, 255, 255, 0.1);
+		}
+
+		// Dark mode close button
+		.btn-close {
+			filter: invert(1) grayscale(100%) brightness(200%);
+		}
+	}
+}
+
+// Animation Keyframes
+@keyframes toast-progress-shimmer {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+// Loading State
+.toast-alerts-loading {
+	position: relative;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(255, 255, 255, 0.9);
+		border-radius: $toast-alerts-border-radius;
+		z-index: 1;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 20px;
+		height: 20px;
+		margin: -10px 0 0 -10px;
+		border: 2px solid var(--bs-primary);
+		border-top-color: transparent;
+		border-radius: 50%;
+		animation: toast-loading-spin 1s linear infinite;
+		z-index: 2;
+	}
+
+	[data-bs-theme="dark"] &::before {
+		background: rgba(0, 0, 0, 0.9);
+	}
+}
+
+@keyframes toast-loading-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+// Custom Classes for Additional Styling
+.toast-alerts-compact {
+	.toast-body {
+		padding: 0.5rem 0.75rem;
+		font-size: 0.875rem;
+	}
+}
+
+.toast-alerts-large {
+	.toast-body {
+		padding: 1rem 1.25rem;
+		font-size: 1rem;
+	}
+}
+
+.toast-alerts-rounded {
+	border-radius: 1rem !important;
+}
+
+.toast-alerts-square {
+	border-radius: 0 !important;
+}
+
+.toast-alerts-minimal-shadow {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.toast-alerts-no-shadow {
+	box-shadow: none !important;
+}
+
+// Glassmorphism Effect
+.toast-alerts-glass {
+	background: rgba(255, 255, 255, 0.1) !important;
+	backdrop-filter: blur(20px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+
+	[data-bs-theme="dark"] & {
+		background: rgba(0, 0, 0, 0.2) !important;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+	}
+}
+
+// Notification Badges
+.toast-notification-badge {
+	position: absolute;
+	top: -8px;
+	right: -8px;
+	width: 16px;
+	height: 16px;
+	background: var(--bs-danger);
+	border-radius: 50%;
+	border: 2px solid var(--bs-body-bg);
+	animation: toast-badge-pulse 2s infinite;
+}
+
+@keyframes toast-badge-pulse {
+	0% {
+		transform: scale(1);
+		opacity: 1;
+	}
+	50% {
+		transform: scale(1.2);
+		opacity: 0.8;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+// Print Styles
+@media print {
+	.toast-alerts-container {
+		display: none !important;
+	}
+}
