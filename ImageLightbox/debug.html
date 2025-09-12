@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Simple ImageLightbox Test</title>
+
+	<!-- Bootstrap 5.3.7 CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Bootstrap Icons -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+	<style>
+		.test-image {
+			width: 200px;
+			height: 150px;
+			object-fit: cover;
+			cursor: pointer;
+			border: 2px solid #ccc;
+			margin: 10px;
+		}
+
+		.test-image:hover {
+			border-color: #007bff;
+		}
+
+		body {
+			padding: 20px;
+		}
+
+		.debug-info {
+			background: #f8f9fa;
+			padding: 15px;
+			margin: 20px 0;
+			border-radius: 5px;
+			color: #000;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>ImageLightbox Simple Test</h1>
+
+		<div class="debug-info">
+			<h5>Debug Information:</h5>
+			<div id="debug-output">Loading...</div>
+		</div>
+
+		<button onclick="testLightbox()" class="btn btn-primary mb-3">Test First Image</button>
+		<button onclick="showDebugInfo()" class="btn btn-secondary mb-3">Show Debug Info</button>
+
+		<h3>Test Images:</h3>
+
+		<!-- Simple test images -->
+		<img src="https://picsum.photos/600/400?random=1"
+			 alt="Test Image 1"
+			 class="test-image"
+			 data-lightbox="test-gallery"
+			 data-lightbox-caption="Test Image 1">
+
+		<img src="https://picsum.photos/600/400?random=2"
+			 alt="Test Image 2"
+			 class="test-image"
+			 data-lightbox="test-gallery"
+			 data-lightbox-caption="Test Image 2">
+
+		<img src="https://picsum.photos/600/400?random=3"
+			 alt="Test Image 3"
+			 class="test-image"
+			 data-lightbox="test-gallery"
+			 data-lightbox-caption="Test Image 3">
+
+		<!-- Single image test -->
+		<img src="https://picsum.photos/800/600?random=10"
+			 alt="Single Test"
+			 class="test-image"
+			 data-lightbox="single-test"
+			 data-lightbox-caption="Single Image Test">
+	</div>
+
+	<!-- Bootstrap 5.3.7 JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Inline ImageLightbox for testing -->
+	<script>
+		/**
+		 * Simplified ImageLightbox for debugging
+		 */
+		class ImageLightbox {
+			constructor(options = {}) {
+				console.log('Initializing ImageLightbox...');
+
+				this.options = {
+					imageSelector: '[data-lightbox]',
+					...options
+				};
+
+				this.init();
+			}
+
+			init() {
+				console.log('Setting up click listeners...');
+
+				// Simple click handler
+				document.addEventListener('click', (e) => {
+					const image = e.target.closest(this.options.imageSelector);
+					if (image) {
+						e.preventDefault();
+						console.log('Image clicked:', image.src);
+						this.openLightbox(image);
+					}
+				});
+
+				console.log('ImageLightbox initialized');
+			}
+
+			openLightbox(clickedImage) {
+				console.log('Opening lightbox for:', clickedImage.src);
+
+				// Create simple modal HTML
+				const modalHtml = `
+					<div class="modal fade" id="testLightboxModal" tabindex="-1">
+						<div class="modal-dialog modal-fullscreen">
+							<div class="modal-content bg-dark">
+								<div class="modal-header border-0">
+									<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+								</div>
+								<div class="modal-body d-flex align-items-center justify-content-center">
+									<img src="${clickedImage.src}" class="img-fluid" style="max-height: 90vh;">
+								</div>
+							</div>
+						</div>
+					</div>
+				`;
+
+				// Remove existing modal
+				const existingModal = document.getElementById('testLightboxModal');
+				if (existingModal) {
+					existingModal.remove();
+				}
+
+				// Add new modal
+				document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+				// Show modal
+				const modal = new bootstrap.Modal(document.getElementById('testLightboxModal'));
+				modal.show();
+
+				console.log('Modal should be visible now');
+
+				if (this.options.onOpen) {
+					this.options.onOpen(clickedImage, 0);
+				}
+			}
+		}
+
+		// Initialize when DOM is ready
+		document.addEventListener('DOMContentLoaded', function() {
+			updateDebugInfo('DOM loaded');
+
+			// Check Bootstrap
+			if (typeof bootstrap === 'undefined') {
+				updateDebugInfo('❌ Bootstrap not loaded');
+				return;
+			}
+			updateDebugInfo('✅ Bootstrap loaded');
+
+			// Initialize lightbox
+			try {
+				window.lightbox = new ImageLightbox({
+					onOpen: function(image) {
+						updateDebugInfo('✅ Lightbox opened: ' + image.src);
+					}
+				});
+				updateDebugInfo('✅ ImageLightbox initialized');
+			} catch (error) {
+				updateDebugInfo('❌ Error: ' + error.message);
+			}
+
+			// Count images
+			const images = document.querySelectorAll('[data-lightbox]');
+			updateDebugInfo(`Found ${images.length} lightbox images`);
+		});
+
+		function updateDebugInfo(message) {
+			const debugDiv = document.getElementById('debug-output');
+			const timestamp = new Date().toLocaleTimeString();
+			debugDiv.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+			console.log(message);
+		}
+
+		function testLightbox() {
+			const firstImage = document.querySelector('[data-lightbox]');
+			if (firstImage) {
+				updateDebugInfo('Testing first image click...');
+				firstImage.click();
+			} else {
+				updateDebugInfo('No images found to test');
+			}
+		}
+
+		function showDebugInfo() {
+			const images = document.querySelectorAll('[data-lightbox]');
+			updateDebugInfo(`Bootstrap version: ${bootstrap.Modal ? 'Modal available' : 'Modal NOT available'}`);
+			updateDebugInfo(`Found images: ${images.length}`);
+			images.forEach((img, i) => {
+				updateDebugInfo(`Image ${i+1}: ${img.dataset.lightbox} - ${img.src}`);
+			});
+		}
+	</script>
+</body>
+</html>

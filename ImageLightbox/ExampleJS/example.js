@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		lightbox.open('[data-lightbox="single-portrait"]', 0);
 	});
 
+
 	// Dynamic image addition example
 	const dynamicGallery = document.createElement('div');
 	dynamicGallery.className = 'mt-5';
@@ -126,44 +127,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 
-	// Example of creating a custom lightbox instance with different settings
-	const customLightbox = new ImageLightbox({
-		imageSelector: '[data-custom-lightbox]',
-		navigation: false,
-		zoom: false,
-		keyboard: false,
-		overlayColor: 'rgba(0, 0, 100, 0.8)',
-		animationType: 'slide',
-		onOpen: function() {
-			console.log('Custom lightbox opened');
-		}
-	});
-
-	// Add some custom lightbox images
-	const customSection = document.createElement('div');
-	customSection.className = 'mt-5 p-4 bg-primary bg-opacity-10 rounded';
-	customSection.innerHTML = `
-		<h4>Custom Lightbox Instance</h4>
-		<p class="text-muted">These images use a separate lightbox instance with custom settings (no navigation, no zoom, blue overlay).</p>
-		<div class="row g-3">
-			<div class="col-md-6">
-				<img src="https://picsum.photos/400/300?random=200"
-					 class="img-fluid demo-image w-100"
-					 data-custom-lightbox="custom-group"
-					 data-lightbox-caption="Custom lightbox image 1"
-					 alt="Custom 1">
-			</div>
-			<div class="col-md-6">
-				<img src="https://picsum.photos/400/300?random=201"
-					 class="img-fluid demo-image w-100"
-					 data-custom-lightbox="custom-group"
-					 data-lightbox-caption="Custom lightbox image 2"
-					 alt="Custom 2">
-			</div>
-		</div>
-	`;
-
-	document.querySelector('.container').appendChild(customSection);
+	// REMOVED: Second lightbox instance that was causing conflicts
+	// The original code created a customLightbox instance which interfered
+	// with the main lightbox instance
 
 	// Theme switching example
 	const themeToggle = document.createElement('button');

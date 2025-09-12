@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ImageLightbox - Bootstrap 5.3 Example</title>
+
+	<!-- Bootstrap 5.3.7 CSS -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- ImageLightbox CSS -->
+	<link href="scss/image-lightbox.css" rel="stylesheet">
+
+	<style>
+		body {
+			padding: 2rem 0;
+			background: var(--bs-dark);
+		}
+
+		.gallery-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 1rem;
+			margin-bottom: 3rem;
+		}
+
+		.gallery-item {
+			position: relative;
+			border-radius: var(--bs-border-radius);
+			overflow: hidden;
+			aspect-ratio: 16/9;
+		}
+
+		.gallery-item img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.single-image-demo {
+			max-width: 400px;
+			margin: 2rem auto;
+		}
+
+		.single-image-demo img {
+			width: 100%;
+			border-radius: var(--bs-border-radius);
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<header class="text-center mb-5">
+			<h1 class="display-4 text-light mb-3">ImageLightbox Component</h1>
+			<p class="lead text-light-emphasis">
+				A feature-rich lightbox component for Bootstrap 5.3 with gallery support and zoom functionality
+			</p>
+		</header>
+
+		<!-- Single Image Demo -->
+		<section class="mb-5">
+			<h2 class="h3 text-light mb-4">Single Image Lightbox</h2>
+			<div class="single-image-demo">
+				<img src="https://picsum.photos/800/600?random=1"
+				     class="lightbox-trigger img-fluid shadow"
+				     alt="Single Image Demo"
+				     data-lightbox-title="Beautiful Landscape"
+				     data-lightbox-description="A stunning landscape photo showcasing the lightbox functionality with zoom capabilities.">
+			</div>
+		</section>
+
+		<!-- Gallery Demo -->
+		<section class="mb-5">
+			<h2 class="h3 text-light mb-4">Gallery Lightbox</h2>
+			<div class="gallery-grid">
+				<div class="gallery-item">
+					<img src="https://picsum.photos/600/400?random=2"
+					     class="lightbox-trigger"
+					     alt="Gallery Image 1"
+					     data-lightbox-gallery="demo-gallery"
+					     data-lightbox-title="Gallery Image 1"
+					     data-lightbox-description="First image in the gallery. Use arrow keys, swipe, or click arrows to navigate.">
+				</div>
+
+				<div class="gallery-item">
+					<img src="https://picsum.photos/600/400?random=3"
+					     class="lightbox-trigger"
+					     alt="Gallery Image 2"
+					     data-lightbox-gallery="demo-gallery"
+					     data-lightbox-title="Gallery Image 2"
+					     data-lightbox-description="Second image with beautiful colors and composition.">
+				</div>
+
+				<div class="gallery-item">
+					<img src="https://picsum.photos/600/400?random=4"
+					     class="lightbox-trigger"
+					     alt="Gallery Image 3"
+					     data-lightbox-gallery="demo-gallery"
+					     data-lightbox-title="Gallery Image 3"
+					     data-lightbox-description="Third image showcasing the smooth fade transitions between gallery images.">
+				</div>
+
+				<div class="gallery-item">
+					<img src="https://picsum.photos/600/400?random=5"
+					     class="lightbox-trigger"
+					     alt="Gallery Image 4"
+					     data-lightbox-gallery="demo-gallery"
+					     data-lightbox-title="Gallery Image 4"
+					     data-lightbox-description="Fourth image in the gallery with zoom functionality.">
+				</div>
+
+				<div class="gallery-item">
+					<img src="https://picsum.photos/600/400?random=6"
+					     class="lightbox-trigger"
+					     alt="Gallery Image 5"
+					     data-lightbox-gallery="demo-gallery"
+					     data-lightbox-title="Gallery Image 5"
+					     data-lightbox-description="Fifth image demonstrating the complete gallery experience.">
+				</div>
+
+				<div class="gallery-item">
+					<img src="https://picsum.photos/600/400?random=7"
+					     class="lightbox-trigger"
+					     alt="Gallery Image 6"
+					     data-lightbox-gallery="demo-gallery"
+					     data-lightbox-title="Gallery Image 6"
+					     data-lightbox-description="Final image in this gallery demo. Click outside or press ESC to close.">
+				</div>
+			</div>
+		</section>
+
+		<!-- Mixed Content Demo -->
+		<section class="mb-5">
+			<h2 class="h3 text-light mb-4">Mixed Content (Separate Lightboxes)</h2>
+			<div class="row">
+				<div class="col-md-6 mb-3">
+					<img src="https://picsum.photos/500/300?random=8"
+					     class="lightbox-trigger img-fluid rounded shadow"
+					     alt="Standalone Image"
+					     data-lightbox-title="Standalone Image"
+					     data-lightbox-description="This image opens independently from the gallery above.">
+				</div>
+				<div class="col-md-6 mb-3">
+					<img src="https://picsum.photos/500/300?random=9"
+					     class="lightbox-trigger img-fluid rounded shadow"
+					     alt="Another Standalone"
+					     data-lightbox-title="Another Standalone Image"
+					     data-lightbox-description="Another independent image with its own lightbox instance.">
+				</div>
+			</div>
+		</section>
+
+		<!-- Controls Guide -->
+		<section class="mb-5">
+			<h2 class="h3 text-light mb-4">Controls & Features</h2>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card bg-dark border-secondary">
+						<div class="card-body">
+							<h5 class="card-title text-light">Navigation</h5>
+							<ul class="list-unstyled text-light-emphasis">
+								<li>• <strong>Arrow Keys:</strong> Navigate gallery images</li>
+								<li>• <strong>Mouse Wheel:</strong> Zoom in/out</li>
+								<li>• <strong>Swipe:</strong> Navigate on mobile</li>
+								<li>• <strong>Click Arrows:</strong> Navigate gallery</li>
+								<li>• <strong>Drag:</strong> Pan zoomed image</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card bg-dark border-secondary">
+						<div class="card-body">
+							<h5 class="card-title text-light">Close Options</h5>
+							<ul class="list-unstyled text-light-emphasis">
+								<li>• <strong>ESC Key:</strong> Close lightbox</li>
+								<li>• <strong>Click Outside:</strong> Close lightbox</li>
+								<li>• <strong>Close Button (×):</strong> Click to close</li>
+								<li>• <strong>Double Tap:</strong> Reset zoom level</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- Bootstrap 5.3.7 JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+
+	<!-- ImageLightbox JS -->
+	<script src="js/ImageLightbox.js"></script>
+
+	<!-- Example Page JS -->
+	<script src="ExampleJS/demo.js"></script>
+</body>
+</html>

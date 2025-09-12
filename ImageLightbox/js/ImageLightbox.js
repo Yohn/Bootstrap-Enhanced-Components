@@ -24,7 +24,7 @@ class ImageLightbox {
 			slideshowSpeed: 3000,
 
 			// Animation settings
-			animationType: 'fade', // 'fade', 'slide', 'zoom'
+			animationType: 'fade', // Default to fade transitions
 
 			// Styling
 			overlayColor: 'rgba(0, 0, 0, 0.9)',
@@ -216,6 +216,20 @@ class ImageLightbox {
 
 		// Carousel events
 		const carouselElement = document.getElementById('imageLightboxCarousel');
+		carouselElement.addEventListener('slide.bs.carousel', (e) => {
+			// Handle z-index during transition
+			const items = e.target.querySelectorAll('.carousel-item');
+			items.forEach((item, index) => {
+				if (item === e.relatedTarget) {
+					item.style.zIndex = '2';
+					item.style.opacity = '1';
+				} else {
+					item.style.zIndex = '1';
+					item.style.opacity = '0';
+				}
+			});
+		});
+
 		carouselElement.addEventListener('slid.bs.carousel', (e) => {
 			this.currentIndex = Array.from(e.target.querySelectorAll('.carousel-item')).indexOf(e.relatedTarget);
 			this.updateCounter();
@@ -371,6 +385,8 @@ class ImageLightbox {
 	}
 
 	openLightbox(clickedImage) {
+		console.log('Opening lightbox for:', clickedImage.src); // Debug log
+
 		const groupName = clickedImage.dataset.lightbox;
 		const mergedOptions = this.mergeDataAttributes(clickedImage);
 
@@ -387,10 +403,25 @@ class ImageLightbox {
 		this.currentIndex = this.currentImages.indexOf(clickedImage);
 		this.currentGroup = groupName;
 
-		this.populateCarousel();
-		this.updateCounter();
-		this.createThumbnails();
-		this.modal.show();
+		console.log('Found images:', this.currentImages.length, 'Current index:', this.currentIndex); // Debug log
+
+		// Ensure modal exists and is ready
+		if (!this.modal) {
+			console.log('Modal not ready, recreating...'); // Debug log
+			this.createModal();
+			// Wait for modal to be ready
+			setTimeout(() => {
+				this.populateCarousel();
+				this.updateCounter();
+				this.createThumbnails();
+				this.modal.show();
+			}, 50);
+		} else {
+			this.populateCarousel();
+			this.updateCounter();
+			this.createThumbnails();
+			this.modal.show();
+		}
 	}
 
 	mergeDataAttributes(element) {

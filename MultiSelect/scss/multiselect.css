@@ -158,7 +158,7 @@
 	font-size: var(--bs-font-size-base);
 	color: var(--bs-dropdown-color);
 	text-align: left;
-	background-color: var(--multiselect-dropdown-bg);
+	background-color: var(--bs-dropdown-bg);
 	background-clip: padding-box;
 	border: var(--bs-border-width) solid var(--multiselect-dropdown-border);
 	border-radius: var(--multiselect-border-radius);
@@ -198,7 +198,7 @@
 	position: sticky;
 	top: 0;
 	z-index: 1;
-	background-color: var(--multiselect-dropdown-bg);
+	background-color: var(--bs-dropdown-bg);
 }
 
 .multiselect-search .form-control {

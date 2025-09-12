@@ -4,9 +4,10 @@
 
  - <a href="AutoTextarea/Example.html">Auto Textarea</a>
  - <a href="ToastAlerts/Example.html">Toast Alerts</a>
+ - <a href="InputMask/Example.html">Input Mask</a>
+ - <a href="SimpleLightbox/Example.html">Simple Lightbox</a>
+ - <a href="MultiSelect/Example.html">Multi Select</a>
 
 Needs some fixing:
- - <a href="InputMask/Example.html">Input Mask</a>
- - <a href="MultiSelect/Example.html">Multi Select</a>
  - <a href="RateLimiter/Example.html">Rate Limiter</a>
  - <a href="ImageLightbox/Example.html">Image Lightbox</a>

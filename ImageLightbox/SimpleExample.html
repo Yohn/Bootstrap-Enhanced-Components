@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ImageLightbox - Simple Example</title>
+	<!-- Bootstrap 5.3.7 CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Bootstrap Icons -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+	<!-- ImageLightbox CSS -->
+	<link href="scss/image-lightbox.css" rel="stylesheet">
+	<style>
+		body {
+			background: var(--bs-dark);
+			color: var(--bs-light);
+			padding: 2rem 0;
+		}
+
+		.demo-image {
+			height: 200px;
+			object-fit: cover;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			border-radius: var(--bs-border-radius);
+			border: 2px solid transparent;
+		}
+
+		.demo-image:hover {
+			transform: scale(1.02);
+			border-color: var(--bs-primary);
+			box-shadow: var(--bs-box-shadow);
+		}
+
+		.section-divider {
+			height: 3px;
+			background: linear-gradient(90deg, var(--bs-primary), var(--bs-info));
+			border-radius: 2px;
+			margin: 3rem 0;
+		}
+
+		.feature-list {
+			background: var(--bs-gray-800);
+			border-radius: var(--bs-border-radius);
+			padding: 1.5rem;
+		}
+
+		.test-button {
+			margin-bottom: 1rem;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<!-- Header -->
+		<div class="text-center mb-5">
+			<h1 class="display-4 fw-bold mb-3">ImageLightbox Simple Demo</h1>
+			<p class="lead text-muted">Click any image to open the lightbox viewer</p>
+		</div>
+		<!-- Test Controls -->
+		<div class="row mb-4">
+			<div class="col-md-6">
+				<button onclick="openGallery()" class="btn btn-primary w-100 test-button">
+					<i class="bi bi-images me-2"></i>Open Gallery (2nd image) </button>
+			</div>
+			<div class="col-md-6">
+				<button onclick="openSingle()" class="btn btn-outline-primary w-100 test-button">
+					<i class="bi bi-eye me-2"></i>Open Single Image </button>
+			</div>
+		</div>
+		<!-- Gallery Section -->
+		<div class="mb-5">
+			<h2 class="mb-3">
+				<i class="bi bi-collection me-2"></i>Image Gallery <small class="text-muted fs-6">(grouped together)</small>
+			</h2>
+			<p class="text-muted mb-4"> These images are grouped together. Navigate between them using arrow keys, navigation
+				buttons, or swipe gestures on mobile. </p>
+			<div class="row g-4">
+				<div class="col-lg-3 col-md-4 col-sm-6">
+					<img src="https://picsum.photos/600/400?random=1" alt="Gallery Image 1" class="img-fluid demo-image w-100"
+						data-lightbox="main-gallery" data-lightbox-caption="Beautiful mountain landscape with crystal clear lake">
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6">
+					<img src="https://picsum.photos/600/400?random=2" alt="Gallery Image 2" class="img-fluid demo-image w-100"
+						data-lightbox="main-gallery" data-lightbox-caption="Urban architecture and modern city skyline">
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6">
+					<img src="https://picsum.photos/600/400?random=3" alt="Gallery Image 3" class="img-fluid demo-image w-100"
+						data-lightbox="main-gallery" data-lightbox-caption="Vibrant nature photography with autumn colors">
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6">
+					<img src="https://picsum.photos/600/400?random=4" alt="Gallery Image 4" class="img-fluid demo-image w-100"
+						data-lightbox="main-gallery" data-lightbox-caption="Abstract geometric patterns and designs">
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6">
+					<img src="https://picsum.photos/600/400?random=5" alt="Gallery Image 5" class="img-fluid demo-image w-100"
+						data-lightbox="main-gallery" data-lightbox-caption="Serene ocean waves meeting the shore">
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6">
+					<img src="https://picsum.photos/600/400?random=6" alt="Gallery Image 6" class="img-fluid demo-image w-100"
+						data-lightbox="main-gallery" data-lightbox-caption="Artistic black and white photography">
+				</div>
+			</div>
+		</div>
+		<div class="section-divider"></div>
+		<!-- Single Images Section -->
+		<div class="mb-5">
+			<h2 class="mb-3">
+				<i class="bi bi-image me-2"></i>Individual Images <small class="text-muted fs-6">(standalone)</small>
+			</h2>
+			<p class="text-muted mb-4"> These images open individually, not as part of a gallery group. Each has its own
+				lightbox instance. </p>
+			<div class="row g-4">
+				<div class="col-lg-4 col-md-6">
+					<div class="card bg-dark border-secondary">
+						<img src="https://picsum.photos/500/350?random=10" alt="Portrait Single" class="card-img-top demo-image"
+							data-lightbox="single-portrait" data-lightbox-caption="Professional portrait photography">
+						<div class="card-body">
+							<h6 class="card-title">Portrait</h6>
+							<p class="card-text text-muted">Single portrait image</p>
+							<span class="badge bg-success">Standalone</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6">
+					<div class="card bg-dark border-secondary">
+						<img src="https://picsum.photos/500/350?random=11" alt="Landscape Single" class="card-img-top demo-image"
+							data-lightbox="single-landscape" data-lightbox-caption="Breathtaking landscape vista">
+						<div class="card-body">
+							<h6 class="card-title">Landscape</h6>
+							<p class="card-text text-muted">Individual landscape view</p>
+							<span class="badge bg-success">Standalone</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6">
+					<div class="card bg-dark border-secondary">
+						<img src="https://picsum.photos/500/350?random=12" alt="Art Single" class="card-img-top demo-image"
+							data-lightbox="single-art" data-lightbox-caption="Creative abstract art composition"
+							data-lightbox-max-zoom="4" data-lightbox-zoom-step="0.25">
+						<div class="card-body">
+							<h6 class="card-title">High-Zoom Art</h6>
+							<p class="card-text text-muted">Zoomable artwork (4x max)</p>
+							<span class="badge bg-info">High Zoom</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="section-divider"></div>
+		<!-- Thumbnails Gallery -->
+		<div class="mb-5">
+			<h2 class="mb-3">
+				<i class="bi bi-grid me-2"></i>Gallery with Thumbnails <small class="text-muted fs-6">(with thumbnail
+					strip)</small>
+			</h2>
+			<p class="text-muted mb-4"> This gallery shows thumbnails at the bottom for quick navigation between images. </p>
+			<div class="row g-4">
+				<div class="col-lg-4 col-md-6">
+					<img src="https://picsum.photos/700/500?random=20" alt="Thumbnail Gallery 1"
+						class="img-fluid demo-image w-100" data-lightbox="thumbnail-gallery" data-lightbox-thumbnails="true"
+						data-lightbox-caption="First image with thumbnail navigation">
+				</div>
+				<div class="col-lg-4 col-md-6">
+					<img src="https://picsum.photos/700/500?random=21" alt="Thumbnail Gallery 2"
+						class="img-fluid demo-image w-100" data-lightbox="thumbnail-gallery" data-lightbox-thumbnails="true"
+						data-lightbox-caption="Second image showing thumbnail strip">
+				</div>
+				<div class="col-lg-4 col-md-6">
+					<img src="https://picsum.photos/700/500?random=22" alt="Thumbnail Gallery 3"
+						class="img-fluid demo-image w-100" data-lightbox="thumbnail-gallery" data-lightbox-thumbnails="true"
+						data-lightbox-caption="Third image with easy thumbnail access">
+				</div>
+				<div class="col-lg-4 col-md-6">
+					<img src="https://picsum.photos/700/500?random=23" alt="Thumbnail Gallery 4"
+						class="img-fluid demo-image w-100" data-lightbox="thumbnail-gallery" data-lightbox-thumbnails="true"
+						data-lightbox-caption="Fourth image demonstrating gallery navigation">
+				</div>
+			</div>
+		</div>
+		<!-- Features Information -->
+		<div class="row mt-5">
+			<div class="col-lg-6">
+				<div class="feature-list">
+					<h5 class="mb-3"><i class="bi bi-check2-circle me-2"></i>Features Demonstrated</h5>
+					<ul class="list-unstyled">
+						<li class="mb-2"><i class="bi bi-arrow-left-right me-2 text-primary"></i>Keyboard navigation (← →)</li>
+						<li class="mb-2"><i class="bi bi-zoom-in me-2 text-primary"></i>Zoom functionality (mouse wheel, +/-)</li>
+						<li class="mb-2"><i class="bi bi-phone me-2 text-primary"></i>Touch gestures (swipe, pinch)</li>
+						<li class="mb-2"><i class="bi bi-images me-2 text-primary"></i>Gallery grouping</li>
+						<li class="mb-2"><i class="bi bi-grid-3x3 me-2 text-primary"></i>Thumbnail navigation</li>
+						<li class="mb-2"><i class="bi bi-chat-square-text me-2 text-primary"></i>Image captions</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="feature-list">
+					<h5 class="mb-3"><i class="bi bi-keyboard me-2"></i>Keyboard Controls</h5>
+					<div class="row">
+						<div class="col-6">
+							<ul class="list-unstyled">
+								<li class="mb-2"><kbd>←</kbd> <kbd>→</kbd> Navigate</li>
+								<li class="mb-2"><kbd>Esc</kbd> Close</li>
+								<li class="mb-2"><kbd>+</kbd> Zoom in</li>
+							</ul>
+						</div>
+						<div class="col-6">
+							<ul class="list-unstyled">
+								<li class="mb-2"><kbd>-</kbd> Zoom out</li>
+								<li class="mb-2"><kbd>0</kbd> Reset zoom</li>
+								<li class="mb-2"><kbd>Click</kbd> Toggle zoom</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Bootstrap 5.3.7 JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- ImageLightbox JS -->
+	<script src="js/ImageLightbox.js"></script>
+	<!-- Inline JavaScript for Simple Example -->
+	<script>
+		// Global lightbox instance
+		let lightbox;
+
+		// Initialize when DOM is ready
+		document.addEventListener('DOMContentLoaded', function () {
+			console.log('Initializing SimpleExample ImageLightbox...');
+
+			try {
+				// Initialize ImageLightbox with comprehensive options
+				lightbox = new ImageLightbox({
+					// Core functionality
+					navigation: true,
+					thumbnails: false, // Will be overridden by data attributes
+					zoom: true,
+					slideshow: false,
+					keyboard: true,
+					touchGestures: true,
+					showCounter: true,
+					captions: true,
+
+					// Zoom settings
+					zoomLevel: 1,
+					maxZoom: 3,
+					zoomStep: 0.5,
+
+					// Slideshow settings
+					slideshowSpeed: 3000,
+
+					// Animation settings
+					animationType: 'fade',
+
+					// Styling
+					overlayColor: 'rgba(0, 0, 0, 0.9)',
+
+					// Event callbacks
+					onOpen: function (image, index) {
+						console.log('✅ Lightbox opened:', image.src, 'Index:', index);
+						showNotification('Lightbox opened', `Viewing image ${index + 1}`, 'success');
+					},
+
+					onClose: function () {
+						console.log('Lightbox closed');
+						showNotification('Lightbox closed', 'Thanks for viewing!', 'info');
+					},
+
+					onNavigate: function (image, index) {
+						console.log('Navigated to image:', index + 1);
+					},
+
+					onZoom: function (zoomLevel) {
+						console.log('Zoom level:', zoomLevel);
+						if (zoomLevel > 2) {
+							showNotification('High zoom', `Zoom: ${zoomLevel.toFixed(1)}x`, 'warning');
+						}
+					}
+				});
+
+				console.log('✅ ImageLightbox initialized successfully');
+
+				// Count and log available images
+				const galleryImages = document.querySelectorAll('[data-lightbox="main-gallery"]');
+				const singleImages = document.querySelectorAll('[data-lightbox^="single-"]');
+				const thumbImages = document.querySelectorAll('[data-lightbox="thumbnail-gallery"]');
+
+				console.log(`Found ${galleryImages.length} gallery images`);
+				console.log(`Found ${singleImages.length} single images`);
+				console.log(`Found ${thumbImages.length} thumbnail gallery images`);
+
+			} catch (error) {
+				console.error('❌ Error initializing ImageLightbox:', error);
+				showNotification('Error', 'Failed to initialize lightbox', 'error');
+			}
+		});
+
+		/**
+		 * Programmatically open the main gallery at the second image
+		 */
+		function openGallery() {
+			if (lightbox) {
+				console.log('Opening gallery programmatically...');
+				lightbox.open('[data-lightbox="main-gallery"]', 1); // Start at second image (index 1)
+			} else {
+				console.error('Lightbox not initialized');
+				showNotification('Error', 'Lightbox not ready', 'error');
+			}
+		}
+
+		/**
+		 * Programmatically open a single image
+		 */
+		function openSingle() {
+			if (lightbox) {
+				console.log('Opening single image programmatically...');
+				lightbox.open('[data-lightbox="single-portrait"]', 0);
+			} else {
+				console.error('Lightbox not initialized');
+				showNotification('Error', 'Lightbox not ready', 'error');
+			}
+		}
+
+		/**
+		 * Show a simple notification toast
+		 */
+		function showNotification(title, message, type = 'info') {
+			// Create toast container if needed
+			let container = document.getElementById('toast-container');
+			if (!container) {
+				container = document.createElement('div');
+				container.id = 'toast-container';
+				container.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+				container.style.zIndex = '9999';
+				document.body.appendChild(container);
+			}
+
+			// Color mapping
+			const colors = {
+				success: 'bg-success',
+				error: 'bg-danger',
+				warning: 'bg-warning',
+				info: 'bg-primary'
+			};
+
+			// Create toast
+			const toastId = 'toast-' + Date.now();
+			const toast = document.createElement('div');
+			toast.id = toastId;
+			toast.className = `toast align-items-center text-white ${colors[type] || colors.info} border-0`;
+			toast.setAttribute('role', 'alert');
+
+			toast.innerHTML = `
+				<div class="d-flex">
+					<div class="toast-body">
+						<strong>${title}</strong><br>
+						${message}
+					</div>
+					<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+				</div>
+			`;
+
+			container.appendChild(toast);
+
+			// Initialize and show
+			const bsToast = new bootstrap.Toast(toast, {
+				autohide: true,
+				delay: 3000
+			});
+
+			bsToast.show();
+
+			// Cleanup after hidden
+			toast.addEventListener('hidden.bs.toast', () => {
+				toast.remove();
+			});
+		}
+
+		// Add some helpful console messages
+		console.log('SimpleExample loaded. Available functions:');
+		console.log('- openGallery() - Opens main gallery at 2nd image');
+		console.log('- openSingle() - Opens single portrait image');
+		console.log('- showNotification(title, message, type) - Shows toast notification');
+
+		// Global error handler for debugging
+		window.addEventListener('error', function (e) {
+			console.error('Global error:', e.message, e.filename, e.lineno);
+			showNotification('JavaScript Error', e.message, 'error');
+		});
+	</script>
+</body>
+</html>

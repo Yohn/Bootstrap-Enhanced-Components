@@ -458,6 +458,74 @@ const lightbox = new ImageLightbox({
 	<script src="js/ImageLightbox.js"></script>
 
 	<!-- Example JavaScript -->
-	<script src="ExampleJS/example.js"></script>
+	 <script>
+		/**
+ * Debug version of ImageLightbox to troubleshoot initialization issues
+ */
+
+// First, let's check if everything is loading properly
+document.addEventListener('DOMContentLoaded', function() {
+	console.log('DOM loaded, checking ImageLightbox...');
+
+	// Check if Bootstrap is loaded
+	if (typeof bootstrap === 'undefined') {
+		console.error('Bootstrap is not loaded!');
+		return;
+	} else {
+		console.log('Bootstrap loaded successfully');
+	}
+
+	// Check if ImageLightbox class exists
+	if (typeof ImageLightbox === 'undefined') {
+		console.error('ImageLightbox class is not loaded!');
+		return;
+	} else {
+		console.log('ImageLightbox class loaded successfully');
+	}
+
+	// Find lightbox images
+	const lightboxImages = document.querySelectorAll('[data-lightbox]');
+	console.log('Found lightbox images:', lightboxImages.length);
+
+	// Initialize with debug logging
+	try {
+		const lightbox = new ImageLightbox({
+			onOpen: function(image, index) {
+				console.log('✅ Lightbox opened successfully!', image.src);
+			},
+			onClose: function() {
+				console.log('Lightbox closed');
+			}
+		});
+		console.log('✅ ImageLightbox initialized successfully');
+
+		// Test direct click binding
+		lightboxImages.forEach((img, index) => {
+			console.log(`Image ${index + 1}:`, img.src, 'Group:', img.dataset.lightbox);
+
+			// Add manual click listener for debugging
+			img.addEventListener('click', function(e) {
+				console.log('Image clicked:', this.src);
+				console.log('Event:', e);
+			});
+		});
+
+	} catch (error) {
+		console.error('❌ Error initializing ImageLightbox:', error);
+	}
+});
+
+// Simple test function to manually trigger lightbox
+function testLightbox() {
+	const firstImage = document.querySelector('[data-lightbox]');
+	if (firstImage) {
+		console.log('Testing lightbox with first image:', firstImage.src);
+		firstImage.click();
+	} else {
+		console.log('No lightbox images found');
+	}
+}
+	 </script>
+<!--	<script src="ExampleJS/example.js"></script>-->
 </body>
 </html>

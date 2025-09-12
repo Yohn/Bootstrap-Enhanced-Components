@@ -57,6 +57,7 @@ class InputMask {
 		this.caretPos = 0;
 		this.isComplete = false;
 		this.isRTL = false;
+		this.isProcessingInput = false; // Add flag to prevent input loops
 
 		this.init();
 	}
@@ -124,7 +125,16 @@ class InputMask {
 	handleFocus(e) {
 		if (this.options.showMaskOnFocus && !this.element.value) {
 			this.element.value = this.buffer.join('');
-			this.setCaret(this.getFirstMaskPos());
+			this.setCaret(this.getFirstInputPos());
+		} else if (!this.element.value.trim()) {
+			// If empty, position at first input position
+			this.setCaret(this.getFirstInputPos());
+		} else {
+			// If has value, position at first empty input position
+			const nextEmptyPos = this.findNextInputPosition(0);
+			if (nextEmptyPos !== null) {
+				this.setCaret(nextEmptyPos);
+			}
 		}
 
 		this.focusText = this.element.value;
@@ -174,8 +184,21 @@ class InputMask {
 		const pos = this.getCaret();
 
 		if (char.length === 1 && this.isValidInput(char, pos)) {
-			this.writeBuffer(pos, char);
-			this.updateValue();
+			e.preventDefault(); // Prevent default input handling
+
+			const actualPos = this.writeBuffer(pos, char);
+			if (actualPos !== false) {
+				this.updateValue();
+
+				// Move cursor to next valid position after the character was written
+				const nextPos = this.getNextWritablePos(actualPos);
+				if (nextPos !== null) {
+					this.setCaret(nextPos);
+				} else {
+					// If no next position, move to end
+					this.setCaret(this.buffer.length);
+				}
+			}
 		} else {
 			e.preventDefault();
 		}
@@ -186,8 +209,49 @@ class InputMask {
 	}
 
 	handleInput(e) {
+		// Prevent infinite loops by checking if we're already processing
+		if (this.isProcessingInput) {
+			return;
+		}
+
+		this.isProcessingInput = true;
+
+		// Store current cursor position
+		const currentPos = this.getCaret();
+
 		// Handle programmatic value changes
 		this.processInput();
+		this.checkComplete();
+
+		// Find appropriate cursor position after processing
+		let newPos = currentPos;
+
+		// If we're at a literal position, move to next input position
+		if (this.isLiteralPos(currentPos)) {
+			newPos = this.getNextWritablePos(currentPos);
+		}
+
+		// If no valid position found, try to find next empty input position
+		if (newPos === null) {
+			newPos = this.findNextInputPosition(0);
+		}
+
+		// If still no position, go to end
+		if (newPos === null) {
+			newPos = this.buffer.length;
+		}
+
+		// Update the display value and position cursor
+		const newValue = this.buffer.join('');
+		if (this.element.value !== newValue) {
+			this.element.value = newValue;
+			setTimeout(() => {
+				this.setCaret(newPos);
+				this.isProcessingInput = false;
+			}, 0);
+		} else {
+			this.isProcessingInput = false;
+		}
 
 		if (this.options.onInput) {
 			this.options.onInput.call(this, e);
@@ -215,15 +279,35 @@ class InputMask {
 	handleDelete(e, pos, isBackspace) {
 		e.preventDefault();
 
-		if (isBackspace && pos > 0) {
-			pos--;
+		let targetPos = pos;
+
+		if (isBackspace) {
+			// For backspace, find the previous input position to delete
+			targetPos = this.getPrevWritablePos(pos);
+			if (targetPos === null) return; // No previous input position
+		} else {
+			// For delete, find the current or next input position
+			if (this.isLiteralPos(pos)) {
+				targetPos = this.getNextWritablePos(pos);
+				if (targetPos === null) return; // No next input position
+			}
 		}
 
-		const maskPos = this.getMaskPos(pos);
-		if (maskPos !== null) {
-			this.buffer[maskPos] = this.options.placeholder;
-			this.updateValue();
-			this.setCaret(isBackspace ? pos : pos + 1);
+		// Make sure we're targeting an input position, not a literal
+		if (!this.isLiteralPos(targetPos)) {
+			const patternChar = this.options.pattern.charAt(targetPos);
+			if (this.patternDefinitions[patternChar]) {
+				this.buffer[targetPos] = this.options.placeholder;
+				this.updateValue();
+
+				// Position cursor appropriately
+				if (isBackspace) {
+					this.setCaret(targetPos);
+				} else {
+					// For delete key, stay at current position
+					this.setCaret(pos);
+				}
+			}
 		}
 	}
 
@@ -234,10 +318,12 @@ class InputMask {
 	}
 
 	isValidInput(char, pos) {
-		const maskPos = this.getMaskPos(pos);
-		if (maskPos === null) return false;
+		// Skip to next input position if current position is a literal
+		const inputPos = this.skipLiterals(pos);
+		if (inputPos === null) return false;
 
-		const pattern = this.getPatternAt(maskPos);
+		const patternChar = this.options.pattern.charAt(inputPos);
+		const pattern = this.patternDefinitions[patternChar];
 		if (!pattern) return false;
 
 		const regex = new RegExp(pattern.validator);
@@ -254,10 +340,12 @@ class InputMask {
 	}
 
 	writeBuffer(pos, char) {
-		const maskPos = this.getMaskPos(pos);
-		if (maskPos === null) return false;
+		// Skip to next input position if current position is a literal
+		const inputPos = this.skipLiterals(pos);
+		if (inputPos === null) return false;
 
-		const pattern = this.getPatternAt(maskPos);
+		const patternChar = this.options.pattern.charAt(inputPos);
+		const pattern = this.patternDefinitions[patternChar];
 		if (!pattern) return false;
 
 		// Apply casing
@@ -267,8 +355,8 @@ class InputMask {
 			char = char.toLowerCase();
 		}
 
-		this.buffer[maskPos] = char;
-		return true;
+		this.buffer[inputPos] = char;
+		return inputPos; // Return the actual position where character was written
 	}
 
 	writeString(pos, str) {
@@ -289,22 +377,61 @@ class InputMask {
 		const value = this.element.value;
 		this.resetBuffer();
 
-		let bufferPos = 0;
-		for (let i = 0; i < value.length && bufferPos < this.buffer.length; i++) {
-			const char = value.charAt(i);
-			const nextMaskPos = this.getNextMaskPos(bufferPos - 1);
+		let valueIndex = 0;
+		let bufferIndex = 0;
 
-			if (nextMaskPos !== null && this.isValidInput(char, nextMaskPos)) {
-				this.writeBuffer(nextMaskPos, char);
-				bufferPos = nextMaskPos + 1;
+		// Process each character in the input value
+		while (valueIndex < value.length && bufferIndex < this.buffer.length) {
+			const char = value.charAt(valueIndex);
+			const patternChar = this.options.pattern.charAt(bufferIndex);
+
+			if (this.patternDefinitions[patternChar]) {
+				// This is an input position
+				const pattern = this.patternDefinitions[patternChar];
+				const regex = new RegExp(pattern.validator);
+				let testChar = char;
+
+				// Apply casing
+				if (pattern.casing === 'upper') {
+					testChar = char.toUpperCase();
+				} else if (pattern.casing === 'lower') {
+					testChar = char.toLowerCase();
+				}
+
+				if (regex.test(testChar)) {
+					this.buffer[bufferIndex] = testChar;
+					valueIndex++;
+				}
+				bufferIndex++;
+			} else {
+				// This is a literal character in the mask
+				if (char === patternChar) {
+					// Skip matching literal characters in input
+					valueIndex++;
+				}
+				bufferIndex++;
 			}
 		}
 	}
 
 	updateValue() {
+		const currentPos = this.getCaret();
 		const newValue = this.buffer.join('');
-		this.element.value = newValue;
+
+		// Only update if value actually changed
+		if (this.element.value !== newValue) {
+			this.element.value = newValue;
+		}
+
 		this.checkComplete();
+
+		// Restore cursor position if we're not actively processing input
+		if (!this.isProcessingInput) {
+			const nextPos = this.findNextInputPosition(currentPos);
+			if (nextPos !== null) {
+				this.setCaret(nextPos);
+			}
+		}
 	}
 
 	getMaskPos(pos) {
@@ -366,8 +493,147 @@ class InputMask {
 
 	setCaret(pos) {
 		if (this.element.setSelectionRange) {
-			this.element.setSelectionRange(pos, pos);
+			// Use setTimeout to ensure DOM updates are complete
+			setTimeout(() => {
+				this.element.setSelectionRange(pos, pos);
+			}, 0);
 		}
+	}
+
+	/**
+	 * Convert visual cursor position to buffer position
+	 */
+	visualToBufferPos(visualPos) {
+		let bufferPos = 0;
+		let currentVisualPos = 0;
+
+		while (bufferPos < this.buffer.length && currentVisualPos < visualPos) {
+			currentVisualPos++;
+			bufferPos++;
+		}
+
+		// Find the next pattern position from this buffer position
+		while (bufferPos < this.buffer.length &&
+			   !this.patternDefinitions[this.options.pattern.charAt(bufferPos)]) {
+			bufferPos++;
+		}
+
+		return bufferPos < this.buffer.length ? bufferPos : null;
+	}
+
+	/**
+	 * Get the next writable position after the current position
+	 */
+	/**
+	 * Convert visual cursor position to buffer position
+	 */
+	visualToBufferPos(visualPos) {
+		// Visual position directly corresponds to buffer position
+		// since buffer includes both literals and placeholders
+		if (visualPos >= 0 && visualPos < this.buffer.length) {
+			return visualPos;
+		}
+		return null;
+	}
+
+	/**
+	 * Get the next writable position after the current position
+	 */
+	getNextWritablePos(currentPos) {
+		// Start from the position after current
+		for (let pos = currentPos + 1; pos < this.buffer.length; pos++) {
+			// Check if this position corresponds to a pattern character (not literal)
+			const patternChar = this.options.pattern.charAt(pos);
+			if (this.patternDefinitions[patternChar]) {
+				return pos;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Get the previous writable position before the current position
+	 */
+	getPrevWritablePos(currentPos) {
+		// Start from the position before current
+		for (let pos = currentPos - 1; pos >= 0; pos--) {
+			// Check if this position corresponds to a pattern character (not literal)
+			const patternChar = this.options.pattern.charAt(pos);
+			if (this.patternDefinitions[patternChar]) {
+				return pos;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Find the next appropriate input position
+	 */
+	findNextInputPosition(currentPos) {
+		// First, try to find the next placeholder position from current position
+		for (let i = currentPos; i < this.buffer.length; i++) {
+			const patternChar = this.options.pattern.charAt(i);
+			if (this.patternDefinitions[patternChar] && this.buffer[i] === this.options.placeholder) {
+				return i;
+			}
+		}
+
+		// If no placeholder found, find the next writable position
+		const nextWritable = this.getNextWritablePos(currentPos);
+		if (nextWritable !== null) {
+			return nextWritable;
+		}
+
+		// If no writable position found, position at end
+		return this.buffer.length;
+	}
+
+	/**
+	 * Get the first input position in the mask
+	 */
+	getFirstInputPos() {
+		for (let i = 0; i < this.options.pattern.length; i++) {
+			if (this.patternDefinitions[this.options.pattern.charAt(i)]) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	/**
+	 * Check if a position is a literal character in the pattern
+	 */
+	isLiteralPos(pos) {
+		if (pos < 0 || pos >= this.options.pattern.length) {
+			return false;
+		}
+		const patternChar = this.options.pattern.charAt(pos);
+		return !this.patternDefinitions[patternChar];
+	}
+
+	/**
+	 * Skip literal characters and move to next input position
+	 */
+	skipLiterals(pos) {
+		while (pos < this.buffer.length && this.isLiteralPos(pos)) {
+			pos++;
+		}
+		return pos < this.buffer.length ? pos : null;
+	}
+
+	/**
+	 * Find the next appropriate input position
+	 */
+	findNextInputPosition(currentPos) {
+		// Look for the next placeholder position
+		for (let i = currentPos; i < this.buffer.length; i++) {
+			if (this.buffer[i] === this.options.placeholder) {
+				return i;
+			}
+		}
+
+		// If no placeholder found, go to the end
+		return this.buffer.length;
 	}
 
 	checkComplete() {
