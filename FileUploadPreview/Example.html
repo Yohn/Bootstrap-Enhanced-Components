@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>File Upload Preview - Bootstrap 5.3 Enhancement</title>
+
+	<!-- Bootstrap 5.3.7 CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Bootstrap Icons -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+	<!-- Custom SCSS (compiled to CSS) -->
+	<style>
+		/* Inline styles for demo - in production, compile SCSS to separate CSS file */
+		:root {
+			--fup-border-radius: var(--bs-border-radius);
+			--fup-border-color: var(--bs-border-color);
+			--fup-bg-color: var(--bs-body-bg);
+			--fup-text-color: var(--bs-body-color);
+			--fup-card-border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+			--fup-card-border-radius: var(--bs-card-border-radius);
+			--fup-card-bg: var(--bs-card-bg);
+			--fup-card-shadow: var(--bs-box-shadow-sm);
+			--fup-card-hover-shadow: var(--bs-box-shadow);
+			--fup-card-hover-border-color: var(--bs-primary);
+			--fup-card-focus-box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+			--fup-preview-size-sm: 100px;
+			--fup-preview-size-md: 150px;
+			--fup-preview-size-lg: 200px;
+			--fup-preview-size-xl: 300px;
+			--fup-spacing-xs: 0.25rem;
+			--fup-spacing-sm: 0.5rem;
+			--fup-spacing-md: 1rem;
+			--fup-spacing-lg: 1.5rem;
+			--fup-transition: all 0.15s ease-in-out;
+			--fup-animation-duration: 0.3s;
+		}
+
+		.file-upload-preview-container .alert ul {
+			padding-left: var(--fup-spacing-md);
+		}
+
+		.file-upload-preview-card {
+			border: var(--fup-card-border);
+			border-radius: var(--fup-card-border-radius);
+			background-color: var(--fup-card-bg);
+			box-shadow: var(--fup-card-shadow);
+			transition: var(--fup-transition);
+			overflow: hidden;
+			position: relative;
+		}
+
+		.file-upload-preview-card:hover {
+			box-shadow: var(--fup-card-hover-shadow);
+			border-color: var(--fup-card-hover-border-color);
+			transform: translateY(-2px);
+		}
+
+		.file-upload-preview-card:focus-within {
+			box-shadow: var(--fup-card-focus-box-shadow);
+			border-color: var(--fup-card-hover-border-color);
+		}
+
+		.file-upload-list .list-group-item {
+			border-left: 4px solid transparent;
+			transition: var(--fup-transition);
+		}
+
+		.file-upload-list .list-group-item:hover {
+			border-left-color: var(--bs-primary);
+			background-color: var(--bs-gray-900);
+		}
+
+		.video-play-overlay .play-button {
+			width: 3rem;
+			height: 3rem;
+			background: rgba(0, 0, 0, 0.7);
+			border-radius: 50%;
+			transition: var(--fup-transition);
+		}
+
+		@keyframes fadeIn {
+			from { opacity: 0; transform: translateY(10px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
+		.fade-in {
+			animation: fadeIn var(--fup-animation-duration) ease-out;
+		}
+	</style>
+</head>
+<body>
+	<div class="container-fluid py-4">
+		<div class="row">
+			<div class="col-12">
+				<!-- Header -->
+				<div class="text-center mb-5">
+					<h1 class="display-4 mb-3">
+						<i class="bi bi-cloud-upload text-primary"></i>
+						File Upload Preview
+					</h1>
+					<p class="lead">Enhanced file upload component for Bootstrap 5.3</p>
+					<div class="d-flex justify-content-center gap-2">
+						<button class="btn btn-outline-light btn-sm" onclick="toggleTheme()">
+							<i class="bi bi-moon"></i> Toggle Theme
+						</button>
+						<button class="btn btn-outline-primary btn-sm" onclick="showInfo()">
+							<i class="bi bi-info-circle"></i> Info
+						</button>
+					</div>
+				</div>
+
+				<!-- Examples -->
+				<div class="row g-4">
+					<!-- Image Gallery Example -->
+					<div class="col-lg-6">
+						<div class="card h-100">
+							<div class="card-header">
+								<h5 class="card-title mb-0">
+									<i class="bi bi-images text-success"></i>
+									Image Gallery
+								</h5>
+								<small class="text-muted">Preview mode with image thumbnails</small>
+							</div>
+							<div class="card-body">
+								<div class="mb-3">
+									<label for="imageInput" class="form-label">
+										Select Images
+										<span class="badge bg-secondary ms-1">JPG, PNG, GIF, WebP</span>
+									</label>
+									<input type="file"
+										   class="form-control"
+										   id="imageInput"
+										   multiple
+										   accept="image/*">
+								</div>
+								<!-- Preview container will be inserted here -->
+							</div>
+						</div>
+					</div>
+
+					<!-- Document Upload Example -->
+					<div class="col-lg-6">
+						<div class="card h-100">
+							<div class="card-header">
+								<h5 class="card-title mb-0">
+									<i class="bi bi-file-earmark-text text-info"></i>
+									Document Upload
+								</h5>
+								<small class="text-muted">List mode with file details</small>
+							</div>
+							<div class="card-body">
+								<div class="mb-3">
+									<label for="documentInput" class="form-label">
+										Select Documents
+										<span class="badge bg-secondary ms-1">PDF, DOC, XLS, PPT</span>
+									</label>
+									<input type="file"
+										   class="form-control"
+										   id="documentInput"
+										   multiple
+										   accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx">
+								</div>
+								<!-- Preview container will be inserted here -->
+							</div>
+						</div>
+					</div>
+
+					<!-- Video Upload Example -->
+					<div class="col-lg-6">
+						<div class="card h-100">
+							<div class="card-header">
+								<h5 class="card-title mb-0">
+									<i class="bi bi-camera-video text-primary"></i>
+									Video Upload
+								</h5>
+								<small class="text-muted">Video thumbnails with play overlay</small>
+							</div>
+							<div class="card-body">
+								<div class="mb-3">
+									<label for="videoInput" class="form-label">
+										Select Videos
+										<span class="badge bg-secondary ms-1">MP4, WebM, MOV</span>
+									</label>
+									<input type="file"
+										   class="form-control"
+										   id="videoInput"
+										   multiple
+										   accept="video/*">
+								</div>
+								<!-- Preview container will be inserted here -->
+							</div>
+						</div>
+					</div>
+
+					<!-- Mixed Media Example -->
+					<div class="col-lg-6">
+						<div class="card h-100">
+							<div class="card-header">
+								<h5 class="card-title mb-0">
+									<i class="bi bi-collection text-warning"></i>
+									Mixed Media
+								</h5>
+								<small class="text-muted">All file types with size restrictions</small>
+							</div>
+							<div class="card-body">
+								<div class="mb-3">
+									<label for="mixedInput" class="form-label">
+										Select Any Files
+										<span class="badge bg-warning text-dark ms-1">Max 5MB each</span>
+									</label>
+									<input type="file"
+										   class="form-control"
+										   id="mixedInput"
+										   multiple>
+								</div>
+								<!-- Preview container will be inserted here -->
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Configuration Panel -->
+				<div class="row mt-4">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-header">
+								<h5 class="card-title mb-0">
+									<i class="bi bi-gear text-secondary"></i>
+									Live Configuration
+								</h5>
+							</div>
+							<div class="card-body">
+								<div class="row g-3">
+									<div class="col-md-3">
+										<label class="form-label">Display Mode</label>
+										<select class="form-select" id="displayModeSelect">
+											<option value="preview">Preview</option>
+											<option value="list">List</option>
+										</select>
+									</div>
+									<div class="col-md-3">
+										<label class="form-label">Preview Size</label>
+										<select class="form-select" id="previewSizeSelect">
+											<option value="100">Small (100px)</option>
+											<option value="150" selected>Medium (150px)</option>
+											<option value="200">Large (200px)</option>
+											<option value="300">X-Large (300px)</option>
+										</select>
+									</div>
+									<div class="col-md-3">
+										<label class="form-label">Max File Size</label>
+										<select class="form-select" id="maxSizeSelect">
+											<option value="">No Limit</option>
+											<option value="1048576">1 MB</option>
+											<option value="5242880" selected>5 MB</option>
+											<option value="10485760">10 MB</option>
+											<option value="52428800">50 MB</option>
+										</select>
+									</div>
+									<div class="col-md-3">
+										<label class="form-label">Actions</label>
+										<div class="d-grid">
+											<button class="btn btn-outline-danger" onclick="clearAllFiles()">
+												<i class="bi bi-trash"></i> Clear All
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="row g-3 mt-2">
+									<div class="col-12">
+										<div class="form-check form-switch d-inline-block me-3">
+											<input class="form-check-input" type="checkbox" id="showFileSize" checked>
+											<label class="form-check-label" for="showFileSize">Show File Size</label>
+										</div>
+										<div class="form-check form-switch d-inline-block me-3">
+											<input class="form-check-input" type="checkbox" id="showFileType" checked>
+											<label class="form-check-label" for="showFileType">Show File Type</label>
+										</div>
+										<div class="form-check form-switch d-inline-block me-3">
+											<input class="form-check-input" type="checkbox" id="generateVideoThumbnails" checked>
+											<label class="form-check-label" for="generateVideoThumbnails">Video Thumbnails</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Statistics -->
+				<div class="row mt-4">
+					<div class="col-12">
+						<div class="card bg-dark">
+							<div class="card-body">
+								<h6 class="card-title">
+									<i class="bi bi-graph-up text-primary"></i>
+									Upload Statistics
+								</h6>
+								<div class="row text-center">
+									<div class="col-6 col-md-3">
+										<div class="h4 text-success" id="totalFiles">0</div>
+										<small class="text-muted">Total Files</small>
+									</div>
+									<div class="col-6 col-md-3">
+										<div class="h4 text-info" id="totalSize">0 B</div>
+										<small class="text-muted">Total Size</small>
+									</div>
+									<div class="col-6 col-md-3">
+										<div class="h4 text-warning" id="imageCount">0</div>
+										<small class="text-muted">Images</small>
+									</div>
+									<div class="col-6 col-md-3">
+										<div class="h4 text-danger" id="videoCount">0</div>
+										<small class="text-muted">Videos</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Info Modal -->
+	<div class="modal fade" id="infoModal" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">
+						<i class="bi bi-info-circle text-primary"></i>
+						File Upload Preview Features
+					</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row g-4">
+						<div class="col-md-6">
+							<h6><i class="bi bi-eye text-success"></i> Visual Previews</h6>
+							<ul class="list-unstyled ms-3">
+								<li>• Image thumbnails with optimization</li>
+								<li>• Video thumbnails with play overlay</li>
+								<li>• File type icons for documents</li>
+								<li>• Responsive grid and list layouts</li>
+							</ul>
+						</div>
+						<div class="col-md-6">
+							<h6><i class="bi bi-shield-check text-info"></i> Validation</h6>
+							<ul class="list-unstyled ms-3">
+								<li>• File type restrictions</li>
+								<li>• File size limitations</li>
+								<li>• Maximum file count</li>
+								<li>• Custom validation rules</li>
+							</ul>
+						</div>
+						<div class="col-md-6">
+							<h6><i class="bi bi-gear text-warning"></i> Customization</h6>
+							<ul class="list-unstyled ms-3">
+								<li>• JSON configuration</li>
+								<li>• Custom CSS variables</li>
+								<li>• Callback functions</li>
+								<li>• Theme support</li>
+							</ul>
+						</div>
+						<div class="col-md-6">
+							<h6><i class="bi bi-universal-access text-primary"></i> Accessibility</h6>
+							<ul class="list-unstyled ms-3">
+								<li>• ARIA labels and roles</li>
+								<li>• Keyboard navigation</li>
+								<li>• Screen reader support</li>
+								<li>• High contrast mode</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap 5.3.7 JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- File Upload Preview Components -->
+	<script src="js/FileValidator.js"></script>
+	<script src="js/PreviewManager.js"></script>
+	<script src="js/FileUploadPreview.js"></script>
+
+	<!-- Example JavaScript -->
+	<script src="ExampleJS/demo.js"></script>
+</body>
+</html>

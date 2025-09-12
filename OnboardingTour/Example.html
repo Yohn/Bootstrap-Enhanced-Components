@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Onboarding Tour Example - Bootstrap 5.3</title>
+
+	<!-- Bootstrap 5.3.7 CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Tour Feature CSS -->
+	<link href="scss/tour.css" rel="stylesheet">
+
+	<style>
+		/* Additional example styles */
+		.hero-section {
+			background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-info) 100%);
+			color: white;
+			padding: 4rem 0;
+		}
+
+		.feature-card {
+			transition: transform 0.2s ease;
+		}
+
+		.feature-card:hover {
+			transform: translateY(-5px);
+		}
+
+		.demo-form {
+			background: var(--bs-body-bg);
+			border-radius: var(--bs-border-radius-lg);
+			padding: 2rem;
+			margin: 2rem 0;
+		}
+
+		.navbar-brand {
+			font-weight: 700;
+		}
+
+		.stats-card {
+			background: linear-gradient(45deg, var(--bs-success), var(--bs-info));
+			color: white;
+			border-radius: var(--bs-border-radius-lg);
+		}
+	</style>
+</head>
+<body>
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="main-navigation">
+		<div class="container">
+			<a class="navbar-brand" href="#" id="logo">TourDemo</a>
+
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav me-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="#features" id="features-link">Features</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#dashboard" id="dashboard-link">Dashboard</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#settings" id="settings-link">Settings</a>
+					</li>
+				</ul>
+
+				<div class="navbar-nav">
+					<div class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="user-menu" role="button" data-bs-toggle="dropdown">
+							<i class="bi bi-person-circle"></i> Profile
+						</a>
+						<ul class="dropdown-menu dropdown-menu-end">
+							<li><a class="dropdown-item" href="#" id="profile-settings">Profile Settings</a></li>
+							<li><a class="dropdown-item" href="#" id="account-settings">Account</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#" id="logout">Logout</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Hero Section -->
+	<section class="hero-section" id="hero">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-6">
+					<h1 class="display-4 fw-bold mb-4" id="welcome-title">Welcome to Our Platform!</h1>
+					<p class="lead mb-4">Experience our comprehensive onboarding tour that will guide you through all the amazing features.</p>
+					<button class="btn btn-light btn-lg me-3" id="start-tour-btn">Start Tour</button>
+					<button class="btn btn-outline-light btn-lg" id="skip-intro">Skip Introduction</button>
+				</div>
+				<div class="col-lg-6">
+					<div class="stats-card p-4 text-center">
+						<h3 class="mb-3" id="stats-title">Platform Stats</h3>
+						<div class="row">
+							<div class="col-4">
+								<div class="h2 mb-0">1M+</div>
+								<small>Users</small>
+							</div>
+							<div class="col-4">
+								<div class="h2 mb-0">50K+</div>
+								<small>Projects</small>
+							</div>
+							<div class="col-4">
+								<div class="h2 mb-0">99.9%</div>
+								<small>Uptime</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Features Section -->
+	<section class="py-5" id="features">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 text-center mb-5">
+					<h2 class="display-5 fw-bold" id="features-title">Platform Features</h2>
+					<p class="lead text-muted">Discover what makes our platform special</p>
+				</div>
+			</div>
+
+			<div class="row g-4">
+				<div class="col-md-4">
+					<div class="card feature-card h-100" id="feature-analytics">
+						<div class="card-body text-center">
+							<div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 3rem; height: 3rem;">
+								<i class="bi bi-graph-up"></i>
+							</div>
+							<h5 class="card-title">Analytics Dashboard</h5>
+							<p class="card-text">Get detailed insights into your data with our comprehensive analytics tools.</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="card feature-card h-100" id="feature-collaboration">
+						<div class="card-body text-center">
+							<div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 3rem; height: 3rem;">
+								<i class="bi bi-people"></i>
+							</div>
+							<h5 class="card-title">Team Collaboration</h5>
+							<p class="card-text">Work together seamlessly with advanced collaboration features.</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="card feature-card h-100" id="feature-security">
+						<div class="card-body text-center">
+							<div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 3rem; height: 3rem;">
+								<i class="bi bi-shield-check"></i>
+							</div>
+							<h5 class="card-title">Enterprise Security</h5>
+							<p class="card-text">Your data is protected with industry-leading security measures.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Demo Form Section -->
+	<section class="py-5 bg-light" id="form-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-8">
+					<div class="demo-form">
+						<h3 class="text-center mb-4" id="form-title">Complete Your Profile</h3>
+						<p class="text-center text-muted mb-4">Help us personalize your experience</p>
+
+						<form id="demo-form" class="needs-validation" novalidate>
+							<div class="row g-3">
+								<div class="col-md-6">
+									<label for="firstName" class="form-label">First Name *</label>
+									<input type="text" class="form-control" id="firstName" name="firstName" required>
+									<div class="invalid-feedback">Please provide your first name.</div>
+								</div>
+
+								<div class="col-md-6">
+									<label for="lastName" class="form-label">Last Name *</label>
+									<input type="text" class="form-control" id="lastName" name="lastName" required>
+									<div class="invalid-feedback">Please provide your last name.</div>
+								</div>
+
+								<div class="col-12">
+									<label for="email" class="form-label">Email Address *</label>
+									<input type="email" class="form-control" id="email" name="email" required>
+									<div class="invalid-feedback">Please provide a valid email address.</div>
+								</div>
+
+								<div class="col-12">
+									<label for="company" class="form-label">Company</label>
+									<input type="text" class="form-control" id="company" name="company">
+								</div>
+
+								<div class="col-md-6">
+									<label for="role" class="form-label">Your Role</label>
+									<select class="form-select" id="role" name="role">
+										<option value="">Select your role...</option>
+										<option value="developer">Developer</option>
+										<option value="designer">Designer</option>
+										<option value="manager">Manager</option>
+										<option value="analyst">Analyst</option>
+										<option value="other">Other</option>
+									</select>
+								</div>
+
+								<div class="col-md-6">
+									<label for="experience" class="form-label">Experience Level</label>
+									<select class="form-select" id="experience" name="experience">
+										<option value="">Select experience...</option>
+										<option value="beginner">Beginner</option>
+										<option value="intermediate">Intermediate</option>
+										<option value="advanced">Advanced</option>
+										<option value="expert">Expert</option>
+									</select>
+								</div>
+
+								<div class="col-12">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+										<label class="form-check-label" for="newsletter">
+											Subscribe to our newsletter for updates and tips
+										</label>
+									</div>
+								</div>
+
+								<div class="col-12 text-center">
+									<button type="submit" class="btn btn-primary btn-lg" id="submit-profile">Save Profile</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Dashboard Preview -->
+	<section class="py-5" id="dashboard">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 text-center mb-5">
+					<h2 class="display-5 fw-bold" id="dashboard-title">Your Dashboard</h2>
+					<p class="lead text-muted">Monitor your progress and manage your projects</p>
+				</div>
+			</div>
+
+			<div class="row g-4">
+				<div class="col-lg-3 col-md-6">
+					<div class="card bg-primary text-white" id="widget-projects">
+						<div class="card-body">
+							<div class="d-flex justify-content-between">
+								<div>
+									<h6 class="card-title">Active Projects</h6>
+									<h2 class="mb-0">12</h2>
+								</div>
+								<div class="align-self-center">
+									<i class="bi bi-folder2-open display-6"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-6">
+					<div class="card bg-success text-white" id="widget-tasks">
+						<div class="card-body">
+							<div class="d-flex justify-content-between">
+								<div>
+									<h6 class="card-title">Completed Tasks</h6>
+									<h2 class="mb-0">48</h2>
+								</div>
+								<div class="align-self-center">
+									<i class="bi bi-check-circle display-6"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-6">
+					<div class="card bg-warning text-white" id="widget-notifications">
+						<div class="card-body">
+							<div class="d-flex justify-content-between">
+								<div>
+									<h6 class="card-title">Notifications</h6>
+									<h2 class="mb-0">7</h2>
+								</div>
+								<div class="align-self-center">
+									<i class="bi bi-bell display-6"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-6">
+					<div class="card bg-info text-white" id="widget-messages">
+						<div class="card-body">
+							<div class="d-flex justify-content-between">
+								<div>
+									<h6 class="card-title">Messages</h6>
+									<h2 class="mb-0">3</h2>
+								</div>
+								<div class="align-self-center">
+									<i class="bi bi-chat-dots display-6"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row mt-4">
+				<div class="col-12">
+					<div class="card" id="quick-actions">
+						<div class="card-header">
+							<h5 class="card-title mb-0">Quick Actions</h5>
+						</div>
+						<div class="card-body">
+							<div class="row g-3">
+								<div class="col-md-3">
+									<button class="btn btn-outline-primary w-100" id="action-new-project">
+										<i class="bi bi-plus-circle me-2"></i>New Project
+									</button>
+								</div>
+								<div class="col-md-3">
+									<button class="btn btn-outline-success w-100" id="action-invite-team">
+										<i class="bi bi-person-plus me-2"></i>Invite Team
+									</button>
+								</div>
+								<div class="col-md-3">
+									<button class="btn btn-outline-info w-100" id="action-view-reports">
+										<i class="bi bi-graph-up me-2"></i>View Reports
+									</button>
+								</div>
+								<div class="col-md-3">
+									<button class="btn btn-outline-warning w-100" id="action-settings">
+										<i class="bi bi-gear me-2"></i>Settings
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer class="bg-dark text-light py-4">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<h5>TourDemo Platform</h5>
+					<p class="mb-0">Experience the power of guided onboarding</p>
+				</div>
+				<div class="col-md-6 text-md-end">
+					<button class="btn btn-outline-light btn-sm" id="restart-tour">Restart Tour</button>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<!-- Bootstrap 5.3.7 JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Bootstrap Icons -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+	<!-- Tour Feature JS -->
+	<script src="js/TourStep.js"></script>
+	<script src="js/TourStepHandler.js"></script>
+	<script src="js/TourManager.js"></script>
+
+	<!-- Example Implementation -->
+	<script src="ExampleJS/demo.js"></script>
+</body>
+</html>
+
+alpine meadow filled with wildflowers

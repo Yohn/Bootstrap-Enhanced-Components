@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MultiLevel Dropdown - Bootstrap 5.3 Example</title>
+
+	<!-- Bootstrap 5.3.7 CSS -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- MultiLevel Dropdown CSS -->
+	<style>
+		/* Inline styles for demo - normally you'd include the SCSS compiled CSS */
+		:root {
+			--multilevel-max-width: 300px;
+			--multilevel-min-width: 180px;
+			--multilevel-column-gap: 0.5rem;
+			--multilevel-item-padding-x: var(--bs-dropdown-item-padding-x, 1rem);
+			--multilevel-item-padding-y: var(--bs-dropdown-item-padding-y, 0.25rem);
+			--multilevel-border-radius: var(--bs-dropdown-border-radius, 0.375rem);
+			--multilevel-box-shadow: var(--bs-dropdown-box-shadow, 0 0.5rem 1rem rgba(0, 0, 0, 0.175));
+			--multilevel-bg: var(--bs-dropdown-bg, #fff);
+			--multilevel-border-color: var(--bs-dropdown-border-color, var(--bs-border-color-translucent));
+			--multilevel-animation-duration: 200ms;
+			--multilevel-animation-easing: ease-out;
+		}
+
+		[data-bs-theme="dark"] {
+			--multilevel-bg: var(--bs-dropdown-bg, #212529);
+			--multilevel-border-color: var(--bs-dropdown-border-color, var(--bs-border-color-translucent));
+		}
+
+		.multilevel-dropdown .dropdown-submenu {
+			position: relative;
+		}
+
+		.multilevel-dropdown .dropdown-submenu .dropdown-toggle {
+			position: relative;
+		}
+
+		.multilevel-dropdown .dropdown-submenu .dropdown-toggle::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			right: var(--multilevel-item-padding-x);
+			transform: translateY(-50%);
+			width: 0;
+			height: 0;
+			border-left: 0.3em solid currentColor;
+			border-top: 0.3em solid transparent;
+			border-bottom: 0.3em solid transparent;
+			margin-left: 0.5rem;
+		}
+
+		.multilevel-dropdown .dropdown-submenu .dropdown-toggle::before {
+			display: none;
+		}
+
+		.multilevel-dropdown .dropdown-submenu .dropdown-menu {
+			position: absolute;
+			top: 0;
+			left: 100%;
+			min-width: var(--multilevel-min-width);
+			max-width: var(--multilevel-max-width);
+			margin-top: 0;
+			margin-left: 0;
+			border-radius: var(--multilevel-border-radius);
+			box-shadow: var(--multilevel-box-shadow);
+			background-color: var(--multilevel-bg);
+			border: 1px solid var(--multilevel-border-color);
+			display: none;
+			z-index: 1000;
+			opacity: 0;
+			transform: translateX(-10px);
+			transition: opacity var(--multilevel-animation-duration) var(--multilevel-animation-easing),
+						transform var(--multilevel-animation-duration) var(--multilevel-animation-easing);
+		}
+
+		.multilevel-dropdown .dropdown-submenu.submenu-open > .dropdown-toggle {
+			background-color: var(--bs-dropdown-link-hover-bg);
+			color: var(--bs-dropdown-link-hover-color);
+		}
+
+		.multilevel-dropdown .dropdown-submenu.submenu-open > .dropdown-menu {
+			display: block;
+			opacity: 1;
+			transform: translateX(0);
+		}
+
+		.multilevel-dropdown .dropdown-submenu.submenu-left .dropdown-menu,
+		.multilevel-dropdown .dropdown-submenu.dropdown-left .dropdown-menu {
+			left: -100%;
+			right: auto;
+		}
+
+		.multilevel-dropdown .dropdown-submenu.submenu-left .dropdown-toggle::after,
+		.multilevel-dropdown .dropdown-submenu.dropdown-left .dropdown-toggle::after {
+			border-left: none;
+			border-right: 0.3em solid currentColor;
+			right: auto;
+			left: var(--multilevel-item-padding-x);
+		}
+
+		.dropdown-menu.dropdown-columns-2 {
+			columns: 2;
+			column-gap: var(--multilevel-column-gap);
+			min-width: calc(var(--multilevel-min-width) * 1.8);
+			max-width: calc(var(--multilevel-max-width) * 1.5);
+		}
+
+		.dropdown-menu.dropdown-columns-3 {
+			columns: 3;
+			column-gap: var(--multilevel-column-gap);
+			min-width: calc(var(--multilevel-min-width) * 2.5);
+			max-width: calc(var(--multilevel-max-width) * 2);
+		}
+
+		.dropdown-menu.dropdown-columns-2 .dropdown-item,
+		.dropdown-menu.dropdown-columns-3 .dropdown-item {
+			break-inside: avoid;
+			page-break-inside: avoid;
+		}
+
+		.demo-section {
+			margin: 3rem 0;
+		}
+
+		.feature-card {
+			background: var(--bs-dark);
+			border: 1px solid var(--bs-border-color);
+			border-radius: 0.5rem;
+			padding: 2rem;
+			margin-bottom: 2rem;
+		}
+
+		.theme-switcher {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			z-index: 1060;
+		}
+	</style>
+</head>
+<body>
+	<!-- Theme Switcher -->
+	<div class="theme-switcher">
+		<button class="btn btn-outline-primary btn-sm" id="themeSwitcher">
+			🌙 Toggle Theme
+		</button>
+	</div>
+
+	<div class="container py-5">
+		<!-- Header -->
+		<div class="text-center mb-5">
+			<h1 class="display-4 fw-bold mb-3">MultiLevel Dropdown</h1>
+			<p class="lead">Bootstrap 5.3 compatible multi-level dropdown with advanced positioning and multi-column support</p>
+		</div>
+
+		<!-- Basic Multi-Level Example -->
+		<div class="demo-section">
+			<div class="feature-card">
+				<h2 class="h4 mb-3">Basic Multi-Level Menu</h2>
+				<p class="text-muted mb-4">Demonstrates basic multi-level dropdown functionality with auto-positioning.</p>
+
+				<div class="dropdown">
+					<button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Basic Multi-Level Menu
+					</button>
+					<ul class="dropdown-menu multilevel-dropdown">
+						<li><a class="dropdown-item" href="#">Home</a></li>
+						<li><a class="dropdown-item" href="#">About</a></li>
+						<li class="dropdown-submenu">
+							<a class="dropdown-item dropdown-toggle" href="#">Services</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="#">Web Design</a></li>
+								<li><a class="dropdown-item" href="#">Development</a></li>
+								<li class="dropdown-submenu">
+									<a class="dropdown-item dropdown-toggle" href="#">Digital Marketing</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="#">SEO</a></li>
+										<li><a class="dropdown-item" href="#">Social Media</a></li>
+										<li><a class="dropdown-item" href="#">Content Marketing</a></li>
+										<li class="dropdown-submenu">
+											<a class="dropdown-item dropdown-toggle" href="#">Analytics</a>
+											<ul class="dropdown-menu">
+												<li><a class="dropdown-item" href="#">Google Analytics</a></li>
+												<li><a class="dropdown-item" href="#">Facebook Insights</a></li>
+												<li><a class="dropdown-item" href="#">Custom Reports</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li><a class="dropdown-item" href="#">E-commerce</a></li>
+							</ul>
+						</li>
+						<li><a class="dropdown-item" href="#">Contact</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<!-- Multi-Column Example -->
+		<div class="demo-section">
+			<div class="feature-card">
+				<h2 class="h4 mb-3">Multi-Column Layouts</h2>
+				<p class="text-muted mb-4">Shows how to organize large menus into multiple columns for better usability.</p>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						<div class="dropdown">
+							<button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown">
+								2-Column Menu
+							</button>
+							<ul class="dropdown-menu multilevel-dropdown">
+								<li class="dropdown-submenu">
+									<a class="dropdown-item dropdown-toggle" href="#">Products</a>
+									<ul class="dropdown-menu dropdown-columns-2">
+										<li><a class="dropdown-item" href="#">Web Applications</a></li>
+										<li><a class="dropdown-item" href="#">Mobile Apps</a></li>
+										<li><a class="dropdown-item" href="#">Desktop Software</a></li>
+										<li><a class="dropdown-item" href="#">Cloud Solutions</a></li>
+										<li><a class="dropdown-item" href="#">API Services</a></li>
+										<li><a class="dropdown-item" href="#">Integrations</a></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-md-4 mb-3">
+						<div class="dropdown">
+							<button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown">
+								3-Column Menu
+							</button>
+							<ul class="dropdown-menu multilevel-dropdown">
+								<li class="dropdown-submenu">
+									<a class="dropdown-item dropdown-toggle" href="#">Categories</a>
+									<ul class="dropdown-menu dropdown-columns-3">
+										<li><a class="dropdown-item" href="#">Electronics</a></li>
+										<li><a class="dropdown-item" href="#">Clothing</a></li>
+										<li><a class="dropdown-item" href="#">Books</a></li>
+										<li><a class="dropdown-item" href="#">Home & Garden</a></li>
+										<li><a class="dropdown-item" href="#">Sports</a></li>
+										<li><a class="dropdown-item" href="#">Automotive</a></li>
+										<li><a class="dropdown-item" href="#">Health & Beauty</a></li>
+										<li><a class="dropdown-item" href="#">Toys & Games</a></li>
+										<li><a class="dropdown-item" href="#">Music</a></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Forced Positioning Example -->
+		<div class="demo-section">
+			<div class="feature-card">
+				<h2 class="h4 mb-3">Forced Positioning</h2>
+				<p class="text-muted mb-4">Control submenu opening direction with CSS classes.</p>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<div class="dropdown">
+							<button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown">
+								Force Left Opening
+							</button>
+							<ul class="dropdown-menu multilevel-dropdown">
+								<li class="dropdown-submenu dropdown-left">
+									<a class="dropdown-item dropdown-toggle" href="#">Opens Left</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="#">Option 1</a></li>
+										<li><a class="dropdown-item" href="#">Option 2</a></li>
+										<li class="dropdown-submenu dropdown-left">
+											<a class="dropdown-item dropdown-toggle" href="#">Nested Left</a>
+											<ul class="dropdown-menu">
+												<li><a class="dropdown-item" href="#">Nested Item 1</a></li>
+												<li><a class="dropdown-item" href="#">Nested Item 2</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<div class="dropdown">
+							<button class="btn btn-danger dropdown-toggle" type="button" data-bs-toggle="dropdown">
+								Force Right Opening
+							</button>
+							<ul class="dropdown-menu multilevel-dropdown">
+								<li class="dropdown-submenu dropdown-right">
+									<a class="dropdown-item dropdown-toggle" href="#">Opens Right</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="#">Option A</a></li>
+										<li><a class="dropdown-item" href="#">Option B</a></li>
+										<li class="dropdown-submenu dropdown-right">
+											<a class="dropdown-item dropdown-toggle" href="#">Nested Right</a>
+											<ul class="dropdown-menu">
+												<li><a class="dropdown-item" href="#">Nested Item A</a></li>
+												<li><a class="dropdown-item" href="#">Nested Item B</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Complex Example -->
+		<div class="demo-section">
+			<div class="feature-card">
+				<h2 class="h4 mb-3">Complex Navigation Example</h2>
+				<p class="text-muted mb-4">A realistic navigation menu combining multiple features.</p>
+
+				<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+					<div class="container-fluid">
+						<a class="navbar-brand" href="#">Company Name</a>
+
+						<div class="navbar-nav">
+							<div class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+									Solutions
+								</a>
+								<ul class="dropdown-menu multilevel-dropdown">
+									<li class="dropdown-submenu">
+										<a class="dropdown-item dropdown-toggle" href="#">Enterprise</a>
+										<ul class="dropdown-menu dropdown-columns-2">
+											<li><a class="dropdown-item" href="#">CRM Solutions</a></li>
+											<li><a class="dropdown-item" href="#">ERP Systems</a></li>
+											<li><a class="dropdown-item" href="#">Business Intelligence</a></li>
+											<li><a class="dropdown-item" href="#">Workflow Automation</a></li>
+											<li class="dropdown-submenu">
+												<a class="dropdown-item dropdown-toggle" href="#">Cloud Services</a>
+												<ul class="dropdown-menu">
+													<li><a class="dropdown-item" href="#">Infrastructure</a></li>
+													<li><a class="dropdown-item" href="#">Platform Services</a></li>
+													<li><a class="dropdown-item" href="#">Software as a Service</a></li>
+													<li><a class="dropdown-item" href="#">Managed Services</a></li>
+												</ul>
+											</li>
+											<li><a class="dropdown-item" href="#">Security Solutions</a></li>
+											<li><a class="dropdown-item" href="#">Compliance Tools</a></li>
+											<li><a class="dropdown-item" href="#">Analytics Platform</a></li>
+										</ul>
+									</li>
+									<li class="dropdown-submenu">
+										<a class="dropdown-item dropdown-toggle" href="#">Small Business</a>
+										<ul class="dropdown-menu">
+											<li><a class="dropdown-item" href="#">Starter Packages</a></li>
+											<li><a class="dropdown-item" href="#">Growth Solutions</a></li>
+											<li><a class="dropdown-item" href="#">Marketing Tools</a></li>
+											<li class="dropdown-submenu">
+												<a class="dropdown-item dropdown-toggle" href="#">Support Services</a>
+												<ul class="dropdown-menu">
+													<li><a class="dropdown-item" href="#">24/7 Help Desk</a></li>
+													<li><a class="dropdown-item" href="#">Training Programs</a></li>
+													<li><a class="dropdown-item" href="#">Implementation</a></li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+									<li class="dropdown-divider"></li>
+									<li><a class="dropdown-item" href="#">View All Solutions</a></li>
+								</ul>
+							</div>
+
+							<div class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+									Industries
+								</a>
+								<ul class="dropdown-menu multilevel-dropdown">
+									<li class="dropdown-submenu">
+										<a class="dropdown-item dropdown-toggle" href="#">Technology</a>
+										<ul class="dropdown-menu dropdown-columns-3">
+											<li><a class="dropdown-item" href="#">Software Development</a></li>
+											<li><a class="dropdown-item" href="#">Hardware Manufacturing</a></li>
+											<li><a class="dropdown-item" href="#">Telecommunications</a></li>
+											<li><a class="dropdown-item" href="#">Cybersecurity</a></li>
+											<li><a class="dropdown-item" href="#">Artificial Intelligence</a></li>
+											<li><a class="dropdown-item" href="#">IoT Solutions</a></li>
+											<li><a class="dropdown-item" href="#">Blockchain</a></li>
+											<li><a class="dropdown-item" href="#">Cloud Computing</a></li>
+											<li><a class="dropdown-item" href="#">Data Analytics</a></li>
+										</ul>
+									</li>
+									<li class="dropdown-submenu">
+										<a class="dropdown-item dropdown-toggle" href="#">Healthcare</a>
+										<ul class="dropdown-menu">
+											<li><a class="dropdown-item" href="#">Hospitals</a></li>
+											<li><a class="dropdown-item" href="#">Clinics</a></li>
+											<li><a class="dropdown-item" href="#">Pharmaceutical</a></li>
+											<li><a class="dropdown-item" href="#">Medical Devices</a></li>
+										</ul>
+									</li>
+									<li class="dropdown-submenu">
+										<a class="dropdown-item dropdown-toggle" href="#">Financial Services</a>
+										<ul class="dropdown-menu">
+											<li><a class="dropdown-item" href="#">Banking</a></li>
+											<li><a class="dropdown-item" href="#">Insurance</a></li>
+											<li><a class="dropdown-item" href="#">Investment Management</a></li>
+											<li><a class="dropdown-item" href="#">Fintech</a></li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</div>
+
+		<!-- Configuration Demo -->
+		<div class="demo-section">
+			<div class="feature-card">
+				<h2 class="h4 mb-3">Interactive Configuration</h2>
+				<p class="text-muted mb-4">Test different configuration options dynamically.</p>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Show on Hover</label>
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" id="showOnHover" checked>
+								<label class="form-check-label" for="showOnHover">Enable hover to show</label>
+							</div>
+						</div>
+
+						<div class="mb-3">
+							<label for="hideDelay" class="form-label">Hide Delay (ms)</label>
+							<input type="range" class="form-range" id="hideDelay" min="0" max="1000" value="300">
+							<div class="form-text">Current: <span id="hideDelayValue">300</span>ms</div>
+						</div>
+
+						<div class="mb-3">
+							<label for="direction" class="form-label">Direction</label>
+							<select class="form-select" id="direction">
+								<option value="auto">Auto</option>
+								<option value="left">Left</option>
+								<option value="right">Right</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="dropdown">
+							<button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" id="configTestBtn">
+								Test Configuration
+							</button>
+							<ul class="dropdown-menu multilevel-dropdown" id="configTestMenu">
+								<li><a class="dropdown-item" href="#">Item 1</a></li>
+								<li class="dropdown-submenu">
+									<a class="dropdown-item dropdown-toggle" href="#">Submenu</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="#">Sub Item 1</a></li>
+										<li><a class="dropdown-item" href="#">Sub Item 2</a></li>
+										<li class="dropdown-submenu">
+											<a class="dropdown-item dropdown-toggle" href="#">Nested</a>
+											<ul class="dropdown-menu">
+												<li><a class="dropdown-item" href="#">Deep Item 1</a></li>
+												<li><a class="dropdown-item" href="#">Deep Item 2</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li><a class="dropdown-item" href="#">Item 3</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Features List -->
+		<div class="demo-section">
+			<div class="feature-card">
+				<h2 class="h4 mb-3">Key Features</h2>
+				<div class="row">
+					<div class="col-md-6">
+						<ul class="list-unstyled">
+							<li class="mb-2">✅ Unlimited nesting levels</li>
+							<li class="mb-2">✅ Auto-positioning based on viewport</li>
+							<li class="mb-2">✅ Multi-column layouts</li>
+							<li class="mb-2">✅ Touch device support</li>
+							<li class="mb-2">✅ Keyboard navigation</li>
+							<li class="mb-2">✅ ARIA accessibility</li>
+						</ul>
+					</div>
+					<div class="col-md-6">
+						<ul class="list-unstyled">
+							<li class="mb-2">✅ Responsive design</li>
+							<li class="mb-2">✅ Dark mode support</li>
+							<li class="mb-2">✅ Smooth animations</li>
+							<li class="mb-2">✅ Custom events</li>
+							<li class="mb-2">✅ RTL language support</li>
+							<li class="mb-2">✅ High contrast mode</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap 5.3.7 JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.bundle.min.js"></script>
+
+	<!-- MultiLevel Dropdown JavaScript -->
+	<script src="js/MultiLevelDropdown.js"></script>
+	<script src="ExampleJS/demo.js"></script>
+
+	<script>
+		// Theme switcher functionality
+		document.getElementById('themeSwitcher').addEventListener('click', function() {
+			const html = document.documentElement;
+			const currentTheme = html.getAttribute('data-bs-theme');
+			const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+			html.setAttribute('data-bs-theme', newTheme);
+
+			this.textContent = newTheme === 'dark' ? '☀️ Toggle Theme' : '🌙 Toggle Theme';
+		});
+
+		// Initialize MultiLevel Dropdown
+		const multiLevelDropdown = new MultiLevelDropdown({
+			showOnHover: true,
+			hideDelay: 300,
+			direction: 'auto',
+			animations: {
+				enabled: true,
+				duration: 200,
+				easing: 'ease-out'
+			},
+			callbacks: {
+				onShow: function(data) {
+					console.log('Submenu shown:', data.submenu);
+				},
+				onHide: function(data) {
+					console.log('Submenu hidden:', data.submenu);
+				}
+			}
+		});
+
+		// Configuration controls
+		const showOnHoverCheckbox = document.getElementById('showOnHover');
+		const hideDelaySlider = document.getElementById('hideDelay');
+		const hideDelayValue = document.getElementById('hideDelayValue');
+		const directionSelect = document.getElementById('direction');
+
+		// Update hide delay display
+		hideDelaySlider.addEventListener('input', function() {
+			hideDelayValue.textContent = this.value;
+		});
+
+		// Apply configuration changes
+		function updateConfiguration() {
+			multiLevelDropdown.updateConfig({
+				showOnHover: showOnHoverCheckbox.checked,
+				hideDelay: parseInt(hideDelaySlider.value),
+				direction: directionSelect.value
+			});
+		}
+
+		showOnHoverCheckbox.addEventListener('change', updateConfiguration);
+		hideDelaySlider.addEventListener('change', updateConfiguration);
+		directionSelect.addEventListener('change', updateConfiguration);
+
+		// Event listeners for demo
+		document.addEventListener('multilevel.show', function(e) {
+			console.log('Custom event - submenu shown:', e.detail);
+		});
+
+		document.addEventListener('multilevel.hide', function(e) {
+			console.log('Custom event - submenu hidden:', e.detail);
+		});
+	</script>
+</body>
+</html>
