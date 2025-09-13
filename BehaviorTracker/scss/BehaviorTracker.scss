@@ -1,0 +1,386 @@
+// BehaviorTracker Component Styles
+// Using Bootstrap 5.3 CSS Variables
+
+// Color Variables
+:root {
+	--bt-bot-gradient: linear-gradient(45deg, var(--bs-danger), var(--bs-warning));
+	--bt-human-gradient: linear-gradient(45deg, var(--bs-success), var(--bs-info));
+	--bt-uncertain-gradient: linear-gradient(45deg, var(--bs-warning), var(--bs-orange));
+	--bt-card-bg: var(--bs-dark);
+	--bt-card-border: rgba(var(--bs-white-rgb), 0.1);
+	--bt-interaction-zone-bg: rgba(var(--bs-white-rgb), 0.02);
+	--bt-interaction-zone-border: rgba(var(--bs-white-rgb), 0.3);
+	--bt-backdrop-blur: blur(10px);
+}
+
+// Main Container Styles
+.behavior-tracker {
+	&-container {
+		min-height: 100vh;
+		background: var(--bs-dark);
+		color: var(--bs-light);
+	}
+
+	// Score Display Components
+	&-score-display {
+		transition: all 0.3s ease;
+
+		&--active {
+			border-color: var(--bs-primary);
+			background: rgba(var(--bs-primary-rgb), 0.1);
+			box-shadow: 0 0 20px rgba(var(--bs-primary-rgb), 0.3);
+		}
+	}
+
+	// Activity Log
+	&-activity-log {
+		max-height: 200px;
+		overflow-y: auto;
+		font-family: 'Courier New', Monaco, 'Lucida Console', monospace;
+		font-size: 0.85rem;
+		background: rgba(var(--bs-black-rgb), 0.2);
+		border-radius: var(--bs-border-radius);
+		padding: 0.5rem;
+
+		&::-webkit-scrollbar {
+			width: 6px;
+		}
+
+		&::-webkit-scrollbar-track {
+			background: rgba(var(--bs-white-rgb), 0.1);
+			border-radius: 3px;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background: rgba(var(--bs-white-rgb), 0.3);
+			border-radius: 3px;
+
+			&:hover {
+				background: rgba(var(--bs-white-rgb), 0.5);
+			}
+		}
+	}
+
+	// Progress Bars
+	&-progress {
+		&--custom {
+			height: 8px;
+			border-radius: 4px;
+			background: rgba(var(--bs-white-rgb), 0.1);
+		}
+
+		&--animated {
+			.progress-bar {
+				animation: progress-shine 2s infinite;
+			}
+		}
+	}
+
+	// Buttons
+	&-btn {
+		&--interaction {
+			margin: 0.25rem;
+			transition: all 0.2s ease;
+
+			&:hover {
+				transform: translateY(-1px);
+				box-shadow: 0 0.25rem 0.5rem rgba(var(--bs-black-rgb), 0.3);
+			}
+
+			&:active {
+				transform: translateY(0);
+			}
+		}
+	}
+
+	// Classification Badge
+	&-classification-badge {
+		font-size: 1.1rem;
+		padding: 0.5rem 1rem;
+		border-radius: 20px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		border: 2px solid transparent;
+		transition: all 0.3s ease;
+
+		&:hover {
+			transform: scale(1.05);
+		}
+	}
+
+	// Statistics Cards
+	&-stat-card {
+		background: rgba(var(--bs-white-rgb), 0.05);
+		border: 1px solid rgba(var(--bs-white-rgb), 0.1);
+		border-radius: var(--bs-border-radius);
+		padding: 1rem;
+		text-align: center;
+		transition: all 0.3s ease;
+
+		&:hover {
+			background: rgba(var(--bs-white-rgb), 0.08);
+			transform: translateY(-2px);
+		}
+
+		.stat-value {
+			font-size: 1.5rem;
+			font-weight: 700;
+			color: var(--bs-light);
+		}
+
+		.stat-label {
+			font-size: 0.8rem;
+			color: var(--bs-secondary);
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+	}
+
+	// Score Meters
+	&-score-meter {
+		position: relative;
+		height: 100px;
+
+		.meter-bg {
+			position: absolute;
+			width: 100%;
+			height: 6px;
+			background: rgba(var(--bs-white-rgb), 0.1);
+			border-radius: 3px;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		.meter-fill {
+			height: 100%;
+			border-radius: 3px;
+			transition: width 0.5s ease;
+		}
+
+		.meter-label {
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			transform: translateX(-50%);
+			font-size: 0.8rem;
+			color: var(--bs-secondary);
+		}
+	}
+}
+
+// Animations
+@keyframes pulse-danger {
+	0%, 100% {
+		box-shadow: 0 0 10px rgba(var(--bs-danger-rgb), 0.3);
+	}
+	50% {
+		box-shadow: 0 0 20px rgba(var(--bs-danger-rgb), 0.6);
+	}
+}
+
+@keyframes pulse-success {
+	0%, 100% {
+		box-shadow: 0 0 10px rgba(var(--bs-success-rgb), 0.3);
+	}
+	50% {
+		box-shadow: 0 0 20px rgba(var(--bs-success-rgb), 0.6);
+	}
+}
+
+@keyframes pulse-warning {
+	0%, 100% {
+		box-shadow: 0 0 10px rgba(var(--bs-warning-rgb), 0.3);
+	}
+	50% {
+		box-shadow: 0 0 20px rgba(var(--bs-warning-rgb), 0.6);
+	}
+}
+
+@keyframes progress-shine {
+	0% {
+		background-position: -200% center;
+	}
+	100% {
+		background-position: 200% center;
+	}
+}
+
+@keyframes fade-in-up {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+	.behavior-tracker {
+		&-interaction-zone {
+			min-height: 200px;
+			padding: 1rem;
+		}
+
+		&-metric-card {
+			margin-bottom: 1rem;
+		}
+
+		&-classification-badge {
+			font-size: 0.9rem;
+			padding: 0.4rem 0.8rem;
+		}
+
+		&-stat-card {
+			.stat-value {
+				font-size: 1.2rem;
+			}
+		}
+	}
+}
+
+@media (max-width: 576px) {
+	.behavior-tracker {
+		&-btn--interaction {
+			margin: 0.1rem;
+			font-size: 0.8rem;
+			padding: 0.25rem 0.5rem;
+		}
+
+		&-activity-log {
+			max-height: 150px;
+			font-size: 0.75rem;
+		}
+
+		&-progress--custom {
+			height: 6px;
+		}
+	}
+}
+
+// Dark Mode Specific Adjustments
+[data-bs-theme="dark"] {
+	.behavior-tracker {
+		&-metric-card {
+			background: rgba(var(--bs-dark-rgb), 0.8);
+			border-color: rgba(var(--bs-light-rgb), 0.1);
+		}
+
+		&-interaction-zone {
+			background: rgba(var(--bs-light-rgb), 0.02);
+			border-color: rgba(var(--bs-light-rgb), 0.2);
+		}
+
+		&-activity-log {
+			background: rgba(var(--bs-black-rgb), 0.4);
+			color: var(--bs-light);
+		}
+	}
+}
+
+// High Contrast Mode Support
+@media (prefers-contrast: high) {
+	.behavior-tracker {
+		&-metric-card {
+			border-width: 2px;
+		}
+
+		&-interaction-zone {
+			border-width: 3px;
+		}
+
+		&-classification-badge {
+			border-width: 2px;
+			border-style: solid;
+		}
+	}
+}
+
+// Reduced Motion Support
+@media (prefers-reduced-motion: reduce) {
+	.behavior-tracker {
+		* {
+			animation: none !important;
+			transition: none !important;
+		}
+	}
+}
+
+// Print Styles
+@media print {
+	.behavior-tracker {
+		&-interaction-zone,
+		&-btn--interaction {
+			display: none;
+		}
+
+		&-metric-card {
+			break-inside: avoid;
+			border: 1px solid #000;
+		}
+
+		&-activity-log {
+			max-height: none;
+			overflow: visible;
+		}
+	}
+}/*.updating {
+			transform: scale(1.02);
+		}
+	}
+
+	// Classification Indicators
+	&-indicator {
+		&--bot {
+			background: var(--bt-bot-gradient);
+			animation: pulse-danger 2s infinite;
+		}
+
+		&--human {
+			background: var(--bt-human-gradient);
+			animation: pulse-success 2s infinite;
+		}
+
+		&--uncertain {
+			background: var(--bt-uncertain-gradient);
+			animation: pulse-warning 2s infinite;
+		}
+	}
+
+	// Metric Cards
+	&-metric-card {
+		border: 1px solid var(--bt-card-border);
+		background: var(--bt-card-bg);
+		backdrop-filter: var(--bt-backdrop-blur);
+		transition: all 0.3s ease;
+
+		&:hover {
+			border-color: rgba(var(--bs-white-rgb), 0.2);
+			transform: translateY(-2px);
+			box-shadow: 0 0.5rem 1rem rgba(var(--bs-black-rgb), 0.3);
+		}
+
+		.card-header {
+			background: rgba(var(--bs-white-rgb), 0.05);
+			border-bottom: 1px solid var(--bt-card-border);
+		}
+	}
+
+	// Interaction Zone
+	&-interaction-zone {
+		min-height: 300px;
+		border: 2px dashed var(--bt-interaction-zone-border);
+		background: var(--bt-interaction-zone-bg);
+		transition: all 0.3s ease;
+		border-radius: var(--bs-border-radius-lg);
+
+		&:hover {
+			background: rgba(var(--bs-white-rgb), 0.05);
+			border-color: rgba(var(--bs-white-rgb), 0.5);
+			transform: scale(1.01);
+		}
+
+	*/
