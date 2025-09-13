@@ -10,6 +10,7 @@
  - <a href="MultiSelect/Example.html">Multi Select</a>
 
 ## Needs more Testig:
+ - <a href="BehaviorTracker/Example.html">Behavior Tracker</a>
  - <a href="MultiLevelDropdown/Example.html">Multi Level Dropdown</a>
  - <a href="OnboardingTour/Example.html">Onboarding Tour</a>
  - <a href="FileUploadPreview/Example.html">File Upload Preview</a>
