@@ -2,6 +2,36 @@
 
 A comprehensive collection of advanced Bootstrap 5.3 components and enhancements built with modern JavaScript, providing production-ready solutions for common web development needs.
 
+### Working Demo
+| Demo                                                     | Docs                                                                                                         |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| <a href="AutoTextarea/Example.html">Auto Textarea</a>    | 1. <a href="AutoTextarea/README.md">README</a> <br>2. <a href="AutoTextarea/README-Extended.md">Extended</a> |
+| <a href="ToastAlerts/Example.html">Toast Alerts</a>      | <a href="ToastAlerts/README.md">README</a>                                                                   |
+| <a href="InputMask/Example.html">Input Mask</a>          | 1. <a href="InputMask/README.md">README</a><br>2. <a href="InputMask/README2.md">README 2</a>                |
+| <a href="SimpleLightbox/Example.html">Simple Lightbox</a>| <a href="SimpleLightbox/README.md">README</a>                                                                |
+| <a href="MultiSelect/Example.html">Multi Select</a>      | 1. <a href="MultiSelect/README.md">README</a><br>2. <a href="MultiSelect/README2.md">README 2</a>            |
+
+---
+
+### Needs Testing
+| Demo                                                                                                                         | Docs                                                                                                                      |
+| ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 1. <a href="BehaviorTracker/Example.html">Behavior Tracker</a><br>2. <a href="BehaviorTracker/HumanVerified.html">Human Verified</a> | 1.<a href="BehaviorTracker/README.md">README</a><br>2. <a href="BehaviorTracker/HumanVerified.md">Human Verified</a> Docs |
+| <a href="MultiLevelDropdown/Example.html">Multi Level Dropdown</a>                                                           | <a href="MultiLevelDropdown/README.md">README</a>                                                                         |
+| <a href="OnboardingTour/Example.html">Onboarding Tour</a>                                                                    | <a href="OnboardingTour/README.md">README</a>                                                                             |
+| <a href="FileUploadPreview/Example.html">File Upload Preview</a>                                                             | <a href="FileUploadPreview/README.md">README</a>                                                                          |
+
+---
+
+### Has Errors
+| Demo                                                                                                                             | Docs                                         |
+| -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| <a href="RateLimiter/Example.html">Rate Limiter</a>                                                                              | <a href="RateLimiter/README.md">README</a>   |
+| 1. <a href="ImageLightbox/Example.html">Image Lightbox</a><br>2. <a href="SimpleExample.html">Simple Example</a>                  | <a href="ImageLightbox/README.md">README</a> |
+
+---
+
+
 ## 🚀 Overview
 
 This project extends Bootstrap 5.3.7 with custom components that maintain full compatibility with Bootstrap's design system while adding powerful functionality. All components are built using object-oriented JavaScript with customizable JSON configurations, following Bootstrap's conventions and accessibility standards.
@@ -114,6 +144,8 @@ Client-side rate limiting system with queue management, backoff strategies, and 
 
 - **Status**: Under development - API refinements needed
 - **[📖 Documentation](RateLimiter/README.md)** | **[🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/RateLimiter/Example.html)**
+
+---
 
 #### [Image Lightbox](ImageLightbox/Example.html)
 *Advanced image lightbox with zoom and slideshow*
@@ -274,12 +306,12 @@ Each component includes comprehensive documentation:
 - **Examples**: Common use cases and patterns
 - **Accessibility**: Accessibility features and considerations
 
-### Additional Resources
+<!-- ### Additional Resources
 
 - **[Extended Documentation](docs/)**: In-depth guides and tutorials
 - **[API Reference](api/)**: Complete API documentation
 - **[Examples](examples/)**: Advanced usage examples
-- **[Contributing](CONTRIBUTING.md)**: Development guidelines
+- **[Contributing](CONTRIBUTING.md)**: Development guidelines -->
 
 ## 🤝 Contributing
 
@@ -316,7 +348,7 @@ This project is released under the MIT License. See [LICENSE](LICENSE) for detai
 
 - **Issues**: [GitHub Issues](https://github.com/Yohn/Bootstrap-Enhanced-Components/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/Yohn/Bootstrap-Enhanced-Components/discussions)
-- **Documentation**: [Project Wiki](https://github.com/Yohn/Bootstrap-Enhanced-Components/wiki)
+<!--- **Documentation**: [Project Wiki](https://github.com/Yohn/Bootstrap-Enhanced-Components/wiki) -->
 
 ## 🎯 Roadmap
 
