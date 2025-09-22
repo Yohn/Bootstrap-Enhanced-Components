@@ -5,29 +5,29 @@ A comprehensive collection of advanced Bootstrap 5.3 components and enhancements
 ### Working Demo
 | Demo                                                     | Docs                                                                                                         |
 | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| <a href="AutoTextarea/Example.html">Auto Textarea</a>    | 1. <a href="AutoTextarea/README.md">README</a> <br>2. <a href="AutoTextarea/README-Extended.md">Extended</a> |
-| <a href="ToastAlerts/Example.html">Toast Alerts</a>      | <a href="ToastAlerts/README.md">README</a>                                                                   |
-| <a href="InputMask/Example.html">Input Mask</a>          | 1. <a href="InputMask/README.md">README</a><br>2. <a href="InputMask/README2.md">README 2</a>                |
-| <a href="SimpleLightbox/Example.html">Simple Lightbox</a>| <a href="SimpleLightbox/README.md">README</a>                                                                |
-| <a href="MultiSelect/Example.html">Multi Select</a>      | 1. <a href="MultiSelect/README.md">README</a><br>2. <a href="MultiSelect/README2.md">README 2</a>            |
+| <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/AutoTextarea/Example.html">Auto Textarea</a>    | 1. <a href="AutoTextarea/README.md">README</a> <br>2. <a href="AutoTextarea/README-Extended.md">Extended</a> |
+| <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/ToastAlerts/Example.html">Toast Alerts</a>      | <a href="ToastAlerts/README.md">README</a>                                                                   |
+| <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/InputMask/Example.html">Input Mask</a>          | 1. <a href="InputMask/README.md">README</a><br>2. <a href="InputMask/README2.md">README 2</a>                |
+| <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/SimpleLightbox/Example.html">Simple Lightbox</a>| <a href="SimpleLightbox/README.md">README</a>                                                                |
+| <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/MultiSelect/Example.html">Multi Select</a>      | 1. <a href="MultiSelect/README.md">README</a><br>2. <a href="MultiSelect/README2.md">README 2</a>            |
 
 ---
 
 ### Needs Testing
 | Demo                                                                                                                         | Docs                                                                                                                      |
 | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| 1. <a href="BehaviorTracker/Example.html">Behavior Tracker</a><br>2. <a href="BehaviorTracker/HumanVerified.html">Human Verified</a> | 1.<a href="BehaviorTracker/README.md">README</a><br>2. <a href="BehaviorTracker/HumanVerified.md">Human Verified</a> Docs |
-| <a href="MultiLevelDropdown/Example.html">Multi Level Dropdown</a>                                                           | <a href="MultiLevelDropdown/README.md">README</a>                                                                         |
-| <a href="OnboardingTour/Example.html">Onboarding Tour</a>                                                                    | <a href="OnboardingTour/README.md">README</a>                                                                             |
-| <a href="FileUploadPreview/Example.html">File Upload Preview</a>                                                             | <a href="FileUploadPreview/README.md">README</a>                                                                          |
+| 1. <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/BehaviorTracker/Example.html">Behavior Tracker</a><br>2. <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/BehaviorTracker/HumanVerified.html">Human Verified</a> | 1.<a href="BehaviorTracker/README.md">README</a><br>2. <a href="BehaviorTracker/HumanVerified.md">Human Verified</a> Docs |
+| <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/MultiLevelDropdown/Example.html">Multi Level Dropdown</a>                                                           | <a href="MultiLevelDropdown/README.md">README</a>                                                                         |
+| <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/OnboardingTour/Example.html">Onboarding Tour</a>                                                                    | <a href="OnboardingTour/README.md">README</a>                                                                             |
+| <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/FileUploadPreview/Example.html">File Upload Preview</a>                                                             | <a href="FileUploadPreview/README.md">README</a>                                                                          |
 
 ---
 
 ### Has Errors
 | Demo                                                                                                                             | Docs                                         |
 | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| <a href="RateLimiter/Example.html">Rate Limiter</a>                                                                              | <a href="RateLimiter/README.md">README</a>   |
-| 1. <a href="ImageLightbox/Example.html">Image Lightbox</a><br>2. <a href="SimpleExample.html">Simple Example</a>                  | <a href="ImageLightbox/README.md">README</a> |
+| <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/RateLimiter/Example.html">Rate Limiter</a>                                                                              | <a href="RateLimiter/README.md">README</a>   |
+| 1. <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/ImageLightbox/Example.html">Image Lightbox</a><br>2. <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/SimpleExample.html">Simple Example</a>                  | <a href="ImageLightbox/README.md">README</a> |
 
 ---
 
@@ -37,12 +37,25 @@ A comprehensive collection of advanced Bootstrap 5.3 components and enhancements
 This project extends Bootstrap 5.3.7 with custom components that maintain full compatibility with Bootstrap's design system while adding powerful functionality. All components are built using object-oriented JavaScript with customizable JSON configurations, following Bootstrap's conventions and accessibility standards.
 
 ## 📦 Components Status
+___
+#### [DataTables](https://github.com/Yohn/BS5-DataTables-without-jQuery)
+*Automatically Load via json file, with column and all column searching*
+
+ - [🎯 Demo](https://yohn.github.io/BS5-DataTables-without-jQuery/) | [📖 Github](https://github.com/Yohn/BS5-DataTables-without-jQuery)
+
+---
+#### [WYSIWYG](https://github.com/Yohn/Bootstrap-5.3-WYSIWYG)
+*Still needs some improvements but works*
+
+ - [🎯 Demo](https://yohn.github.io/BS5-DataTables-without-jQuery/) | [📖 Github](https://github.com/Yohn/Bootstrap-5.3-WYSIWYG)
+
+---
 
 ### ✅ Working (Production Ready)
 
 ___
 
-#### [Auto Textarea](AutoTextarea/Example.html)
+#### [Auto Textarea](https://yohn.github.io/Bootstrap-Enhanced-Components/AutoTextarea/Example.html)
 *Automatically adjusts textarea height based on content*
 
 Smart textarea component that dynamically resizes as users type, providing a better user experience for content input. Features smooth animations, configurable constraints, and full Bootstrap integration.
@@ -53,7 +66,7 @@ Smart textarea component that dynamically resizes as users type, providing a bet
 
 ___
 
-#### [Toast Alerts](ToastAlerts/Example.html)
+#### [Toast Alerts](https://yohn.github.io/Bootstrap-Enhanced-Components/ToastAlerts/Example.html)
 *Advanced toast notification system with dynamic creation and queue management*
 
 Comprehensive toast notification system that extends Bootstrap's native toasts with dynamic creation, intelligent queueing, multiple positioning options, and advanced interaction features.
@@ -64,7 +77,7 @@ Comprehensive toast notification system that extends Bootstrap's native toasts w
 
 ___
 
-#### [Input Mask](InputMask/Example.html)
+#### [Input Mask](https://yohn.github.io/Bootstrap-Enhanced-Components/InputMask/Example.html)
 *Real-time input formatting with pattern validation*
 
 Powerful input masking component that formats user input in real-time with customizable patterns, built-in presets for common formats, and comprehensive validation features.
@@ -73,7 +86,7 @@ Powerful input masking component that formats user input in real-time with custo
 - **Use Cases**: Forms with formatted inputs, payment forms, contact information, data entry
 - **[📖 Documentation](InputMask/README.md)** | **[🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/InputMask/Example.html)**
 ___
-#### [Simple Lightbox](SimpleLightbox/Example.html)
+#### [Simple Lightbox](https://yohn.github.io/Bootstrap-Enhanced-Components/SimpleLightbox/Example.html)
 *Lightweight image lightbox with gallery support*
 
 Feature-rich yet lightweight image lightbox component with gallery support, zoom functionality, and mobile-friendly touch interactions for showcasing images.
@@ -83,7 +96,7 @@ Feature-rich yet lightweight image lightbox component with gallery support, zoom
 - **[📖 Documentation](SimpleLightbox/README.md)** | **[🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/SimpleLightbox/Example.html)**
 
 ___
-#### [Multi Select](MultiSelect/Example.html)
+#### [Multi Select](https://yohn.github.io/Bootstrap-Enhanced-Components/MultiSelect/Example.html)
 *Advanced multi-selection dropdown with search and grouping*
 
 Sophisticated multi-select dropdown component with search functionality, option grouping, custom rendering, and extensive customization options for complex selection interfaces.
@@ -95,7 +108,7 @@ Sophisticated multi-select dropdown component with search functionality, option 
 ___
 ### 🧪 Needs More Testing (Beta)
 
-#### [Behavior Tracker](BehaviorTracker/Example.html)
+#### [Behavior Tracker](https://yohn.github.io/Bootstrap-Enhanced-Components/BehaviorTracker/Example.html)
 *Advanced user behavior tracking and analytics*
 
 Comprehensive behavior tracking system that monitors user interactions, form engagement, and page analytics with built-in bot detection and human verification capabilities.
@@ -105,7 +118,7 @@ Comprehensive behavior tracking system that monitors user interactions, form eng
 - **[📖 Documentation](BehaviorTracker/README.md)** | **[🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/BehaviorTracker/Example.html)**
 
 ___
-#### [Multi Level Dropdown](MultiLevelDropdown/Example.html)
+#### [Multi Level Dropdown](https://yohn.github.io/Bootstrap-Enhanced-Components/MultiLevelDropdown/Example.html)
 *Bootstrap-compatible multi-level dropdown navigation*
 
 Advanced dropdown component that extends Bootstrap's dropdown with multi-level navigation support, responsive behavior, and intelligent positioning.
@@ -115,7 +128,7 @@ Advanced dropdown component that extends Bootstrap's dropdown with multi-level n
 - **[📖 Documentation](MultiLevelDropdown/README.md)** | **[🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/MultiLevelDropdown/Example.html)**
 ___
 
-#### [Onboarding Tour](OnboardingTour/Example.html)
+#### [Onboarding Tour](https://yohn.github.io/Bootstrap-Enhanced-Components/OnboardingTour/Example.html)
 *Interactive user onboarding and feature tours*
 
 Comprehensive onboarding tour system with multi-page support, form integration, and customizable styling to guide users through applications and features.
@@ -125,7 +138,7 @@ Comprehensive onboarding tour system with multi-page support, form integration, 
 - **[📖 Documentation](OnboardingTour/README.md)** | **[🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/OnboardingTour/Example.html)**
 ___
 
-#### [File Upload Preview](FileUploadPreview/Example.html)
+#### [File Upload Preview](https://yohn.github.io/Bootstrap-Enhanced-Components/FileUploadPreview/Example.html)
 *Enhanced file upload with visual previews and validation*
 
 Comprehensive file upload enhancement that provides visual previews for images and videos, file validation, and management capabilities with full Bootstrap integration.
@@ -137,7 +150,7 @@ ___
 
 ### 🔧 Needs Fixing (Development)
 
-#### [Rate Limiter](RateLimiter/Example.html)
+#### [Rate Limiter](https://yohn.github.io/Bootstrap-Enhanced-Components/RateLimiter/Example.html)
 *Client-side rate limiting for API calls*
 
 Client-side rate limiting system with queue management, backoff strategies, and priority handling for API calls and form submissions.
@@ -147,7 +160,7 @@ Client-side rate limiting system with queue management, backoff strategies, and 
 
 ---
 
-#### [Image Lightbox](ImageLightbox/Example.html)
+#### [Image Lightbox](https://yohn.github.io/Bootstrap-Enhanced-Components/ImageLightbox/Example.html)
 *Advanced image lightbox with zoom and slideshow*
 
 Feature-rich image lightbox with advanced zoom functionality, slideshow capabilities, and extensive customization options.
@@ -352,14 +365,14 @@ This project is released under the MIT License. See [LICENSE](LICENSE) for detai
 
 ## 🎯 Roadmap
 
-### Upcoming Components
+<!--### Upcoming Components
 
 - **Data Tables**: Advanced table with sorting, filtering, and pagination
 - **Date Picker**: Enhanced date/time selection component
 - **Rich Text Editor**: WYSIWYG editor with Bootstrap integration
 - **Charts**: Data visualization components
 - **Form Builder**: Dynamic form generation and validation
-
+-->
 ### Improvements
 
 - **Performance**: Further optimization for mobile devices

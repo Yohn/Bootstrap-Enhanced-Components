@@ -99,21 +99,17 @@
 
 /* Info Panel */
 .lightbox-info {
-	position: absolute;
-	bottom: -4rem;
-	left: 0;
-	right: 0;
+	position: relative;
+	margin-top: 1rem;
 	background: rgba(var(--bs-dark-rgb), 0.8);
 	color: var(--bs-light);
 	padding: 1rem;
 	border-radius: var(--bs-border-radius);
 	text-align: center;
-	transition: bottom 300ms ease;
 	backdrop-filter: blur(10px);
-}
-
-.lightbox-container:hover .lightbox-info {
-	bottom: -0.5rem;
+	opacity: 1;
+	transform: translateY(0);
+	transition: opacity 300ms ease, transform 300ms ease;
 }
 
 .lightbox-title {

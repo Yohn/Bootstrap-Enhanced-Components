@@ -127,21 +127,18 @@ $lightbox-loading-bg: rgba(var(--bs-dark-rgb), 0.7) !default;
 
 // Info Panel
 .lightbox-info {
-	position: absolute;
-	bottom: -4rem;
-	left: 0;
-	right: 0;
+	position: relative;
+	margin-top: 1rem;
 	background: $lightbox-info-bg;
 	color: var(--bs-light);
 	padding: $lightbox-info-padding;
 	border-radius: $lightbox-info-border-radius;
 	text-align: center;
-	transition: bottom $lightbox-transition-duration ease;
 	backdrop-filter: blur(10px);
-
-	.lightbox-container:hover & {
-		bottom: -0.5rem;
-	}
+	opacity: 1;
+	transform: translateY(0);
+	transition: opacity $lightbox-transition-duration ease,
+	           transform $lightbox-transition-duration ease;
 }
 
 .lightbox-title {
