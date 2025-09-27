@@ -1,0 +1,86 @@
+// Context Menu Variables
+$context-menu-z-index: 9999 !default;
+$submenu-icon-size: 5px !default;
+
+// Context Menu Core Styles
+.context-menu {
+	position: absolute;
+	z-index: $context-menu-z-index;
+	display: none;
+
+	&.show {
+		display: block;
+	}
+}
+
+// Dropdown Submenu Styles (Bootstrap 3 compatibility for BS5)
+.dropdown-submenu {
+	position: relative;
+
+	> .dropdown-menu {
+		top: 0;
+		left: 100%;
+		margin-top: -6px;
+		margin-left: -1px;
+		border-radius: var(--bs-border-radius);
+	}
+
+	// Show submenu on hover
+	&:hover > .dropdown-menu {
+		display: block;
+	}
+
+	// Submenu arrow indicator
+	> a::after {
+		display: block;
+		content: " ";
+		float: right;
+		width: 0;
+		height: 0;
+		border-color: transparent;
+		border-style: solid;
+		border-width: $submenu-icon-size 0 $submenu-icon-size $submenu-icon-size;
+		border-left-color: var(--bs-secondary);
+		margin-top: 5px;
+		margin-right: -10px;
+	}
+
+	// Hover state for arrow
+	&:hover > a::after {
+		border-left-color: var(--bs-dropdown-link-hover-color);
+	}
+
+	// Pull left variant
+	&.pull-left {
+		float: none;
+
+		> .dropdown-menu {
+			left: -100%;
+			margin-left: 10px;
+			border-radius: var(--bs-border-radius);
+		}
+	}
+}
+
+// Dark mode support (Bootstrap 5.3)
+[data-bs-theme="dark"] {
+	.dropdown-submenu > a::after {
+		border-left-color: var(--bs-secondary);
+	}
+
+	.dropdown-submenu:hover > a::after {
+		border-left-color: var(--bs-dropdown-link-hover-color);
+	}
+}
+
+// Additional styling for disabled items
+.dropdown-item.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+// Icon spacing in menu items
+.dropdown-item i.fa {
+	min-width: 1.25em;
+	text-align: center;
+}

@@ -1,0 +1,315 @@
+/**
+ * YoBox Custom SCSS Styles
+ * Bootstrap 5.3+ compatible styling for YoBox modals
+ * Uses Bootstrap CSS variables for theming consistency
+ */
+:root {
+	--yobox-border-radius: var(--bs-border-radius);
+	--yobox-box-shadow: var(--bs-box-shadow);
+	--yobox-transition: var(--bs-transition-base);
+	--yobox-font-size: var(--bs-body-font-size);
+	--yobox-line-height: var(--bs-body-line-height);
+	--yobox-primary: var(--bs-primary);
+	--yobox-secondary: var(--bs-secondary);
+	--yobox-success: var(--bs-success);
+	--yobox-danger: var(--bs-danger);
+	--yobox-warning: var(--bs-warning);
+	--yobox-info: var(--bs-info);
+	--yobox-bg: var(--bs-modal-bg);
+	--yobox-color: var(--bs-modal-color);
+	--yobox-border-color: var(--bs-modal-border-color);
+	--yobox-header-bg: var(--bs-modal-header-bg);
+	--yobox-header-border: var(--bs-modal-header-border-color);
+	--yobox-footer-bg: var(--bs-modal-footer-bg);
+	--yobox-footer-border: var(--bs-modal-footer-border-color);
+	--yobox-input-bg: var(--bs-body-bg);
+	--yobox-input-border: var(--bs-border-color);
+	--yobox-input-focus-border: var(--bs-primary);
+	--yobox-input-focus-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+.yobox.modal {
+	--bs-modal-zindex: 1055;
+}
+
+.yobox.modal .modal-content {
+	border-radius: var(--yobox-border-radius);
+	box-shadow: var(--yobox-box-shadow);
+	transition: var(--yobox-transition);
+}
+
+.yobox.modal .modal-header {
+	background-color: var(--yobox-header-bg);
+	border-bottom-color: var(--yobox-header-border);
+}
+
+.yobox.modal .modal-header .modal-title {
+	font-weight: 600;
+	font-size: 1.125rem;
+}
+
+.yobox.modal .modal-footer {
+	background-color: var(--yobox-footer-bg);
+	border-top-color: var(--yobox-footer-border);
+	gap: 0.5rem;
+}
+
+.yobox.modal .modal-footer .btn {
+	min-width: 80px;
+}
+
+.yobox.modal .yobox-body {
+	font-size: var(--yobox-font-size);
+	line-height: var(--yobox-line-height);
+}
+
+.yobox-close-button {
+	transition: var(--yobox-transition);
+}
+
+.yobox-close-button:hover {
+	opacity: 0.75;
+	transform: scale(1.1);
+}
+
+.yobox-close-button:focus {
+	box-shadow: var(--yobox-input-focus-shadow);
+}
+
+.yobox .yobox-accept:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.5);
+}
+
+.yobox .yobox-cancel:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-secondary-rgb), 0.5);
+}
+
+.yobox-form .yobox-prompt-message {
+	margin-bottom: 1rem;
+	padding: 0.75rem;
+	background-color: rgba(var(--bs-info-rgb), 0.1);
+	border: 1px solid rgba(var(--bs-info-rgb), 0.2);
+	border-radius: var(--yobox-border-radius);
+	color: var(--yobox-color);
+}
+
+.yobox-form .yobox-input {
+	transition: var(--yobox-transition);
+}
+
+.yobox-form .yobox-input:focus {
+	border-color: var(--yobox-input-focus-border);
+	box-shadow: var(--yobox-input-focus-shadow);
+}
+
+.yobox-form .yobox-input:invalid {
+	border-color: var(--yobox-danger);
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-danger-rgb), 0.25);
+}
+
+.yobox-form .yobox-checkbox-list,
+.yobox-form .yobox-radiobutton-list {
+	max-height: 200px;
+	overflow-y: auto;
+	border: 1px solid var(--yobox-input-border);
+	border-radius: var(--yobox-border-radius);
+	padding: 0.5rem;
+	background-color: var(--yobox-input-bg);
+}
+
+.yobox-form .yobox-checkbox-list .form-check,
+.yobox-form .yobox-radiobutton-list .form-check {
+	margin-bottom: 0.5rem;
+}
+
+.yobox-form .yobox-checkbox-list .form-check:last-child,
+.yobox-form .yobox-radiobutton-list .form-check:last-child {
+	margin-bottom: 0;
+}
+
+.yobox-form .yobox-checkbox-list .form-check .form-check-input:focus,
+.yobox-form .yobox-radiobutton-list .form-check .form-check-input:focus {
+	box-shadow: var(--yobox-input-focus-shadow);
+}
+
+.yobox-form .yobox-checkbox-list .form-check .form-check-label,
+.yobox-form .yobox-radiobutton-list .form-check .form-check-label {
+	font-weight: 400;
+	cursor: pointer;
+	transition: var(--yobox-transition);
+}
+
+.yobox-form .yobox-checkbox-list .form-check .form-check-label:hover,
+.yobox-form .yobox-radiobutton-list .form-check .form-check-label:hover {
+	color: var(--yobox-primary);
+}
+
+.yobox-danger .modal-content {
+	border-color: var(--yobox-danger);
+	box-shadow: 0 0.5rem 1rem rgba(var(--bs-danger-rgb), 0.15);
+}
+
+.yobox-danger .modal-header {
+	background-color: var(--yobox-danger);
+	color: white;
+	border-bottom-color: var(--yobox-danger);
+}
+
+.yobox-danger .modal-header .btn-close,
+.yobox-danger .modal-header .yobox-close-button {
+	filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.yobox-success .modal-content {
+	border-color: var(--yobox-success);
+	box-shadow: 0 0.5rem 1rem rgba(var(--bs-success-rgb), 0.15);
+}
+
+.yobox-success .modal-header {
+	background-color: var(--yobox-success);
+	color: white;
+	border-bottom-color: var(--yobox-success);
+}
+
+.yobox-success .modal-header .btn-close,
+.yobox-success .modal-header .yobox-close-button {
+	filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.yobox-warning .modal-content {
+	border-color: var(--yobox-warning);
+	box-shadow: 0 0.5rem 1rem rgba(var(--bs-warning-rgb), 0.15);
+}
+
+.yobox-warning .modal-header {
+	background-color: var(--yobox-warning);
+	color: var(--bs-dark);
+	border-bottom-color: var(--yobox-warning);
+}
+
+.yobox-info .modal-content {
+	border-color: var(--yobox-info);
+	box-shadow: 0 0.5rem 1rem rgba(var(--bs-info-rgb), 0.15);
+}
+
+.yobox-info .modal-header {
+	background-color: var(--yobox-info);
+	color: white;
+	border-bottom-color: var(--yobox-info);
+}
+
+.yobox-info .modal-header .btn-close,
+.yobox-info .modal-header .yobox-close-button {
+	filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.yobox.fade.show .modal-dialog {
+	animation: yoboxSlideIn 0.3s ease-out;
+}
+
+.yobox.fade:not(.show) .modal-dialog {
+	animation: yoboxSlideOut 0.15s ease-in;
+}
+
+@keyframes yoboxSlideIn {
+	from {
+		transform: translate3d(0, -50px, 0) scale(0.95);
+		opacity: 0;
+	}
+
+	to {
+		transform: translate3d(0, 0, 0) scale(1);
+		opacity: 1;
+	}
+}
+
+@keyframes yoboxSlideOut {
+	from {
+		transform: translate3d(0, 0, 0) scale(1);
+		opacity: 1;
+	}
+
+	to {
+		transform: translate3d(0, -50px, 0) scale(0.95);
+		opacity: 0;
+	}
+}
+
+@media (max-width: 576px) {
+	.yobox.modal .modal-dialog {
+		margin: 1rem 0.5rem;
+	}
+
+	.yobox.modal .modal-footer {
+		flex-direction: column;
+	}
+
+	.yobox.modal .modal-footer .btn {
+		width: 100%;
+		margin-bottom: 0.5rem;
+	}
+
+	.yobox.modal .modal-footer .btn:last-child {
+		margin-bottom: 0;
+	}
+
+	.yobox.modal .yobox-checkbox-list,
+	.yobox.modal .yobox-radiobutton-list {
+		max-height: 150px;
+	}
+}
+
+[data-bs-theme=dark] .yobox.modal .yobox-prompt-message {
+	background-color: rgba(var(--bs-info-rgb), 0.15);
+	border-color: rgba(var(--bs-info-rgb), 0.3);
+}
+
+[data-bs-theme=dark] .yobox.modal .yobox-checkbox-list,
+[data-bs-theme=dark] .yobox.modal .yobox-radiobutton-list {
+	background-color: var(--bs-body-bg);
+	border-color: var(--bs-border-color);
+}
+
+[data-bs-theme=light] .yobox.modal .modal-content {
+	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.yobox.modal:focus-within .modal-content {
+	box-shadow: 0 0 0 3px rgba(var(--bs-primary-rgb), 0.25);
+}
+
+@media (prefers-contrast: high) {
+	.yobox.modal .modal-content {
+		border-width: 2px;
+	}
+
+	.yobox.modal .btn {
+		border-width: 2px;
+	}
+
+	.yobox.modal .yobox-input {
+		border-width: 2px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.yobox.modal.fade {
+		transition: none;
+	}
+
+	.yobox.modal.fade .modal-dialog {
+		animation: none;
+	}
+
+	.yobox.modal .yobox-close-button,
+	.yobox.modal .yobox-input,
+	.yobox.modal .btn {
+		transition: none;
+	}
+}
+
+@media print {
+	.yobox.modal {
+		display: none !important;
+	}
+}

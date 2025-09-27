@@ -1,0 +1,373 @@
+/**
+ * YoBox Custom SCSS Styles
+ * Bootstrap 5.3+ compatible styling for YoBox modals
+ * Uses Bootstrap CSS variables for theming consistency
+ */
+
+// YoBox specific variables using Bootstrap's CSS custom properties
+:root {
+	--yobox-border-radius: var(--bs-border-radius);
+	--yobox-box-shadow: var(--bs-box-shadow);
+	--yobox-transition: var(--bs-transition-base);
+	--yobox-font-size: var(--bs-body-font-size);
+	--yobox-line-height: var(--bs-body-line-height);
+
+	// Color scheme variables
+	--yobox-primary: var(--bs-primary);
+	--yobox-secondary: var(--bs-secondary);
+	--yobox-success: var(--bs-success);
+	--yobox-danger: var(--bs-danger);
+	--yobox-warning: var(--bs-warning);
+	--yobox-info: var(--bs-info);
+
+	// Background and text colors
+	--yobox-bg: var(--bs-modal-bg);
+	--yobox-color: var(--bs-modal-color);
+	--yobox-border-color: var(--bs-modal-border-color);
+
+	// Header specific colors
+	--yobox-header-bg: var(--bs-modal-header-bg);
+	--yobox-header-border: var(--bs-modal-header-border-color);
+
+	// Footer specific colors
+	--yobox-footer-bg: var(--bs-modal-footer-bg);
+	--yobox-footer-border: var(--bs-modal-footer-border-color);
+
+	// Input styling
+	--yobox-input-bg: var(--bs-body-bg);
+	--yobox-input-border: var(--bs-border-color);
+	--yobox-input-focus-border: var(--bs-primary);
+	--yobox-input-focus-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+// Base modal styling
+.yobox.modal {
+	--bs-modal-zindex: 1055; // Slightly higher than default Bootstrap modals
+
+	.modal-content {
+		border-radius: var(--yobox-border-radius);
+		box-shadow: var(--yobox-box-shadow);
+		transition: var(--yobox-transition);
+	}
+
+	.modal-header {
+		background-color: var(--yobox-header-bg);
+		border-bottom-color: var(--yobox-header-border);
+
+		.modal-title {
+			font-weight: 600;
+			font-size: 1.125rem;
+		}
+	}
+
+	.modal-footer {
+		background-color: var(--yobox-footer-bg);
+		border-top-color: var(--yobox-footer-border);
+		gap: 0.5rem;
+
+		.btn {
+			min-width: 80px;
+		}
+	}
+
+	.yobox-body {
+		font-size: var(--yobox-font-size);
+		line-height: var(--yobox-line-height);
+	}
+}
+
+// Close button styling
+.yobox-close-button {
+	transition: var(--yobox-transition);
+
+	&:hover {
+		opacity: 0.75;
+		transform: scale(1.1);
+	}
+
+	&:focus {
+		box-shadow: var(--yobox-input-focus-shadow);
+	}
+}
+
+// Button semantic classes
+.yobox {
+	.yobox-accept {
+		&:focus {
+			box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.5);
+		}
+	}
+
+	.yobox-cancel {
+		&:focus {
+			box-shadow: 0 0 0 0.25rem rgba(var(--bs-secondary-rgb), 0.5);
+		}
+	}
+}
+
+// Form and input styling
+.yobox-form {
+	.yobox-prompt-message {
+		margin-bottom: 1rem;
+		padding: 0.75rem;
+		background-color: rgba(var(--bs-info-rgb), 0.1);
+		border: 1px solid rgba(var(--bs-info-rgb), 0.2);
+		border-radius: var(--yobox-border-radius);
+		color: var(--yobox-color);
+	}
+
+	.yobox-input {
+		transition: var(--yobox-transition);
+
+		&:focus {
+			border-color: var(--yobox-input-focus-border);
+			box-shadow: var(--yobox-input-focus-shadow);
+		}
+
+		&:invalid {
+			border-color: var(--yobox-danger);
+			box-shadow: 0 0 0 0.25rem rgba(var(--bs-danger-rgb), 0.25);
+		}
+	}
+
+	// Checkbox and radio lists
+	.yobox-checkbox-list,
+	.yobox-radiobutton-list {
+		max-height: 200px;
+		overflow-y: auto;
+		border: 1px solid var(--yobox-input-border);
+		border-radius: var(--yobox-border-radius);
+		padding: 0.5rem;
+		background-color: var(--yobox-input-bg);
+
+		.form-check {
+			margin-bottom: 0.5rem;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+
+			.form-check-input {
+				&:focus {
+					box-shadow: var(--yobox-input-focus-shadow);
+				}
+			}
+
+			.form-check-label {
+				font-weight: 400;
+				cursor: pointer;
+				transition: var(--yobox-transition);
+
+				&:hover {
+					color: var(--yobox-primary);
+				}
+			}
+		}
+	}
+}
+
+// Themed modal variants
+.yobox-danger {
+	.modal-content {
+		border-color: var(--yobox-danger);
+		box-shadow: 0 0.5rem 1rem rgba(var(--bs-danger-rgb), 0.15);
+	}
+
+	.modal-header {
+		background-color: var(--yobox-danger);
+		color: white;
+		border-bottom-color: var(--yobox-danger);
+
+		.btn-close,
+		.yobox-close-button {
+			filter: invert(1) grayscale(100%) brightness(200%);
+		}
+	}
+}
+
+.yobox-success {
+	.modal-content {
+		border-color: var(--yobox-success);
+		box-shadow: 0 0.5rem 1rem rgba(var(--bs-success-rgb), 0.15);
+	}
+
+	.modal-header {
+		background-color: var(--yobox-success);
+		color: white;
+		border-bottom-color: var(--yobox-success);
+
+		.btn-close,
+		.yobox-close-button {
+			filter: invert(1) grayscale(100%) brightness(200%);
+		}
+	}
+}
+
+.yobox-warning {
+	.modal-content {
+		border-color: var(--yobox-warning);
+		box-shadow: 0 0.5rem 1rem rgba(var(--bs-warning-rgb), 0.15);
+	}
+
+	.modal-header {
+		background-color: var(--yobox-warning);
+		color: var(--bs-dark);
+		border-bottom-color: var(--yobox-warning);
+	}
+}
+
+.yobox-info {
+	.modal-content {
+		border-color: var(--yobox-info);
+		box-shadow: 0 0.5rem 1rem rgba(var(--bs-info-rgb), 0.15);
+	}
+
+	.modal-header {
+		background-color: var(--yobox-info);
+		color: white;
+		border-bottom-color: var(--yobox-info);
+
+		.btn-close,
+		.yobox-close-button {
+			filter: invert(1) grayscale(100%) brightness(200%);
+		}
+	}
+}
+
+// Animation enhancements
+.yobox.fade {
+	&.show {
+		.modal-dialog {
+			animation: yoboxSlideIn 0.3s ease-out;
+		}
+	}
+
+	&:not(.show) {
+		.modal-dialog {
+			animation: yoboxSlideOut 0.15s ease-in;
+		}
+	}
+}
+
+@keyframes yoboxSlideIn {
+	from {
+		transform: translate3d(0, -50px, 0) scale(0.95);
+		opacity: 0;
+	}
+	to {
+		transform: translate3d(0, 0, 0) scale(1);
+		opacity: 1;
+	}
+}
+
+@keyframes yoboxSlideOut {
+	from {
+		transform: translate3d(0, 0, 0) scale(1);
+		opacity: 1;
+	}
+	to {
+		transform: translate3d(0, -50px, 0) scale(0.95);
+		opacity: 0;
+	}
+}
+
+// Responsive adjustments
+@media (max-width: 576px) {
+	.yobox.modal {
+		.modal-dialog {
+			margin: 1rem 0.5rem;
+		}
+
+		.modal-footer {
+			flex-direction: column;
+
+			.btn {
+				width: 100%;
+				margin-bottom: 0.5rem;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+
+		.yobox-checkbox-list,
+		.yobox-radiobutton-list {
+			max-height: 150px;
+		}
+	}
+}
+
+// Dark mode specific adjustments
+[data-bs-theme="dark"] {
+	.yobox.modal {
+		.yobox-prompt-message {
+			background-color: rgba(var(--bs-info-rgb), 0.15);
+			border-color: rgba(var(--bs-info-rgb), 0.3);
+		}
+
+		.yobox-checkbox-list,
+		.yobox-radiobutton-list {
+			background-color: var(--bs-body-bg);
+			border-color: var(--bs-border-color);
+		}
+	}
+}
+
+// Light mode specific adjustments
+[data-bs-theme="light"] {
+	.yobox.modal {
+		.modal-content {
+			box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+		}
+	}
+}
+
+// Accessibility improvements
+.yobox.modal {
+	// Focus management
+	&:focus-within {
+		.modal-content {
+			box-shadow: 0 0 0 3px rgba(var(--bs-primary-rgb), 0.25);
+		}
+	}
+
+	// High contrast support
+	@media (prefers-contrast: high) {
+		.modal-content {
+			border-width: 2px;
+		}
+
+		.btn {
+			border-width: 2px;
+		}
+
+		.yobox-input {
+			border-width: 2px;
+		}
+	}
+
+	// Reduced motion support
+	@media (prefers-reduced-motion: reduce) {
+		&.fade {
+			transition: none;
+
+			.modal-dialog {
+				animation: none;
+			}
+		}
+
+		.yobox-close-button,
+		.yobox-input,
+		.btn {
+			transition: none;
+		}
+	}
+}
+
+// Print styles
+@media print {
+	.yobox.modal {
+		display: none !important;
+	}
+}
