@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bootstrap 5.3 WYSIWYG Editor - Complete Example</title>
+	<!-- Bootstrap 5.3.3 CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+	<!-- Custom WYSIWYG Styles -->
+	<style>
+		/* Editor Container Styles */
+		.wysiwyg-editor-container {
+			border: 1px solid var(--bs-border-color);
+			border-radius: var(--bs-border-radius);
+			background: var(--bs-body-bg);
+		}
+
+		/* Editor Content Styles */
+		.wysiwyg-editor-content {
+			padding: 1rem;
+			overflow-y: auto;
+			background: var(--bs-body-bg);
+			color: var(--bs-body-color);
+			font-size: 1rem;
+		}
+
+		.wysiwyg-editor-content:focus {
+			outline: none;
+			box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+		}
+
+		/* Table Editing Styles */
+		.wysiwyg-editor-content table {
+			margin: 1rem 0;
+		}
+
+		.wysiwyg-editor-content table td,
+		.wysiwyg-editor-content table th {
+			min-width: 50px;
+			min-height: 30px;
+			padding: 0.5rem;
+			position: relative;
+		}
+
+		.wysiwyg-editor-content table td:focus,
+		.wysiwyg-editor-content table th:focus {
+			outline: 2px solid var(--bs-primary);
+			outline-offset: -2px;
+			background-color: rgba(13, 110, 253, 0.05);
+		}
+
+		.wysiwyg-editor-content table td:hover,
+		.wysiwyg-editor-content table th:hover {
+			background-color: rgba(13, 110, 253, 0.03);
+			cursor: text;
+		}
+
+		/* Prevent nested contenteditable issues */
+		.wysiwyg-editor-content table[contenteditable="true"] {
+			display: table;
+		}
+
+		/* Empty State Placeholder */
+		.wysiwyg-editor-content.is-empty:before {
+			content: attr(data-placeholder);
+			color: var(--bs-secondary-color);
+			opacity: 0.6;
+			position: absolute;
+			pointer-events: none;
+		}
+
+		/* Toolbar Styles */
+		.wysiwyg-toolbar {
+			border-bottom: 1px solid var(--bs-border-color);
+			padding: 0.5rem;
+			background: var(--bs-tertiary-bg);
+		}
+
+		/* Status Bar Styles */
+		.wysiwyg-statusbar {
+			border-top: 1px solid var(--bs-border-color);
+			padding: 0.25rem 0.5rem;
+			font-size: 0.875rem;
+			color: var(--bs-secondary-color);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			background: var(--bs-tertiary-bg);
+		}
+
+		/* Resize Handle */
+		.wysiwyg-resize-handle {
+			cursor: ns-resize;
+			text-align: center;
+		}
+
+		.resize-grip {
+			display: inline-block;
+			width: 30px;
+			height: 4px;
+			background: var(--bs-border-color);
+			border-radius: 2px;
+		}
+
+		/* Fullscreen Mode */
+		.wysiwyg-editor-container.fullscreen {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 9999;
+			border-radius: 0;
+		}
+
+		body.wysiwyg-fullscreen-active {
+			overflow: hidden;
+		}
+
+		/* Color Palette */
+		.color-palette-grid {
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+		}
+
+		.color-palette-row {
+			display: flex;
+			gap: 2px;
+		}
+
+		.color-palette-button {
+			width: 25px;
+			height: 25px;
+			border: 1px solid var(--bs-border-color);
+			cursor: pointer;
+			transition: transform 0.1s;
+		}
+
+		.color-palette-button:hover {
+			transform: scale(1.2);
+			z-index: 1;
+		}
+
+		.color-indicator {
+			position: absolute;
+			bottom: -2px;
+			left: 0;
+			right: 0;
+			height: 3px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container my-5">
+		<h1 class="mb-4">Bootstrap 5.3 WYSIWYG Editor</h1>
+		<!-- Example Form -->
+		<form id="editorForm">
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="card">
+						<div class="card-header">
+							<h5 class="card-title mb-0">Editor with All Configuration Options</h5>
+						</div>
+						<div class="card-body">
+							<!-- Original Textarea -->
+							<textarea id="myEditor" name="content" class="form-control"
+								placeholder="This textarea will be transformed into a WYSIWYG editor...">
+								<h2>Welcome to the WYSIWYG Editor!</h2>
+								<p>This is a <strong>Bootstrap 5.3</strong> integrated editor with <em>full featured</em> support.</p>
+								<ul>
+									<li>Rich text formatting</li>
+									<li>Tables and lists</li>
+									<li>Image and video support</li>
+									<li>Autosave functionality</li>
+								</ul>
+							</textarea>
+						</div>
+					</div>
+					<!-- Action Buttons -->
+					<div class="mt-3">
+						<button type="submit" class="btn btn-primary">Submit Form</button>
+						<button type="button" class="btn btn-secondary" onclick="getContent()">Get Content</button>
+						<button type="button" class="btn btn-info" onclick="setContent()">Set Content</button>
+						<button type="button" class="btn btn-warning" onclick="editor.clear()">Clear</button>
+						<button type="button" class="btn btn-danger" onclick="destroyEditor()">Destroy</button>
+						<button type="button" class="btn btn-success" onclick="initEditor()">Re-initialize</button>
+					</div>
+				</div>
+				<!-- Configuration Display -->
+				<div class="col-lg-4">
+					<div class="card">
+						<div class="card-header">
+							<h6 class="mb-0">Configuration Options</h6>
+						</div>
+						<div class="card-body">
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" id="autosaveToggle" checked>
+								<label class="form-check-label" for="autosaveToggle"> Autosave Enabled </label>
+							</div>
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" id="spellcheckToggle" checked>
+								<label class="form-check-label" for="spellcheckToggle"> Spellcheck </label>
+							</div>
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" id="resizableToggle" checked>
+								<label class="form-check-label" for="resizableToggle"> Resizable </label>
+							</div>
+							<hr>
+							<h6>Editor Info</h6>
+							<div id="editorInfo">
+								<small class="text-muted">
+									<div>Status: <span id="statusText">Ready</span></div>
+									<div>Words: <span id="wordCount">0</span></div>
+									<div>Characters: <span id="charCount">0</span></div>
+									<div>Last Saved: <span id="lastSaved">Never</span></div>
+								</small>
+							</div>
+						</div>
+					</div>
+					<!-- Console Output -->
+					<div class="card mt-3">
+						<div class="card-header">
+							<h6 class="mb-0">Event Console</h6>
+						</div>
+						<div class="card-body">
+							<div id="console" style="max-height: 300px; overflow-y: auto;">
+								<small class="text-muted">Events will appear here...</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- Bootstrap 5.3.3 Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- WYSIWYG Editor Components -->
+	<script src="js/WysiwygEditor.js"></script>
+	<script src="js/WysiwygToolbar.js"></script>
+	<script src="js/WysiwygCommandManager.js"></script>
+	<script src="js/WysiwygEventManager.js"></script>
+	<script src="js/WysiwygStorageManager.js"></script>
+	<script src="js/WysiwygSanitizer.js"></script>
+	<!-- Initialize Editor -->
+	<script>
+		let editor;
+
+		// Complete configuration with all available options
+		const editorConfig = {
+			// Toolbar configuration - organized into logical groups
+			toolbar: [
+				// Text formatting group
+				['style', ['style']],
+				['font', ['bold', 'italic', 'underline', 'strikethrough']],
+				['fontname', ['fontname']],
+				['fontsize', ['fontsize']],
+				['color', ['color', 'bgcolor']],
+
+				// Paragraph formatting group
+				['para', ['ul', 'ol', 'paragraph']],
+				['indent', ['indent', 'outdent']],
+				['height', ['height']],
+
+				// Insert elements group
+				['insert', ['link', 'unlink', 'picture', 'video', 'table', 'hr']],
+
+				// Code and special formatting
+				['code', ['superscript', 'subscript', 'code']],
+
+				// View and tools group
+				['view', ['fullscreen', 'codeview']],
+				['history', ['undo', 'redo']],
+				['tools', ['clear', 'help']]
+			],
+
+			// Toolbar alignment - can be: 'evenly', 'between', 'around', 'end', 'start', 'center'
+			toolbarAlignment: 'between', // 'start' is Default alignment
+
+			// Height configuration
+			height: {
+				min: 150,
+				max: 600,
+				default: 300
+			},
+
+			// Placeholder text
+			placeholder: 'Start typing your content here...',
+
+			// Event callbacks
+			callbacks: {
+				onChange: function (content) {
+					logEvent('onChange', 'Content changed');
+					updateInfo();
+				},
+				onFocus: function (event) {
+					logEvent('onFocus', 'Editor focused');
+					document.getElementById('statusText').textContent = 'Editing...';
+				},
+				onBlur: function (event) {
+					logEvent('onBlur', 'Editor blurred');
+					document.getElementById('statusText').textContent = 'Ready';
+				},
+				onInit: function (editor) {
+					logEvent('onInit', 'Editor initialized');
+				},
+				onDestroy: function (editor) {
+					logEvent('onDestroy', 'Editor destroyed');
+				},
+				onPaste: function (data) {
+					logEvent('onPaste', `Pasted ${data.content.length} characters`);
+				},
+				onKeydown: function (event) {
+					// Log only special keys
+					if (event.ctrlKey || event.metaKey) {
+						logEvent('onKeydown', `Key: ${event.key} (Ctrl/Cmd)`);
+					}
+				},
+				onImageUpload: function (file) {
+					logEvent('onImageUpload', `Image: ${file.name} (${(file.size / 1024).toFixed(2)}KB)`);
+					// Return false to handle upload yourself
+					// return false;
+				}
+			},
+
+			// Autosave configuration
+			autosave: {
+				enabled: true,
+				interval: 30000, // 30 seconds
+				key: 'wysiwyg_demo',
+				storage: 'local',
+				maxVersions: 5,
+				onSave: function (data) {
+					logEvent('autosave', 'Content saved');
+					document.getElementById('lastSaved').textContent = new Date().toLocaleTimeString();
+				},
+				onRestore: function (data) {
+					logEvent('autosave', 'Content restored from draft');
+				}
+			},
+
+			// Allowed HTML tags
+			allowedTags: [
+				'p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'strike',
+				'ul', 'ol', 'li', 'blockquote', 'pre', 'code',
+				'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+				'a', 'img', 'video', 'audio', 'iframe',
+				'table', 'thead', 'tbody', 'tfoot', 'tr', 'td', 'th',
+				'div', 'span', 'sup', 'sub', 'mark', 'small',
+				'hr', 'figure', 'figcaption', 'del', 'ins'
+			],
+
+			// Allowed attributes per tag
+			allowedAttributes: {
+				'*': ['class', 'id', 'style', 'title', 'data-*'],
+				'a': ['href', 'target', 'rel', 'download'],
+				'img': ['src', 'alt', 'width', 'height', 'loading'],
+				'video': ['src', 'width', 'height', 'controls', 'autoplay', 'muted', 'loop', 'poster'],
+				'audio': ['src', 'controls', 'autoplay', 'muted', 'loop'],
+				'iframe': ['src', 'width', 'height', 'frameborder', 'allowfullscreen', 'allow'],
+				'table': ['border', 'cellpadding', 'cellspacing'],
+				'td': ['colspan', 'rowspan', 'align', 'valign'],
+				'th': ['colspan', 'rowspan', 'align', 'valign']
+			},
+
+			// Paste handling configuration
+			paste: {
+				mode: 'auto', // 'plain', 'formatted', 'auto'
+				autoClean: true,
+				stripStyles: false,
+				stripClasses: false,
+				stripIds: true
+			},
+
+			// Theme configuration
+			theme: 'dark', // 'light', 'dark', 'auto'
+
+			// Spellcheck
+			spellcheck: true,
+
+			// Color palettes
+			colors: {
+				text: [
+					['#000000', '#424242', '#636363', '#9C9C94', '#CEC6CE', '#EFEFEF', '#F7F7F7', '#FFFFFF'],
+					['#FF0000', '#FF9900', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#9900FF', '#FF00FF'],
+					['#F7C6CE', '#FFE7CE', '#FFEFC6', '#D6EFD6', '#CEDEE7', '#CEE7F7', '#D6D6E7', '#E7D6DE'],
+					['#E79C9C', '#FFC69C', '#FFE79C', '#B5D6A5', '#A5C6CE', '#9CC6EF', '#B5A5D6', '#D6A5BD']
+				],
+				background: [
+					['#000000', '#424242', '#636363', '#9C9C94', '#CEC6CE', '#EFEFEF', '#F7F7F7', '#FFFFFF'],
+					['#FF0000', '#FF9900', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#9900FF', '#FF00FF'],
+					['#F7C6CE', '#FFE7CE', '#FFEFC6', '#D6EFD6', '#CEDEE7', '#CEE7F7', '#D6D6E7', '#E7D6DE'],
+					['#E79C9C', '#FFC69C', '#FFE79C', '#B5D6A5', '#A5C6CE', '#9CC6EF', '#B5A5D6', '#D6A5BD']
+				]
+			},
+
+			// Font families
+			fonts: [
+				'Arial', 'Arial Black', 'Brush Script MT', 'Comic Sans MS',
+				'Courier New', 'Georgia', 'Helvetica', 'Impact',
+				'Lucida Console', 'Tahoma', 'Times New Roman',
+				'Trebuchet MS', 'Verdana', 'Palatino', 'Garamond'
+			],
+
+			// Font sizes
+			fontSizes: ['8', '10', '12', '14', '16', '18', '20', '24', '28', '32', '36', '48', '64', '72'],
+
+			// Resizable
+			resizable: true,
+
+			// Focus on init
+			focus: false,
+
+			// Tab size
+			tabSize: 4,
+
+			// Text direction
+			direction: 'ltr', // 'ltr', 'rtl'
+
+			// Line heights
+			lineHeights: ['1.0', '1.15', '1.2', '1.5', '1.8', '2.0', '2.5', '3.0'],
+
+			// Enable shortcuts
+			shortcuts: true,
+
+			// Drag and drop
+			disableDragAndDrop: false,
+
+			// Image constraints
+			maximumImageSize: 5242880, // 5MB
+			acceptedImageTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/webp']
+		};
+
+		// Initialize editor
+		function initEditor() {
+			const textarea = document.getElementById('myEditor');
+			if (textarea && !editor) {
+				editor = new WysiwygEditor(textarea, editorConfig);
+				updateInfo();
+			}
+		}
+
+		// Destroy editor
+		function destroyEditor() {
+			if (editor) {
+				editor.destroy();
+				editor = null;
+			}
+		}
+
+		// Get content
+		function getContent() {
+			if (editor) {
+				const content = editor.getContent();
+				console.log('HTML Content:', content);
+				console.log('Plain Text:', editor.getText());
+				console.log('Markdown:', editor.export('markdown'));
+				alert('Content logged to console!');
+			}
+		}
+
+		// Set sample content
+		function setContent() {
+			if (editor) {
+				const sampleContent = `
+					<h2>Sample Content</h2>
+					<p>This is <strong>sample content</strong> with <em>various</em> formatting.</p>
+					<ul>
+						<li>List item 1</li>
+						<li>List item 2</li>
+					</ul>
+					<blockquote>This is a blockquote</blockquote>
+					<table class="table table-bordered">
+						<tr><th>Header 1</th><th>Header 2</th></tr>
+						<tr><td>Cell 1</td><td>Cell 2</td></tr>
+					</table>
+				`;
+				editor.setContent(sampleContent);
+			}
+		}
+
+		// Update editor info
+		function updateInfo() {
+			if (editor) {
+				document.getElementById('wordCount').textContent = editor.getWordCount();
+				document.getElementById('charCount').textContent = editor.getCharCount();
+			}
+		}
+
+		// Log events to console
+		function logEvent(event, message) {
+			const console = document.getElementById('console');
+			const time = new Date().toLocaleTimeString();
+			const entry = document.createElement('div');
+			entry.className = 'small';
+			entry.innerHTML = `<span class="text-info">[${time}]</span> <strong>${event}:</strong> ${message}`;
+			console.insertBefore(entry, console.firstChild);
+
+			// Limit console entries
+			while (console.children.length > 20) {
+				console.removeChild(console.lastChild);
+			}
+		}
+
+		// Handle configuration toggles
+		document.getElementById('autosaveToggle').addEventListener('change', function (e) {
+			if (editor && editor.storageManager) {
+				if (e.target.checked) {
+					editor.storageManager.enable();
+				} else {
+					editor.storageManager.disable();
+				}
+			}
+		});
+
+		document.getElementById('spellcheckToggle').addEventListener('change', function (e) {
+			if (editor) {
+				editor.editorElement.spellcheck = e.target.checked;
+			}
+		});
+
+		document.getElementById('resizableToggle').addEventListener('change', function (e) {
+			if (editor) {
+				editor.updateConfig({ resizable: e.target.checked });
+			}
+		});
+
+		// Handle form submission
+		document.getElementById('editorForm').addEventListener('submit', function (e) {
+			e.preventDefault();
+			if (editor) {
+				// The textarea value is automatically synced
+				const formData = new FormData(this);
+				console.log('Form Content:', formData.get('content'));
+				alert('Form submitted! Check console for content.');
+			}
+		});
+
+		// Initialize on page load
+		document.addEventListener('DOMContentLoaded', initEditor);
+	</script>
+</body>
+</html>

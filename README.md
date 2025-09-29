@@ -13,6 +13,7 @@ A comprehensive collection of advanced Bootstrap 5.3 components and enhancements
 | <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/ContextMenu/Example.html">Context Menu</a>| <a href="ContextMenu/README.md">README</a>                                                                |
 | <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/YoBox/Example.html">Alert, Confirm, Prompts</a>      | <a href="YoBox/README.md">README</a>            |
 | <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/FileUploadPreview/Example.html">File Upload Preview</a>                                                             | <a href="FileUploadPreview/README.md">README</a>                                                                          |
+| <a href="https://yohn.github.io/Bootstrap-Enhanced-Components/WysiwygEditor/Example.html">WYSIWYG Editor</a>                                                             | <a href="WysiwygEditor/README.md">README</a>                                                                          |
 
 ---
 
