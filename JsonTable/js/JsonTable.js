@@ -1,11 +1,12 @@
-
 class JsonTable {
 	constructor(options) {
 		this.jsonUrl = options.jsonUrl || '';
 		this.rowsPerPage = options.rowsPerPage || 10;
+		this.rowsPerPageOptions = options.rowsPerPageOptions || [5, 10, 25, 50, 100];
 		this.container = document.querySelector(options.container || '#jsonTable');
 		this.globalSearchInput = document.querySelector(options.globalSearch || '#globalSearch');
 		this.paginationContainer = document.querySelector(options.pagination || '#pagination');
+		this.rowsPerPageSelect = document.querySelector(options.rowsPerPageSelect || '#rowsPerPageSelect');
 		this.columns = options.columns || []; // Array of objects defining column settings
 		this.allowEdit = options.allowEdit || false; // Whether to enable editing
 		this.editPlacement = options.editPlacement || 'start'; // 'start' or 'end'
@@ -26,6 +27,7 @@ class JsonTable {
 
 	async init() {
 		await this.fetchData();
+		this.setupRowsPerPageSelector();
 		this.renderTable();
 		this.addGlobalSearchListener();
 	}
@@ -37,6 +39,31 @@ class JsonTable {
 			this.filteredData = [...this.data];
 		} catch (error) {
 			console.error('Error fetching JSON data:', error);
+		}
+	}
+
+	setupRowsPerPageSelector() {
+		if (this.rowsPerPageSelect) {
+			// Clear existing options
+			this.rowsPerPageSelect.innerHTML = '';
+
+			// Add options
+			this.rowsPerPageOptions.forEach(option => {
+				const optionElement = document.createElement('option');
+				optionElement.value = option;
+				optionElement.textContent = option;
+				if (option === this.rowsPerPage) {
+					optionElement.selected = true;
+				}
+				this.rowsPerPageSelect.appendChild(optionElement);
+			});
+
+			// Add event listener
+			this.rowsPerPageSelect.addEventListener('change', (e) => {
+				this.rowsPerPage = parseInt(e.target.value, 10);
+				this.currentPage = 1; // Reset to first page
+				this.renderTable('rows');
+			});
 		}
 	}
 

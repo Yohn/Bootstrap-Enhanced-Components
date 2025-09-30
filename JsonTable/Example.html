@@ -29,10 +29,25 @@
 		<div class="col-lg-12 col-xl-8 mx-auto">
 			<div class="card">
 				<div class="card-header border-bottom-0">
-					<div class="col-6 ms-auto">
-						<div class="input-group">
-							<span class="input-group-text" id="globalSearchIcon"><i class="bi bi-search"></i></span>
-							<input id="globalSearch" type="text" class="form-control" placeholder="Search all rows" aria-label="Search all rows">
+					<div class="row">
+						<div class="col-md-6 col-sm-12 mb-2 mb-md-0">
+							<div class="input-group">
+								<label class="input-group-text" for="rowsPerPageSelect">Show</label>
+								<select id="rowsPerPageSelect" class="form-select" style="max-width: 100px;">
+									<option value="5">5</option>
+									<option value="10">10</option>
+									<option value="25">25</option>
+									<option value="50">50</option>
+									<option value="100">100</option>
+								</select>
+								<span class="input-group-text">entries</span>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<div class="input-group">
+								<span class="input-group-text" id="globalSearchIcon"><i class="bi bi-search"></i></span>
+								<input id="globalSearch" type="text" class="form-control" placeholder="Search all rows" aria-label="Search all rows">
+							</div>
 						</div>
 					</div>
 				</div>
