@@ -10,6 +10,7 @@
 		.demo-section {
 			margin-bottom: 3rem;
 		}
+
 		.code-example {
 			background-color: var(--bs-gray-900);
 			border: 1px solid var(--bs-gray-700);
@@ -17,6 +18,7 @@
 			padding: 1rem;
 			margin-top: 1rem;
 		}
+
 		.feature-grid {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -25,12 +27,131 @@
 	</style>
 </head>
 <body class="bg-dark text-light">
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-gradient bg-body-tertiary">
+		<div class="container-fluid">
+			<a class="navbar-brand fw-bold" href="/../#overview">
+				<i class="bi bi-bootstrap-fill me-2"></i> Bootstrap Enhanced Components </a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Demos </a>
+						<ul class="dropdown-menu pt-0">
+							<li>
+								<h5 class="px-3 py-2 text-nowrap text-primary border-bottom border-primary bg-dark-subtle rounded-top">
+									Production Ready </h5>
+							</li>
+							<li>
+								<a class="dropdown-item" href="https://yohn.github.io/Bootstrap-Enhanced-Components/YoBox/Example.html">
+									YoBox </a>
+							</li>
+							<li>
+								<a class="dropdown-item"
+									href="https://yohn.github.io/Bootstrap-Enhanced-Components/AutoTextarea/Example.html"> Auto Textarea
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item"
+									href="https://yohn.github.io/Bootstrap-Enhanced-Components/InputMask/Example.html"> Input Mask </a>
+							</li>
+							<li>
+								<a class="dropdown-item"
+									href="https://yohn.github.io/Bootstrap-Enhanced-Components/MultiSelect/Example.html"> Multi Select
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item"
+									href="https://yohn.github.io/Bootstrap-Enhanced-Components/FileUploadPreview/Example.html"> File
+									Upload Preview </a>
+							</li>
+							<li>
+								<a class="dropdown-item"
+									href="https://yohn.github.io/Bootstrap-Enhanced-Components/WysiwygEditor/Example.html"> Wysiwyg Editor
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item"
+									href="https://yohn.github.io/Bootstrap-Enhanced-Components/ToastAlerts/Example.html"> Toast Alerts
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item"
+									href="https://yohn.github.io/Bootstrap-Enhanced-Components/SimpleLightbox/Example.html"> Simple
+									Lightbox </a>
+							</li>
+							<li>
+								<a class="dropdown-item"
+									href="https://yohn.github.io/Bootstrap-Enhanced-Components/ContextMenu/Example.html"> Context Menu
+								</a>
+							</li>
+							<li>
+								<hr class="dropdown-divider">
+							</li>
+							<li>
+								<h5 class="px-3 py-2 text-nowrap text-primary border-bottom border-primary bg-dark-subtle"> Needs
+									Testing </h5>
+							</li>
+							<li>
+								<a class="dropdown-item"
+									href="https://yohn.github.io/Bootstrap-Enhanced-Components/BehaviorTracker/HumanVerified.html"> Human
+									Verified </a>
+							</li>
+							<li>
+								<a class="dropdown-item"
+									href="https://yohn.github.io/Bootstrap-Enhanced-Components/BehaviorTracker/Example.html"> Behavior
+									Tracker </a>
+							</li>
+							<li>
+								<a class="dropdown-item"
+									href="https://yohn.github.io/Bootstrap-Enhanced-Components/MultiLevelDropdown/Example.html"> Multi
+									Level Dropdown </a>
+							</li>
+							<li>
+								<a class="dropdown-item"
+									href="https://yohn.github.io/Bootstrap-Enhanced-Components/OnboardingTour/Example.html"> Onboarding
+									Tour </a>
+							</li>
+							<li>
+								<hr class="dropdown-divider">
+							</li>
+							<li>
+								<h5 class="px-3 py-2 text-nowrap text-primary border-bottom border-primary bg-dark-subtle rounded-top">
+									Needs Improvements </h5>
+							</li>
+							<li>
+								<a class="dropdown-item"
+									href="https://yohn.github.io/Bootstrap-Enhanced-Components/RateLimiter/Example.html"> Rate Limiter
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item"
+									href="https://yohn.github.io/Bootstrap-Enhanced-Components/ImageLightbox/Example.html"> Image Lightbox
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/../#components">Components</a>
+					</li>
+\					<li class="nav-item">
+						<a class="nav-link" href="https://github.com/Yohn/Bootstrap-Enhanced-Components" target="_blank">
+							<i class="bi bi-github"></i> GitHub </a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
 	<div class="container py-5">
 		<header class="mb-5">
 			<h1 class="display-4 mb-3">AutoTextarea Component</h1>
-			<p class="lead">Automatically adjusting textareas for Bootstrap 5.3 with smooth animations and customizable options.</p>
+			<p class="lead">Automatically adjusting textareas for Bootstrap 5.3 with smooth animations and customizable
+				options.</p>
 		</header>
-
 		<!-- Basic Example -->
 		<section class="demo-section">
 			<h2 class="h3 mb-3">Basic Auto-Resize Textarea</h2>
@@ -38,11 +159,8 @@
 				<div class="col-lg-6">
 					<div class="mb-3">
 						<label for="basic-textarea" class="form-label">Basic Example</label>
-						<textarea
-							id="basic-textarea"
-							class="form-control auto-textarea-basic"
-							placeholder="Start typing and watch the textarea grow automatically..."
-							rows="3"></textarea>
+						<textarea id="basic-textarea" class="form-control auto-textarea-basic"
+							placeholder="Start typing and watch the textarea grow automatically..." rows="3"></textarea>
 						<div class="form-text">Default configuration with smooth height transitions</div>
 					</div>
 				</div>
@@ -54,76 +172,58 @@
 				</div>
 			</div>
 		</section>
-
 		<!-- Advanced Examples Grid -->
 		<section class="demo-section">
 			<h2 class="h3 mb-4">Configuration Examples</h2>
 			<div class="feature-grid">
-
 				<!-- Constrained Height -->
 				<div class="card bg-secondary">
 					<div class="card-body">
 						<h5 class="card-title">Height Constraints</h5>
 						<div class="mb-3">
 							<label for="constrained-textarea" class="form-label">Limited Height (60px - 150px)</label>
-							<textarea
-								id="constrained-textarea"
-								class="form-control"
+							<textarea id="constrained-textarea" class="form-control"
 								placeholder="This textarea has strict height limits. Once it reaches 150px, scrolling will appear..."
 								rows="2"></textarea>
 						</div>
 					</div>
 				</div>
-
 				<!-- Fast Animation -->
 				<div class="card bg-secondary">
 					<div class="card-body">
 						<h5 class="card-title">Fast Animation</h5>
 						<div class="mb-3">
 							<label for="fast-textarea" class="form-label">Quick Resize (50ms)</label>
-							<textarea
-								id="fast-textarea"
-								class="form-control"
-								placeholder="Super fast height adjustments with minimal animation delay..."
-								rows="2"></textarea>
+							<textarea id="fast-textarea" class="form-control"
+								placeholder="Super fast height adjustments with minimal animation delay..." rows="2"></textarea>
 						</div>
 					</div>
 				</div>
-
 				<!-- Large Padding -->
 				<div class="card bg-secondary">
 					<div class="card-body">
 						<h5 class="card-title">Custom Padding</h5>
 						<div class="mb-3">
 							<label for="padded-textarea" class="form-label">Extra Padding (20px)</label>
-							<textarea
-								id="padded-textarea"
-								class="form-control"
-								placeholder="This textarea accounts for extra padding in its calculations..."
-								rows="2"></textarea>
+							<textarea id="padded-textarea" class="form-control"
+								placeholder="This textarea accounts for extra padding in its calculations..." rows="2"></textarea>
 						</div>
 					</div>
 				</div>
-
 				<!-- High Line Height -->
 				<div class="card bg-secondary">
 					<div class="card-body">
 						<h5 class="card-title">Line Height Adjustment</h5>
 						<div class="mb-3">
 							<label for="lineheight-textarea" class="form-label">Tall Lines (2.0 line-height)</label>
-							<textarea
-								id="lineheight-textarea"
-								class="form-control"
-								placeholder="Increased line height for better readability..."
-								style="line-height: 2.0;"
+							<textarea id="lineheight-textarea" class="form-control"
+								placeholder="Increased line height for better readability..." style="line-height: 2.0;"
 								rows="2"></textarea>
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</section>
-
 		<!-- Form Integration Example -->
 		<section class="demo-section">
 			<h2 class="h3 mb-3">Form Integration</h2>
@@ -138,9 +238,7 @@
 				</div>
 				<div class="col-12">
 					<label for="message-textarea" class="form-label">Message</label>
-					<textarea
-						id="message-textarea"
-						class="form-control"
+					<textarea id="message-textarea" class="form-control"
 						placeholder="Type your message here. The textarea will grow as you type more content..."
 						rows="3"></textarea>
 				</div>
@@ -150,7 +248,6 @@
 				</div>
 			</form>
 		</section>
-
 		<!-- Control Panel -->
 		<section class="demo-section">
 			<h2 class="h3 mb-3">Interactive Controls</h2>
@@ -160,15 +257,18 @@
 						<div class="card-body">
 							<h5 class="card-title">Dynamic Configuration</h5>
 							<div class="mb-3">
-								<label for="min-height-control" class="form-label">Min Height: <span id="min-height-value">80</span>px</label>
+								<label for="min-height-control" class="form-label">Min Height: <span
+										id="min-height-value">80</span>px</label>
 								<input type="range" class="form-range" id="min-height-control" min="40" max="200" value="80">
 							</div>
 							<div class="mb-3">
-								<label for="max-height-control" class="form-label">Max Height: <span id="max-height-value">300</span>px</label>
+								<label for="max-height-control" class="form-label">Max Height: <span
+										id="max-height-value">300</span>px</label>
 								<input type="range" class="form-range" id="max-height-control" min="100" max="500" value="300">
 							</div>
 							<div class="mb-3">
-								<label for="animation-speed-control" class="form-label">Animation: <span id="animation-speed-value">150</span>ms</label>
+								<label for="animation-speed-control" class="form-label">Animation: <span
+										id="animation-speed-value">150</span>ms</label>
 								<input type="range" class="form-range" id="animation-speed-control" min="0" max="500" value="150">
 							</div>
 							<button class="btn btn-primary btn-sm" id="apply-controls">Apply Changes</button>
@@ -178,9 +278,7 @@
 				<div class="col-lg-8">
 					<div class="mb-3">
 						<label for="control-textarea" class="form-label">Test Textarea</label>
-						<textarea
-							id="control-textarea"
-							class="form-control"
+						<textarea id="control-textarea" class="form-control"
 							placeholder="Use the controls on the left to dynamically adjust this textarea's behavior..."
 							rows="3"></textarea>
 					</div>
@@ -190,7 +288,6 @@
 				</div>
 			</div>
 		</section>
-
 		<!-- Theme Toggle -->
 		<section class="demo-section">
 			<div class="d-flex justify-content-between align-items-center">
@@ -200,9 +297,7 @@
 				</button>
 			</div>
 		</section>
-
 	</div>
-
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="js/AutoTextarea.js"></script>
 	<script src="ExampleJS/demo.js"></script>
