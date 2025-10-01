@@ -7,6 +7,9 @@ class JsonTable {
 		this.globalSearchInput = document.querySelector(options.globalSearch || '#globalSearch');
 		this.paginationContainer = document.querySelector(options.pagination || '#pagination');
 		this.rowsPerPageSelect = document.querySelector(options.rowsPerPageSelect || '#rowsPerPageSelect');
+		this.foundEntriesContainer = options.foundEntriesContainer ? document.querySelector(options.foundEntriesContainer) : null;
+		this.foundEntriesText = options.foundEntriesText || 'XX Entries Found';
+		this.foundSearchedText = options.foundSearchedText || 'XX of XX Entries Found';
 		this.columns = options.columns || []; // Array of objects defining column settings
 		this.allowEdit = options.allowEdit || false; // Whether to enable editing
 		this.editPlacement = options.editPlacement || 'start'; // 'start' or 'end'
@@ -37,6 +40,7 @@ class JsonTable {
 			const response = await fetch(this.jsonUrl);
 			this.data = await response.json();
 			this.filteredData = [...this.data];
+			this.updateFoundEntries();
 			this.triggerEvent('load.yo.jsontable', { data: this.data });
 		} catch (error) {
 			console.error('Error fetching JSON data:', error);
@@ -52,6 +56,29 @@ class JsonTable {
 		});
 		this.container.dispatchEvent(event);
 		return event;
+	}
+
+	updateFoundEntries() {
+		if (!this.foundEntriesContainer) {
+			return;
+		}
+
+		const totalEntries = this.data.length;
+		const filteredEntries = this.filteredData.length;
+
+		let text = '';
+
+		if (filteredEntries === totalEntries) {
+			// No filtering applied, show total entries
+			text = this.foundEntriesText.replace('XX', filteredEntries);
+		} else {
+			// Filtering applied, show filtered vs total
+			text = this.foundSearchedText
+				.replace(/XX/, filteredEntries)
+				.replace(/XX/, totalEntries);
+		}
+
+		this.foundEntriesContainer.textContent = text;
 	}
 
 	setupRowsPerPageSelector() {
@@ -128,12 +155,35 @@ class JsonTable {
 
 		this.columns.forEach((column) => {
 			const th = document.createElement('th');
-			th.textContent = column.title;
 
 			if (column.sortable !== false) {
 				th.classList.add('sortable');
 				th.dataset.column = column.key;
+
+				// Create wrapper for title and sort icons
+				const titleWrapper = document.createElement('span');
+				titleWrapper.textContent = column.title;
+				th.appendChild(titleWrapper);
+
+				// Create sort icon container
+				const sortIcon = document.createElement('span');
+				sortIcon.className = 'sort-icon ms-1';
+
+				// Add appropriate icon based on current sort state
+				if (this.sortColumn === column.key) {
+					if (this.sortOrder === 'asc') {
+						sortIcon.innerHTML = '<i class="bi bi-arrow-up"></i>';
+					} else {
+						sortIcon.innerHTML = '<i class="bi bi-arrow-down"></i>';
+					}
+				} else {
+					sortIcon.innerHTML = '<i class="bi bi-arrow-down-up"></i>';
+				}
+
+				th.appendChild(sortIcon);
 				th.addEventListener('click', () => this.toggleSort(column.key));
+			} else {
+				th.textContent = column.title;
 			}
 
 			headerRow.appendChild(th);
@@ -179,16 +229,6 @@ class JsonTable {
 			}
 			footerRow.appendChild(td);
 		});
-
-		// Add record count row
-		const countRow = document.createElement('tr');
-		const countCell = document.createElement('td');
-		countCell.setAttribute('colspan', this.columns.length + (this.allowEdit ? 1 : 0));
-		countCell.className = 'text-start';
-		countCell.id = 'recordCount';
-		this.updateRecordCount(countCell);
-		countRow.appendChild(countCell);
-		tableFooter.appendChild(countRow);
 	}
 
 	renderRows() {
@@ -270,9 +310,6 @@ class JsonTable {
 				btn.addEventListener('click', (e) => this.showEditModal(parseInt(btn.dataset.row, 10)))
 			);
 		}
-
-		// Update record count
-		this.updateRecordCount();
 	}
 
 	renderPagination() {
@@ -508,6 +545,7 @@ class JsonTable {
 			Object.values(row).some((field) => String(field).toLowerCase().includes(lowerValue))
 		);
 		this.currentPage = 1;
+		this.updateFoundEntries();
 		this.renderTable();
 
 		this.triggerEvent('filtered.yo.jsontable', {
@@ -551,6 +589,7 @@ class JsonTable {
 
 		// Re-render table rows and pagination after filtering
 		this.currentPage = 1; // Reset to first page
+		this.updateFoundEntries();
 		this.renderTable('rows');
 
 		this.triggerEvent('filtered.yo.jsontable', {
@@ -596,11 +635,33 @@ class JsonTable {
 			this.sortColumn = column;
 			this.sortOrder = 'asc';
 		}
+
+		this.updateSortIcons();
 		this.renderRows();
 
 		this.triggerEvent('sorted.yo.jsontable', {
 			column: this.sortColumn,
 			order: this.sortOrder
+		});
+	}
+
+	updateSortIcons() {
+		// Update all sortable column headers with appropriate icons
+		this.container.querySelectorAll('th.sortable').forEach(th => {
+			const columnKey = th.dataset.column;
+			const sortIcon = th.querySelector('.sort-icon');
+
+			if (sortIcon) {
+				if (this.sortColumn === columnKey) {
+					if (this.sortOrder === 'asc') {
+						sortIcon.innerHTML = '<i class="bi bi-arrow-up"></i>';
+					} else {
+						sortIcon.innerHTML = '<i class="bi bi-arrow-down"></i>';
+					}
+				} else {
+					sortIcon.innerHTML = '<i class="bi bi-arrow-down-up"></i>';
+				}
+			}
 		});
 	}
 
@@ -714,19 +775,5 @@ class JsonTable {
 		setTimeout(function(){
 			toastContainer.classList.remove('show')
 		}, 7000)
-	}
-
-	updateRecordCount(element) {
-		const countCell = element || this.container.querySelector('#recordCount');
-		if (!countCell) return;
-
-		const totalRecords = this.data.length;
-		const filteredRecords = this.filteredData.length;
-
-		if (filteredRecords === totalRecords) {
-			countCell.textContent = `${totalRecords} Record${totalRecords !== 1 ? 's' : ''} Found`;
-		} else {
-			countCell.textContent = `${filteredRecords} of ${totalRecords} Record${totalRecords !== 1 ? 's' : ''} Matched`;
-		}
 	}
 }

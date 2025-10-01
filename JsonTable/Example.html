@@ -28,6 +28,7 @@
 	<div class="row-fluid">
 		<div class="col-lg-12 col-xl-8 mx-auto">
 			<div class="card">
+
 				<div class="card-header border-bottom-0">
 					<div class="row">
 						<div class="col-md-6 col-sm-12 mb-2 mb-md-0">
@@ -58,8 +59,10 @@
 						<tfoot></tfoot>
 					</table>
 				</div>
-				<div class="card-footer border-top-0 justify-content-end">
-					<div>8 of 9</div>
+				<div class="card-footer border-top-0 d-flex justify-content-between">
+					<div class="input-group">
+						<span class="input-group-text bg-light-subtle" id="recordCount"></span>
+					</div>
 					<nav>
 						<ul id="pagination" class="pagination justify-content-end mb-0"></ul>
 					</nav>
@@ -107,6 +110,9 @@ document.addEventListener('DOMContentLoaded', function () {
 		globalSearch: '#globalSearch',
 		pagination: '#pagination',
 		rowsPerPageSelect: '#rowsPerPageSelect',
+		foundEntriesContainer: '#recordCount',
+		foundEntriesText: 'XX Entries Found',
+		foundSearchedText: 'XX of XX Entries Found',
 		allowEdit: true,
 		editSaveUrl: 'test.json',
 		editPlacement: 'start',
@@ -137,6 +143,63 @@ document.addEventListener('DOMContentLoaded', function () {
 		// 	editFieldType: 'datetime-local',
 		// 	sortValue: (value) => new Date(value).getTime()
 		// }
+	});
+
+	// Example event listeners
+	const tableElement = document.querySelector('#jsonTable');
+
+	// Listen to data load event
+	tableElement.addEventListener('load.yo.jsontable', function(e) {
+		console.log('Data loaded:', e.detail.data.length, 'rows');
+	});
+
+	// Listen to sort events
+	tableElement.addEventListener('sort.yo.jsontable', function(e) {
+		console.log('Sorting:', e.detail.column, e.detail.newOrder);
+		// You can prevent sorting by calling:
+		// e.preventDefault();
+	});
+
+	tableElement.addEventListener('sorted.yo.jsontable', function(e) {
+		console.log('Sorted by:', e.detail.column, e.detail.order);
+	});
+
+	// Listen to filter events
+	tableElement.addEventListener('filter.yo.jsontable', function(e) {
+		console.log('Filtering:', e.detail.filterType, e.detail);
+	});
+
+	tableElement.addEventListener('filtered.yo.jsontable', function(e) {
+		console.log('Filtered results:', e.detail.resultCount, 'rows');
+	});
+
+	// Listen to page change events
+	tableElement.addEventListener('pagechange.yo.jsontable', function(e) {
+		console.log('Changing page from', e.detail.oldPage, 'to', e.detail.newPage);
+	});
+
+	// Listen to edit events
+	tableElement.addEventListener('edit.yo.jsontable', function(e) {
+		console.log('Editing row:', e.detail.rowIndex, e.detail.rowData);
+	});
+
+	// Listen to save events
+	tableElement.addEventListener('save.yo.jsontable', function(e) {
+		console.log('Saving:', e.detail.formData);
+		// Validate before save:
+		// if (!e.detail.formData.email.includes('@')) {
+		//     alert('Invalid email');
+		//     e.preventDefault(); // Cancel save
+		// }
+	});
+
+	tableElement.addEventListener('saved.yo.jsontable', function(e) {
+		console.log('Save successful:', e.detail.response);
+	});
+
+	// Listen to row click events
+	tableElement.addEventListener('rowclick.yo.jsontable', function(e) {
+		console.log('Row clicked:', e.detail.rowData);
 	});
 });
 </script>

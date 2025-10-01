@@ -1,6 +1,6 @@
 # BS5-DataTables-without-jQuery
 
-A simple, lightweight datatables implementation for Bootstrap 5.3.* that includes searching, column-specific searching, column sorting, JSON data loading, automatic table building, pagination, row editing, and more - all in less than 600 lines of vanilla JavaScript!
+A simple, lightweight datatables implementation for Bootstrap 5.3.3 that includes searching, column-specific searching, column sorting, JSON data loading, automatic table building, pagination, row editing, and more - all in less than 600 lines of vanilla JavaScript!
 
 ## Features
 
@@ -15,16 +15,21 @@ A simple, lightweight datatables implementation for Bootstrap 5.3.* that include
 - ✅ **Toast Notifications** - Feedback for save operations
 - ✅ **Event System** - Hook into all table actions with custom events
 - ✅ **Vanilla JavaScript** - No jQuery or other dependencies required
-- ✅ **Bootstrap 5.3.*** - Modern, responsive design
+- ✅ **Bootstrap 5.3.3** - Modern, responsive design
 - ✅ **JSON Data Loading** - Fetch data from remote endpoints
 
 ## Installation
+
+### Via NPM
+```bash
+npm i --save @skem9/bs5-datatables
+```
 
 ### Manual Installation
 Include the following files in your project:
 - `JsonTable.js`
 - `floating-labels.css`
-- Bootstrap 5.3.* (CSS and JS)
+- Bootstrap 5.3.3 (CSS and JS)
 - Bootstrap Icons
 
 ## Quick Start
@@ -33,7 +38,7 @@ Include the following files in your project:
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 	<link href="floating-labels.css" rel="stylesheet">
 </head>
@@ -45,7 +50,7 @@ Include the following files in your project:
 	</table>
 	<ul id="pagination" class="pagination"></ul>
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="JsonTable.js"></script>
 	<script>
 		const table = new JsonTable({
@@ -84,6 +89,9 @@ const table = new JsonTable({
 | `globalSearch` | String | `'#globalSearch'` | CSS selector for the global search input |
 | `pagination` | String | `'#pagination'` | CSS selector for the pagination container |
 | `rowsPerPageSelect` | String | `'#rowsPerPageSelect'` | CSS selector for rows per page dropdown |
+| `foundEntriesContainer` | String | `null` | CSS selector for element to display entry count |
+| `foundEntriesText` | String | `'XX Entries Found'` | Text template for total entries (XX is replaced with count) |
+| `foundSearchedText` | String | `'XX of XX Entries Found'` | Text template for filtered entries (first XX = filtered, second XX = total) |
 | `columns` | Array | `[]` | Array of column configuration objects (see below) |
 | `allowEdit` | Boolean | `false` | Enable row editing functionality |
 | `editPlacement` | String | `'start'` | Position of edit button column: `'start'` or `'end'` |
@@ -220,6 +228,9 @@ const table = new JsonTable({
 	globalSearch: '#globalSearch',
 	pagination: '#pagination',
 	rowsPerPageSelect: '#rowsPerPageSelect',
+	foundEntriesContainer: '#recordCount',
+	foundEntriesText: 'Total: XX entries',
+	foundSearchedText: 'Showing XX of XX total entries',
 	allowEdit: true,
 	editPlacement: 'start',
 	editSaveUrl: 'https://api.example.com/users/update',
@@ -317,6 +328,15 @@ const table = new JsonTable({
 	<option value="100">100</option>
 </select>
 ```
+
+### Found Entries Display (Optional)
+```html
+<span id="recordCount"></span>
+```
+
+This element will automatically display:
+- `"XX Entries Found"` when no filters are applied
+- `"XX of XX Entries Found"` when filters are active (filtered count of total count)
 
 ### Edit Modal (Required if allowEdit is true)
 ```html
@@ -532,18 +552,18 @@ tableElement.addEventListener('saveerror.yo.jsontable', function(e) {
 
 ## Dependencies
 
-- Bootstrap 5.3.*
+- Bootstrap 5.3.3
 - Bootstrap Icons 1.11.3
 - [@tkrotoff/bootstrap-floating-label](https://github.com/tkrotoff/bootstrap-floating-label)
 
 ## Demo
 
-- **[Github Pages Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/JsonTable/Example.html)**
+- **[Github Pages Demo](https://yohn.github.io/BS5-DataTables-without-jQuery/)**
 - **[CodePen.io Demo](https://codepen.io/Yohn/pen/VwoJrOd)**
 
 ## License
 
-MIT License - See [LICENSE](../LICENSE) file for details
+MIT License - See [LICENSE](LICENSE) file for details
 
 ## Author
 
@@ -555,4 +575,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Support
 
-For issues and questions, please use the [GitHub Issues](https://yohn.github.io/Bootstrap-Enhanced-Components/issues) page.
+For issues and questions, please use the [GitHub Issues](https://github.com/Yohn/BS5-DataTables-without-jQuery/issues) page.
