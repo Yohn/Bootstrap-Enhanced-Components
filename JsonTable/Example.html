@@ -101,9 +101,11 @@ document.addEventListener('DOMContentLoaded', function () {
 	const table = new JsonTable({
 		jsonUrl: 'ExampleJS/data.json',
 		rowsPerPage: 5,
+		rowsPerPageOptions: [5, 10, 25, 50, 100],
 		container: '#jsonTable',
 		globalSearch: '#globalSearch',
 		pagination: '#pagination',
+		rowsPerPageSelect: '#rowsPerPageSelect',
 		allowEdit: true,
 		editSaveUrl: 'test.json',
 		editPlacement: 'start',
@@ -118,6 +120,22 @@ document.addEventListener('DOMContentLoaded', function () {
 			{ key: 'Company', title: 'Company', searchType: 'text', editFieldType: 'text', columnIcon: 'bi bi-building' },
 			{ key: 'JobTitle', title: 'JobTitle', searchType: 'text', editFieldType: 'text', columnIcon: 'bi bi-person-workspace' },
 		]
+
+		// Example with date sorting:
+		// {
+		// 	key: 'createdDate',
+		// 	title: 'Created',
+		// 	searchType: 'text',
+		// 	editFieldType: 'date',
+		// 	sortValue: (value) => new Date(value).getTime()
+		// },
+		// {
+		// 	key: 'modifiedDate',
+		// 	title: 'Modified',
+		// 	searchType: false,
+		// 	editFieldType: 'datetime-local',
+		// 	sortValue: (value) => new Date(value).getTime()
+		// }
 	});
 });
 </script>

@@ -7,21 +7,18 @@ A simple, lightweight datatables implementation for Bootstrap 5.3.* that include
 - ✅ **Global Search** - Search across all columns simultaneously
 - ✅ **Column-Specific Search** - Filter individual columns with text inputs or dropdowns
 - ✅ **Column Sorting** - Click column headers to sort ascending/descending
+- ✅ **Custom Sort Functions** - Define custom sorting for dates, currency, and other data types
 - ✅ **Pagination** - Navigate through large datasets with customizable page sizes
 - ✅ **Dynamic Rows Per Page** - Allow users to change how many rows are displayed
 - ✅ **Row Editing** - Built-in modal for editing row data
 - ✅ **Floating Labels** - Beautiful form inputs with floating labels
 - ✅ **Toast Notifications** - Feedback for save operations
+- ✅ **Event System** - Hook into all table actions with custom events
 - ✅ **Vanilla JavaScript** - No jQuery or other dependencies required
-- ✅ **Bootstrap 5.3.8** - Modern, responsive design
+- ✅ **Bootstrap 5.3.*** - Modern, responsive design
 - ✅ **JSON Data Loading** - Fetch data from remote endpoints
 
 ## Installation
-
-### Via NPM
-```bash
-npm i --save @skem9/bs5-datatables
-```
 
 ### Manual Installation
 Include the following files in your project:
@@ -104,8 +101,9 @@ Each column in the `columns` array is an object with the following properties:
 | `key` | String | **Required** | The key name in your JSON data |
 | `title` | String | **Required** | Display title for the column header |
 | `sortable` | Boolean | `true` | Whether the column can be sorted (set to `false` to disable) |
+| `sortValue` | Function | `null` | Function to transform values before sorting (e.g., for dates, currency) |
 | `searchType` | String/Boolean | `'text'` | Type of search input: `'text'`, `'select'`, or `false` to disable |
-| `editFieldType` | String/Boolean | `'text'` | Input type for edit modal: `'text'`, `'number'`, `'email'`, `'date'`, `'textarea'`, `'select'`, `'bool'`, or `false` to hide/disable |
+| `editFieldType` | String/Boolean | `'text'` | Input type for edit modal: `'text'`, `'number'`, `'email'`, `'date'`, `'datetime-local'`, `'textarea'`, `'select'`, `'bool'`, or `false` to hide/disable |
 | `columnIcon` | String | `null` | Bootstrap icon class for the edit modal input (e.g., `'bi bi-person'`) |
 | `options` | Array | `null` | Required when `editFieldType` is `'select'` - array of option values |
 
@@ -172,6 +170,42 @@ Each column in the `columns` array is an object with the following properties:
 	key: 'description',
 	title: 'Description',
 	editFieldType: 'textarea'
+}
+```
+
+#### Date Column with Proper Sorting
+```javascript
+{
+	key: 'createdDate',
+	title: 'Created Date',
+	searchType: 'text',
+	editFieldType: 'date',
+	sortValue: (value) => new Date(value).getTime(),
+	columnIcon: 'bi bi-calendar'
+}
+```
+
+#### DateTime Column with Proper Sorting
+```javascript
+{
+	key: 'lastModified',
+	title: 'Last Modified',
+	searchType: false,
+	editFieldType: 'datetime-local',
+	sortValue: (value) => new Date(value).getTime(),
+	columnIcon: 'bi bi-clock'
+}
+```
+
+#### Currency Column with Proper Sorting
+```javascript
+{
+	key: 'price',
+	title: 'Price',
+	searchType: 'text',
+	editFieldType: 'number',
+	sortValue: (value) => parseFloat(value.replace(/[$,]/g, '')),
+	columnIcon: 'bi bi-currency-dollar'
 }
 ```
 
@@ -367,6 +401,128 @@ When saving edited data, your server should respond with JSON:
 
 The `status` field determines the toast color (`success`, `error`, `warning`, `info`, `primary`, `danger`).
 
+## Events
+
+JsonTable emits custom events following Bootstrap's naming convention. All events are namespaced with `.yo.jsontable` and are fired on the table container element.
+
+### Event Naming Pattern
+
+Events follow Bootstrap's infinitive/past participle pattern:
+- **Infinitive events** (e.g., `sort`) - Fire at the start of an action and support `preventDefault()`
+- **Past participle events** (e.g., `sorted`) - Fire after the action completes
+
+### Available Events
+
+| Event Name | Cancelable | When Fired | Event Detail Properties |
+|------------|------------|------------|------------------------|
+| `load.yo.jsontable` | No | After JSON data is successfully loaded | `data` - Array of loaded data |
+| `loaderror.yo.jsontable` | No | When JSON data fetch fails | `error` - Error object |
+| `render.yo.jsontable` | Yes | Before table renders | `which` - 'all' or 'rows' |
+| `rendered.yo.jsontable` | No | After table renders | `which` - 'all' or 'rows' |
+| `rowrender.yo.jsontable` | No | When each row is rendered | `row` - Row data, `rowIndex` - Row index, `element` - TR element |
+| `rowclick.yo.jsontable` | No | When a row is clicked | `row` - Row data, `rowIndex` - Row index, `element` - TR element, `originalEvent` - Click event |
+| `sort.yo.jsontable` | Yes | Before sorting is applied | `column` - Column key, `oldColumn` - Previous column, `oldOrder` - Previous order, `newOrder` - New order |
+| `sorted.yo.jsontable` | No | After sorting is complete | `column` - Column key, `order` - Sort order ('asc' or 'desc') |
+| `filter.yo.jsontable` | Yes | Before filtering is applied | `filterType` - 'global' or 'column', `column` - Column key (if column filter), `value` - Filter value, `oldData` - Previous filtered data |
+| `filtered.yo.jsontable` | No | After filtering is complete | `filterType` - 'global' or 'column', `column` - Column key (if column filter), `value` - Filter value, `resultCount` - Number of results |
+| `pagechange.yo.jsontable` | Yes | Before page changes | `oldPage` - Current page, `newPage` - Target page |
+| `pagechanged.yo.jsontable` | No | After page changes | `oldPage` - Previous page, `newPage` - Current page |
+| `rowsperpage.yo.jsontable` | Yes | Before rows per page changes | `oldValue` - Current value, `newValue` - Target value |
+| `rowsperpagechanged.yo.jsontable` | No | After rows per page changes | `oldValue` - Previous value, `newValue` - Current value |
+| `edit.yo.jsontable` | Yes | Before edit modal opens | `rowData` - Row data, `rowIndex` - Row index |
+| `edited.yo.jsontable` | No | After edit modal opens | `rowData` - Row data, `rowIndex` - Row index |
+| `save.yo.jsontable` | Yes | Before save request is sent | `rowData` - Original row data, `rowIndex` - Row index, `formData` - Form data, `postData` - Data to be sent |
+| `saved.yo.jsontable` | No | After successful save | `rowData` - Updated row data, `rowIndex` - Row index, `response` - Server response |
+| `saveerror.yo.jsontable` | No | When save fails | `rowData` - Row data, `rowIndex` - Row index, `error` - Error object |
+
+### Event Usage Examples
+
+#### Basic Event Listener
+```javascript
+const tableElement = document.querySelector('#jsonTable');
+
+tableElement.addEventListener('sorted.yo.jsontable', function(e) {
+	console.log('Table sorted by:', e.detail.column, e.detail.order);
+});
+```
+
+#### Preventing Actions with preventDefault()
+```javascript
+// Prevent sorting on a specific column
+tableElement.addEventListener('sort.yo.jsontable', function(e) {
+	if (e.detail.column === 'ID') {
+		alert('Cannot sort by ID');
+		e.preventDefault(); // Cancels the sort
+	}
+});
+
+// Validate before saving
+tableElement.addEventListener('save.yo.jsontable', function(e) {
+	if (!e.detail.formData.email.includes('@')) {
+		alert('Invalid email address');
+		e.preventDefault(); // Cancels the save
+	}
+});
+```
+
+#### Tracking User Actions
+```javascript
+// Analytics tracking
+tableElement.addEventListener('filtered.yo.jsontable', function(e) {
+	analytics.track('Table Filtered', {
+		filterType: e.detail.filterType,
+		column: e.detail.column,
+		resultCount: e.detail.resultCount
+	});
+});
+
+tableElement.addEventListener('rowclick.yo.jsontable', function(e) {
+	console.log('User clicked on:', e.detail.row);
+	// Navigate to detail page, show popup, etc.
+});
+```
+
+#### Modifying Behavior
+```javascript
+// Custom loading indicator
+tableElement.addEventListener('render.yo.jsontable', function(e) {
+	document.querySelector('#loadingSpinner').style.display = 'block';
+});
+
+tableElement.addEventListener('rendered.yo.jsontable', function(e) {
+	document.querySelector('#loadingSpinner').style.display = 'none';
+});
+
+// Custom row rendering
+tableElement.addEventListener('rowrender.yo.jsontable', function(e) {
+	// Add custom classes based on data
+	if (e.detail.row.Age > 65) {
+		e.detail.element.classList.add('table-warning');
+	}
+});
+```
+
+#### Error Handling
+```javascript
+tableElement.addEventListener('loaderror.yo.jsontable', function(e) {
+	console.error('Failed to load data:', e.detail.error);
+	// Show user-friendly error message
+});
+
+tableElement.addEventListener('saveerror.yo.jsontable', function(e) {
+	console.error('Save failed:', e.detail.error);
+	// Retry logic, show error message, etc.
+});
+```
+
+### Event Best Practices
+
+1. **Use infinitive events for validation** - Cancel actions before they happen
+2. **Use past participle events for side effects** - Update UI, send analytics, etc.
+3. **Access data via `event.detail`** - All event data is in the detail property
+4. **Call `preventDefault()` to cancel** - Only works on cancelable (infinitive) events
+5. **Listen on the table container** - Events bubble up from the container element
+
 ## Browser Support
 
 - Chrome (latest)
@@ -376,7 +532,7 @@ The `status` field determines the toast color (`success`, `error`, `warning`, `i
 
 ## Dependencies
 
-- Bootstrap 5.3.8
+- Bootstrap 5.3.*
 - Bootstrap Icons 1.11.3
 - [@tkrotoff/bootstrap-floating-label](https://github.com/tkrotoff/bootstrap-floating-label)
 

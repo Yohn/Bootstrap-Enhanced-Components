@@ -154,9 +154,21 @@ class JsonTable {
 
 		// Sorting
 		if (this.sortColumn) {
+			const column = this.columns.find(col => col.key === this.sortColumn);
+			const hasSortValue = column && typeof column.sortValue === 'function';
+
 			rows.sort((a, b) => {
-				if (this.sortOrder === 'asc') return a[this.sortColumn] > b[this.sortColumn] ? 1 : -1;
-				return a[this.sortColumn] < b[this.sortColumn] ? 1 : -1;
+				let aVal = a[this.sortColumn];
+				let bVal = b[this.sortColumn];
+
+				// Use custom sortValue function if provided
+				if (hasSortValue) {
+					aVal = column.sortValue(aVal);
+					bVal = column.sortValue(bVal);
+				}
+
+				if (this.sortOrder === 'asc') return aVal > bVal ? 1 : -1;
+				return aVal < bVal ? 1 : -1;
 			});
 		}
 
@@ -350,7 +362,7 @@ class JsonTable {
 				}
 
 				input.dataset.key = column.key;
-				if(isFloating == true){
+				if (isFloating == true) {
 					floating.appendChild(input);
 					floating.appendChild(floatingLabel);
 					inputWrapper.appendChild(floating);
@@ -521,7 +533,7 @@ class JsonTable {
 		toastResponse.textContent = message;
 		toastContainer.classList.remove('text-bg-primary', 'text-bg-warning', 'text-bg-danger', 'text-bg-error', 'text-bg-info', 'text-bg-success');
 		toastContainer.classList.add(`text-bg-${type}`, 'fade', 'show');
-		setTimeout(function(){
+		setTimeout(function () {
 			toastContainer.classList.remove('show')
 		}, 7000)
 	}
