@@ -37,9 +37,21 @@ class JsonTable {
 			const response = await fetch(this.jsonUrl);
 			this.data = await response.json();
 			this.filteredData = [...this.data];
+			this.triggerEvent('load.yo.jsontable', { data: this.data });
 		} catch (error) {
 			console.error('Error fetching JSON data:', error);
+			this.triggerEvent('loaderror.yo.jsontable', { error });
 		}
+	}
+
+	triggerEvent(eventName, detail = {}) {
+		const event = new CustomEvent(eventName, {
+			detail,
+			bubbles: true,
+			cancelable: eventName.split('.')[0].match(/^(sort|filter|edit|save|pagechange|rowsperpage)$/) !== null
+		});
+		this.container.dispatchEvent(event);
+		return event;
 	}
 
 	setupRowsPerPageSelector() {
@@ -60,14 +72,37 @@ class JsonTable {
 
 			// Add event listener
 			this.rowsPerPageSelect.addEventListener('change', (e) => {
-				this.rowsPerPage = parseInt(e.target.value, 10);
+				const oldValue = this.rowsPerPage;
+				const newValue = parseInt(e.target.value, 10);
+
+				const event = this.triggerEvent('rowsperpage.yo.jsontable', {
+					oldValue,
+					newValue
+				});
+
+				if (event.defaultPrevented) {
+					return;
+				}
+
+				this.rowsPerPage = newValue;
 				this.currentPage = 1; // Reset to first page
 				this.renderTable('rows');
+
+				this.triggerEvent('rowsperpagechanged.yo.jsontable', {
+					oldValue,
+					newValue
+				});
 			});
 		}
 	}
 
 	renderTable(which = 'all') {
+		const event = this.triggerEvent('render.yo.jsontable', { which });
+
+		if (event.defaultPrevented) {
+			return;
+		}
+
 		if (which == 'all') {
 			this.renderHeader();
 			this.renderRows();
@@ -77,6 +112,8 @@ class JsonTable {
 			this.renderRows();
 			this.renderPagination();
 		}
+
+		this.triggerEvent('rendered.yo.jsontable', { which });
 	}
 
 	renderHeader() {
@@ -142,6 +179,16 @@ class JsonTable {
 			}
 			footerRow.appendChild(td);
 		});
+
+		// Add record count row
+		const countRow = document.createElement('tr');
+		const countCell = document.createElement('td');
+		countCell.setAttribute('colspan', this.columns.length + (this.allowEdit ? 1 : 0));
+		countCell.className = 'text-start';
+		countCell.id = 'recordCount';
+		this.updateRecordCount(countCell);
+		countRow.appendChild(countCell);
+		tableFooter.appendChild(countRow);
 	}
 
 	renderRows() {
@@ -179,6 +226,13 @@ class JsonTable {
 		rows.slice(start, end).forEach((row, rowIndex) => {
 			const tr = document.createElement('tr');
 
+			// Trigger row render event
+			const rowEvent = this.triggerEvent('rowrender.yo.jsontable', {
+				row,
+				rowIndex,
+				element: tr
+			});
+
 			// Add edit column if allowEdit is true
 			if (this.allowEdit && this.editPlacement === 'start') {
 				tr.insertAdjacentHTML('afterbegin', `<td><button class="btn btn-primary btn-sm edit-btn" data-row="${rowIndex}"><i class="bi bi-pencil-square"></i></button></td>`);
@@ -194,6 +248,19 @@ class JsonTable {
 				tr.insertAdjacentHTML('beforeend', `<td><button class="btn btn-primary btn-sm edit-btn" data-row="${rowIndex}"><i class="bi bi-pencil-square"></i></button></td>`);
 			}
 
+			// Add click event listener to row
+			tr.addEventListener('click', (e) => {
+				// Don't trigger if clicking edit button
+				if (!e.target.closest('.edit-btn')) {
+					this.triggerEvent('rowclick.yo.jsontable', {
+						row,
+						rowIndex,
+						element: tr,
+						originalEvent: e
+					});
+				}
+			});
+
 			tableBody.appendChild(tr);
 		});
 
@@ -203,6 +270,9 @@ class JsonTable {
 				btn.addEventListener('click', (e) => this.showEditModal(parseInt(btn.dataset.row, 10)))
 			);
 		}
+
+		// Update record count
+		this.updateRecordCount();
 	}
 
 	renderPagination() {
@@ -262,10 +332,25 @@ class JsonTable {
 		a.href = '#';
 		a.addEventListener('click', (e) => {
 			e.preventDefault();
+
+			const event = this.triggerEvent('pagechange.yo.jsontable', {
+				oldPage: this.currentPage,
+				newPage: pageNumber
+			});
+
+			if (event.defaultPrevented) {
+				return;
+			}
+
 			this.currentPage = pageNumber;
 			this.renderRows();
 			this.renderPagination();
 			this.updateActivePage(pageNumber);
+
+			this.triggerEvent('pagechanged.yo.jsontable', {
+				oldPage: currentPage,
+				newPage: pageNumber
+			});
 		});
 
 		li.appendChild(a);
@@ -297,6 +382,16 @@ class JsonTable {
 		const rowData = this.filteredData[rowIndex];
 		const modal = document.querySelector('#editModal');
 		const modalBody = modal.querySelector('.modal-body');
+
+		const event = this.triggerEvent('edit.yo.jsontable', {
+			rowData,
+			rowIndex
+		});
+
+		if (event.defaultPrevented) {
+			return;
+		}
+
 		modalBody.innerHTML = '';
 
 		this.columns.forEach((column) => {
@@ -362,7 +457,7 @@ class JsonTable {
 				}
 
 				input.dataset.key = column.key;
-				if (isFloating == true) {
+				if(isFloating == true){
 					floating.appendChild(input);
 					floating.appendChild(floatingLabel);
 					inputWrapper.appendChild(floating);
@@ -384,6 +479,11 @@ class JsonTable {
 
 		const modalInstance = new bootstrap.Modal(modal);
 		modalInstance.show();
+
+		this.triggerEvent('edited.yo.jsontable', {
+			rowData,
+			rowIndex
+		});
 	}
 
 	addGlobalSearchListener() {
@@ -393,16 +493,42 @@ class JsonTable {
 	}
 
 	filterGlobal(value) {
+		const event = this.triggerEvent('filter.yo.jsontable', {
+			filterType: 'global',
+			value,
+			oldData: this.filteredData
+		});
+
+		if (event.defaultPrevented) {
+			return;
+		}
+
 		const lowerValue = value.toLowerCase();
 		this.filteredData = this.data.filter((row) =>
 			Object.values(row).some((field) => String(field).toLowerCase().includes(lowerValue))
 		);
 		this.currentPage = 1;
 		this.renderTable();
+
+		this.triggerEvent('filtered.yo.jsontable', {
+			filterType: 'global',
+			value,
+			resultCount: this.filteredData.length
+		});
 	}
 
 	filterColumn(key, value) {
 		// Filter data based on specific column key and input value
+		const event = this.triggerEvent('filter.yo.jsontable', {
+			filterType: 'column',
+			column: key,
+			value,
+			oldData: this.filteredData
+		});
+
+		if (event.defaultPrevented) {
+			return;
+		}
 
 		// Update filteredData based on current search criteria
 		if (value === '') {
@@ -426,6 +552,13 @@ class JsonTable {
 		// Re-render table rows and pagination after filtering
 		this.currentPage = 1; // Reset to first page
 		this.renderTable('rows');
+
+		this.triggerEvent('filtered.yo.jsontable', {
+			filterType: 'column',
+			column: key,
+			value,
+			resultCount: this.filteredData.length
+		});
 	}
 
 	adjustTfootSearchFields() {
@@ -440,6 +573,23 @@ class JsonTable {
 	}
 
 	toggleSort(column) {
+		const oldColumn = this.sortColumn;
+		const oldOrder = this.sortOrder;
+		const newOrder = (this.sortColumn === column)
+			? (this.sortOrder === 'asc' ? 'desc' : 'asc')
+			: 'asc';
+
+		const event = this.triggerEvent('sort.yo.jsontable', {
+			column,
+			oldColumn,
+			oldOrder,
+			newOrder
+		});
+
+		if (event.defaultPrevented) {
+			return;
+		}
+
 		if (this.sortColumn === column) {
 			this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
 		} else {
@@ -447,6 +597,11 @@ class JsonTable {
 			this.sortOrder = 'asc';
 		}
 		this.renderRows();
+
+		this.triggerEvent('sorted.yo.jsontable', {
+			column: this.sortColumn,
+			order: this.sortOrder
+		});
 	}
 
 	async saveEdit(rowIndex, modal) {
@@ -477,6 +632,17 @@ class JsonTable {
 			...formData,
 			...additionalData,
 		};
+
+		const saveEvent = this.triggerEvent('save.yo.jsontable', {
+			rowData,
+			rowIndex,
+			formData,
+			postData
+		});
+
+		if (saveEvent.defaultPrevented) {
+			return;
+		}
 
 		try {
 			let type = 'success';
@@ -513,9 +679,21 @@ class JsonTable {
 			}
 			// Show success toast
 			this.showToast(type, msg); //'Data saved successfully');
+
+			this.triggerEvent('saved.yo.jsontable', {
+				rowData,
+				rowIndex,
+				response: responseData
+			});
 		} catch (error) {
 			console.error('Error saving data:', error);
 			this.showToast('error', 'Failed to save data. Please try again.');
+
+			this.triggerEvent('saveerror.yo.jsontable', {
+				rowData,
+				rowIndex,
+				error
+			});
 		} finally {
 			// Close the modal
 			const modalInstance = bootstrap.Modal.getInstance(modal);
@@ -533,8 +711,22 @@ class JsonTable {
 		toastResponse.textContent = message;
 		toastContainer.classList.remove('text-bg-primary', 'text-bg-warning', 'text-bg-danger', 'text-bg-error', 'text-bg-info', 'text-bg-success');
 		toastContainer.classList.add(`text-bg-${type}`, 'fade', 'show');
-		setTimeout(function () {
+		setTimeout(function(){
 			toastContainer.classList.remove('show')
 		}, 7000)
+	}
+
+	updateRecordCount(element) {
+		const countCell = element || this.container.querySelector('#recordCount');
+		if (!countCell) return;
+
+		const totalRecords = this.data.length;
+		const filteredRecords = this.filteredData.length;
+
+		if (filteredRecords === totalRecords) {
+			countCell.textContent = `${totalRecords} Record${totalRecords !== 1 ? 's' : ''} Found`;
+		} else {
+			countCell.textContent = `${filteredRecords} of ${totalRecords} Record${totalRecords !== 1 ? 's' : ''} Matched`;
+		}
 	}
 }
