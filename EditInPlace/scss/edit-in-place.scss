@@ -1,0 +1,361 @@
+// EditInPlace Component Styles
+// Using Bootstrap 5.3 CSS Variables
+
+// Configuration Variables
+$edit-in-place-hover-bg: rgba(var(--bs-primary-rgb), 0.08) !default;
+$edit-in-place-hover-border: 1px dashed var(--bs-primary) !default;
+$edit-in-place-editing-bg: var(--bs-body-bg) !default;
+$edit-in-place-editing-border: 2px solid var(--bs-primary) !default;
+$edit-in-place-editing-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.15) !default;
+$edit-in-place-empty-color: var(--bs-secondary) !default;
+$edit-in-place-button-spacing: 0.5rem !default;
+$edit-in-place-transition: all 0.2s ease-in-out !default;
+
+// Base editable field styles
+.edit-in-place-field {
+	position: relative;
+	transition: $edit-in-place-transition;
+	min-height: 1.5rem;
+	padding: 0.25rem 0.5rem;
+	border-radius: var(--bs-border-radius);
+
+	// Hover state
+	&:hover:not(.editing) {
+		background-color: $edit-in-place-hover-bg;
+		border: $edit-in-place-hover-border;
+		cursor: pointer;
+	}
+
+	// Empty state text styling
+	.text-muted.fst-italic {
+		color: $edit-in-place-empty-color;
+		font-style: italic;
+	}
+}
+
+// Editing state
+.edit-in-place-field.editing {
+	background-color: $edit-in-place-editing-bg;
+	border: $edit-in-place-editing-border;
+	box-shadow: $edit-in-place-editing-shadow;
+	cursor: default;
+	padding: 0.5rem;
+
+	// Remove hover effects when editing
+	&:hover {
+		background-color: $edit-in-place-editing-bg;
+		border: $edit-in-place-editing-border;
+	}
+
+	// Form controls in editing mode
+	.form-control,
+	.form-select {
+		margin-bottom: 0;
+
+		&:focus {
+			border-color: var(--bs-primary);
+			box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+		}
+	}
+
+	// WYSIWYG container
+	.wysiwyg-container {
+		width: 100%;
+
+		.form-control {
+			min-height: 150px;
+		}
+	}
+
+	// MultiSelect container
+	.multiselect-container {
+		width: 100%;
+	}
+
+	// File upload container
+	.file-upload-container {
+		width: 100%;
+
+		.form-control {
+			margin-bottom: 0;
+		}
+	}
+}
+
+// Button container
+.edit-in-place-buttons {
+	display: flex;
+	gap: $edit-in-place-button-spacing;
+	margin-top: $edit-in-place-button-spacing;
+	align-items: center;
+
+	button {
+		flex-shrink: 0;
+
+		// Loading spinner
+		.spinner-border {
+			vertical-align: middle;
+		}
+	}
+}
+
+// Validation feedback
+.edit-in-place-field {
+	.invalid-feedback {
+		display: block;
+		margin-top: 0.25rem;
+		font-size: 0.875em;
+		color: var(--bs-danger);
+	}
+
+	.form-control.is-invalid,
+	.form-select.is-invalid {
+		border-color: var(--bs-danger);
+
+		&:focus {
+			border-color: var(--bs-danger);
+			box-shadow: 0 0 0 0.25rem rgba(var(--bs-danger-rgb), 0.25);
+		}
+	}
+}
+
+// Inline editing (for span, small, etc.)
+span.edit-in-place-field,
+small.edit-in-place-field,
+em.edit-in-place-field,
+strong.edit-in-place-field {
+	display: inline-block;
+	min-width: 100px;
+
+	&.editing {
+		display: block;
+		width: auto;
+		max-width: 100%;
+
+		input.form-control,
+		select.form-select {
+			width: 100%;
+		}
+	}
+}
+
+// Block editing (for div, p, etc.)
+div.edit-in-place-field,
+p.edit-in-place-field,
+article.edit-in-place-field,
+section.edit-in-place-field {
+	display: block;
+	min-height: 2rem;
+
+	&.editing {
+		textarea.form-control {
+			width: 100%;
+			min-height: 100px;
+		}
+	}
+}
+
+// Table cell editing
+td.edit-in-place-field,
+th.edit-in-place-field {
+	&:hover:not(.editing) {
+		background-color: $edit-in-place-hover-bg;
+		border: $edit-in-place-hover-border;
+	}
+
+	&.editing {
+		padding: 0.5rem;
+		vertical-align: top;
+
+		.form-control,
+		.form-select {
+			width: 100%;
+		}
+
+		.edit-in-place-buttons {
+			margin-top: 0.25rem;
+		}
+	}
+}
+
+// Badge editing
+.badge.edit-in-place-field {
+	&:hover:not(.editing) {
+		opacity: 0.8;
+	}
+
+	&.editing {
+		display: inline-block;
+		background-color: $edit-in-place-editing-bg;
+		color: var(--bs-body-color);
+		padding: 0.5rem;
+	}
+}
+
+// List item editing
+li.edit-in-place-field {
+	list-style-position: inside;
+
+	&.editing {
+		list-style: none;
+	}
+}
+
+// Responsive adjustments
+@media (max-width: 576px) {
+	.edit-in-place-field.editing {
+		padding: 0.375rem;
+
+		.form-control,
+		.form-select {
+			font-size: 0.875rem;
+		}
+
+		.edit-in-place-buttons {
+			button {
+				font-size: 0.75rem;
+				padding: 0.25rem 0.5rem;
+			}
+		}
+	}
+}
+
+// Dark mode support (Bootstrap 5.3 dark mode)
+[data-bs-theme="dark"] {
+	.edit-in-place-field {
+		&:hover:not(.editing) {
+			background-color: rgba(var(--bs-primary-rgb), 0.15);
+		}
+
+		&.editing {
+			background-color: var(--bs-dark-bg-subtle);
+			border-color: var(--bs-primary);
+		}
+	}
+}
+
+// Print styles
+@media print {
+	.edit-in-place-field {
+		border: none !important;
+		background: none !important;
+		box-shadow: none !important;
+
+		&:hover {
+			border: none !important;
+			background: none !important;
+		}
+
+		.edit-in-place-buttons {
+			display: none !important;
+		}
+	}
+}
+
+// Accessibility enhancements
+.edit-in-place-field {
+	// Focus visible outline for keyboard navigation
+	&:focus-visible:not(.editing) {
+		outline: 2px solid var(--bs-primary);
+		outline-offset: 2px;
+	}
+
+	// Screen reader only text
+	.sr-only,
+	.visually-hidden {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+}
+
+// Animation for state changes
+@keyframes editInPlaceFadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(-5px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.edit-in-place-buttons {
+	animation: editInPlaceFadeIn 0.2s ease-in-out;
+}
+
+// Loading state
+.edit-in-place-field {
+	&.loading {
+		pointer-events: none;
+		opacity: 0.7;
+
+		&::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 20px;
+			height: 20px;
+			margin-top: -10px;
+			margin-left: -10px;
+			border: 2px solid var(--bs-primary);
+			border-top-color: transparent;
+			border-radius: 50%;
+			animation: spin 0.8s linear infinite;
+		}
+	}
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+// Mock WYSIWYG Styles (for demonstration)
+.mock-wysiwyg-editor {
+	background: var(--bs-body-bg);
+
+	.mock-wysiwyg-content {
+		&:empty:before {
+			content: attr(data-placeholder);
+			color: var(--bs-secondary);
+			font-style: italic;
+		}
+
+		&.has-focus:empty:before {
+			content: '';
+		}
+
+		&:focus {
+			outline: none;
+		}
+	}
+}
+
+// Mock MultiSelect Styles (for demonstration)
+.mock-multiselect {
+	.mock-multiselect-options {
+		.form-check {
+			padding: 0.375rem 0.5rem;
+			margin-bottom: 0;
+
+			&:hover {
+				background-color: var(--bs-secondary-bg);
+			}
+
+			label {
+				cursor: pointer;
+				margin-bottom: 0;
+			}
+		}
+	}
+}
