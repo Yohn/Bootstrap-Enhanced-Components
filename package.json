@@ -1,0 +1,40 @@
+{
+  "name": "yohns-bs5-components",
+  "version": "1.0.0",
+  "description": "Lots of extra components for Bootstrap 5.3, including Textarea Grower, Content Menus, Edit In Place, File Upload Previewer, Image Lightbox, Input Mask, JSON Table (Data Tables Alternative), Multi Level Dropdown Menus, Multi Select / Tags, Onboarding Tour, Rate Limiter, Toast Alerts, WYSIWYG Editor, YoBox (Alert, Confirm, and Prompt alternative), and More!",
+  "keywords": [
+    "alert",
+    "lightbox",
+    "input-mask",
+    "toast",
+    "tour",
+    "multi-select",
+    "alert-messages",
+    "toast-notifications",
+    "autogrow",
+    "textarea-autoresize",
+    "bootstrap5",
+    "toast-notification",
+    "upload-preview",
+    "bootstrap-5",
+    "native-alert",
+    "onboard-tour",
+    "submenus",
+    "jsontable",
+		"wysiwyg",
+		"edit-in-place"
+  ],
+  "homepage": "https://github.com/Yohn/Bootstrap-Enhanced-Components#readme",
+  "bugs": {
+    "url": "https://github.com/Yohn/Bootstrap-Enhanced-Components/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yohn/Bootstrap-Enhanced-Components.git"
+  },
+  "license": "MIT",
+  "author": "John Brittain III",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

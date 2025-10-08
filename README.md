@@ -3,6 +3,12 @@
 A comprehensive collection of advanced Bootstrap 5.3 components and enhancements built with modern JavaScript, providing production-ready solutions for common web development needs.
 
 ---
+## Install
+
+```bash
+npm install yohns-bs5-components
+```
+---
 
 ## 📋 Quick Reference
 
