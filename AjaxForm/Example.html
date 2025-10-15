@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AjaxForm - Examples</title>
+
+	<!-- Bootstrap 5.3.7 CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- AjaxForm CSS -->
+	<link rel="stylesheet" href="scss/ajax-form.css">
+
+	<style>
+		body {
+			padding: 0  0 2rem 0;
+		}
+		.example-section {
+			margin-bottom: 3rem;
+			padding: 2rem;
+			background-color: var(--bs-secondary-bg);
+			border-radius: var(--bs-border-radius-lg);
+		}
+		.code-block {
+			background-color: var(--bs-dark);
+			padding: 1rem;
+			border-radius: var(--bs-border-radius);
+			margin-top: 1rem;
+			font-size: 0.875rem;
+			overflow-x: auto;
+		}
+		.response-output {
+			margin-top: 1rem;
+			padding: 1rem;
+			background-color: var(--bs-dark);
+			border-radius: var(--bs-border-radius);
+			font-family: monospace;
+			font-size: 0.875rem;
+			max-height: 300px;
+			overflow-y: auto;
+		}
+	</style>
+</head>
+<body>
+		<!-- Navigation -->
+		<nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-gradient bg-body-tertiary">
+			<div class="container-fluid">
+				<a class="navbar-brand fw-bold" href="/../#overview">
+					<i class="bi bi-bootstrap-fill me-2"></i> Bootstrap Enhanced Components </a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav ms-auto">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Demos </a>
+							<ul class="dropdown-menu pt-0">
+								<li>
+									<h5 class="px-3 py-2 text-nowrap text-primary border-bottom border-primary bg-dark-subtle rounded-top">
+										Production Ready </h5>
+								</li>
+								<li>
+									<a class="dropdown-item" href="https://yohn.github.io/Bootstrap-Enhanced-Components/AjaxForm/Example.html">
+										AJAX Form &amp; Submit </a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="https://yohn.github.io/Bootstrap-Enhanced-Components/JsonTable/Example.html">
+										JSON Table (like Data Tables) </a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="https://yohn.github.io/Bootstrap-Enhanced-Components/YoBox/Example.html">
+										YoBox </a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/AutoTextarea/Example.html"> Auto Textarea
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/InputMask/Example.html"> Input Mask </a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/MultiSelect/Example.html"> Multi Select
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/FileUploadPreview/Example.html"> File
+										Upload Preview </a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/WysiwygEditor/Example.html"> Wysiwyg Editor
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/ToastAlerts/Example.html"> Toast Alerts
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/SimpleLightbox/Example.html"> Simple
+										Lightbox </a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/ContextMenu/Example.html"> Context Menu
+									</a>
+								</li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li>
+									<h5 class="px-3 py-2 text-nowrap text-primary border-bottom border-primary bg-dark-subtle"> Needs
+										Testing </h5>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/BehaviorTracker/HumanVerified.html"> Human
+										Verified </a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/BehaviorTracker/Example.html"> Behavior
+										Tracker </a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/MultiLevelDropdown/Example.html"> Multi
+										Level Dropdown </a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/OnboardingTour/Example.html"> Onboarding
+										Tour </a>
+								</li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li>
+									<h5 class="px-3 py-2 text-nowrap text-primary border-bottom border-primary bg-dark-subtle rounded-top">
+										Needs Improvements </h5>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/RateLimiter/Example.html"> Rate Limiter
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/ImageLightbox/Example.html"> Image Lightbox
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/../#components">Components</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="https://github.com/Yohn/Bootstrap-Enhanced-Components" target="_blank">
+								<i class="bi bi-github"></i> GitHub </a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+	<div class="container">
+		<header class="mb-5">
+			<h1 class="display-4 mb-3">AjaxForm Examples</h1>
+			<p class="lead">Vanilla JavaScript drop-in replacement for jQuery ajaxForm() and ajaxSubmit()</p>
+			<div class="alert alert-info">
+				<strong>Note:</strong> These examples use a mock server (sessionStorage) for demonstration.
+				In production, replace mock endpoints with your actual server URLs.
+			</div>
+		</header>
+
+		<!-- Example 1: Simple Contact Form -->
+		<section class="example-section">
+			<h2 class="h3 mb-3">Example 1: Simple Contact Form (AjaxForm)</h2>
+			<p>Basic form submission with success/error handling.</p>
+
+			<form id="contactForm" class="ajax-form">
+				<div class="mb-3">
+					<label for="contact-name" class="form-label">Name</label>
+					<input type="text" class="form-control" id="contact-name" name="name" required>
+				</div>
+				<div class="mb-3">
+					<label for="contact-email" class="form-label">Email</label>
+					<input type="email" class="form-control" id="contact-email" name="email" required>
+				</div>
+				<div class="mb-3">
+					<label for="contact-message" class="form-label">Message</label>
+					<textarea class="form-control" id="contact-message" name="message" rows="4" required></textarea>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+
+				<div class="ajax-form-message ajax-form-message-success">
+					<div class="alert alert-success" role="alert">
+						<strong>Success!</strong> Your message has been sent.
+					</div>
+				</div>
+				<div class="ajax-form-message ajax-form-message-error">
+					<div class="alert alert-danger" role="alert">
+						<strong>Error!</strong> Something went wrong.
+					</div>
+				</div>
+				<div class="response-output" id="contactResponse"></div>
+			</form>
+		</section>
+
+		<!-- Example 2: File Upload Form -->
+		<section class="example-section">
+			<h2 class="h3 mb-3">Example 2: Multiple File Upload with Progress</h2>
+			<p>Upload multiple images with real-time progress tracking.</p>
+
+			<form id="uploadForm" class="ajax-form" enctype="multipart/form-data">
+				<div class="mb-3">
+					<label for="upload-title" class="form-label">Album Title</label>
+					<input type="text" class="form-control" id="upload-title" name="title" required>
+				</div>
+				<div class="mb-3">
+					<label for="upload-files" class="form-label">Select Images</label>
+					<input type="file" class="form-control" id="upload-files" name="photos[]" multiple accept="image/*" required>
+					<small class="form-text text-muted">You can select multiple images.</small>
+				</div>
+
+				<div class="ajax-form-progress" id="uploadProgress" style="display: none;">
+					<div class="progress">
+						<div class="progress-bar" id="uploadProgressBar" role="progressbar" style="width: 0%"></div>
+					</div>
+					<div class="progress-text" id="uploadProgressText">0%</div>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Upload Photos</button>
+				<button type="button" class="btn btn-secondary" id="clearUpload">Clear</button>
+
+				<div class="ajax-form-file-preview" id="filePreview"></div>
+				<div class="response-output" id="uploadResponse"></div>
+			</form>
+		</section>
+
+		<!-- Example 3: Form with Validation -->
+		<section class="example-section">
+			<h2 class="h3 mb-3">Example 3: Form with Before Submit Validation</h2>
+			<p>Custom validation using the beforeSubmit callback.</p>
+
+			<form id="registrationForm" class="ajax-form">
+				<div class="mb-3">
+					<label for="reg-username" class="form-label">Username</label>
+					<input type="text" class="form-control" id="reg-username" name="username" required>
+					<small class="form-text text-muted">Minimum 3 characters</small>
+				</div>
+				<div class="mb-3">
+					<label for="reg-email" class="form-label">Email</label>
+					<input type="email" class="form-control" id="reg-email" name="email" required>
+				</div>
+				<div class="mb-3">
+					<label for="reg-password" class="form-label">Password</label>
+					<input type="password" class="form-control" id="reg-password" name="password" required>
+					<small class="form-text text-muted">Minimum 8 characters</small>
+				</div>
+				<div class="mb-3">
+					<label for="reg-confirm" class="form-label">Confirm Password</label>
+					<input type="password" class="form-control" id="reg-confirm" name="confirm_password" required>
+				</div>
+				<button type="submit" class="btn btn-primary">Register</button>
+
+				<div class="alert alert-warning mt-3" id="validationErrors" style="display: none;"></div>
+				<div class="response-output" id="registrationResponse"></div>
+			</form>
+		</section>
+
+		<!-- Example 4: AjaxSubmit (Immediate) -->
+		<section class="example-section">
+			<h2 class="h3 mb-3">Example 4: Immediate Submit (AjaxSubmit)</h2>
+			<p>Using AjaxSubmit.submit() for programmatic submission without binding.</p>
+
+			<form id="searchForm" class="ajax-form">
+				<div class="mb-3">
+					<label for="search-query" class="form-label">Search Query</label>
+					<input type="text" class="form-control" id="search-query" name="query" placeholder="Enter search terms...">
+				</div>
+				<div class="mb-3">
+					<label for="search-category" class="form-label">Category</label>
+					<select class="form-select" id="search-category" name="category">
+						<option value="all">All Categories</option>
+						<option value="products">Products</option>
+						<option value="articles">Articles</option>
+						<option value="users">Users</option>
+					</select>
+				</div>
+				<button type="button" class="btn btn-primary" id="searchBtn">Search Now</button>
+				<button type="button" class="btn btn-secondary" id="advancedSearchBtn">Advanced Search</button>
+
+				<div class="response-output" id="searchResults"></div>
+			</form>
+		</section>
+
+		<!-- Example 5: Update Target Element -->
+		<section class="example-section">
+			<h2 class="h3 mb-3">Example 5: Update Target Element</h2>
+			<p>Form response updates a specific element on the page.</p>
+
+			<form id="commentForm" class="ajax-form">
+				<div class="mb-3">
+					<label for="comment-author" class="form-label">Your Name</label>
+					<input type="text" class="form-control" id="comment-author" name="author" required>
+				</div>
+				<div class="mb-3">
+					<label for="comment-text" class="form-label">Comment</label>
+					<textarea class="form-control" id="comment-text" name="comment" rows="3" required></textarea>
+				</div>
+				<button type="submit" class="btn btn-primary">Post Comment</button>
+			</form>
+
+			<div id="commentsContainer" class="mt-4">
+				<h4>Comments:</h4>
+				<div id="commentsList" class="border rounded p-3" style="min-height: 100px; background-color: var(--bs-dark);">
+					<p class="text-muted">No comments yet. Be the first to comment!</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Example 6: Extra Data -->
+		<section class="example-section">
+			<h2 class="h3 mb-3">Example 6: Form with Extra Data</h2>
+			<p>Appending additional data to form submission.</p>
+
+			<form id="feedbackForm" class="ajax-form">
+				<div class="mb-3">
+					<label for="feedback-rating" class="form-label">Rating</label>
+					<select class="form-select" id="feedback-rating" name="rating" required>
+						<option value="">Select rating...</option>
+						<option value="5">5 - Excellent</option>
+						<option value="4">4 - Good</option>
+						<option value="3">3 - Average</option>
+						<option value="2">2 - Poor</option>
+						<option value="1">1 - Very Poor</option>
+					</select>
+				</div>
+				<div class="mb-3">
+					<label for="feedback-comments" class="form-label">Additional Comments</label>
+					<textarea class="form-control" id="feedback-comments" name="comments" rows="3"></textarea>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit Feedback</button>
+
+				<div class="response-output" id="feedbackResponse"></div>
+			</form>
+
+			<div class="alert alert-info mt-3">
+				<strong>Extra Data Being Sent:</strong>
+				<ul class="mb-0">
+					<li>Page URL: <code id="pageUrl"></code></li>
+					<li>User Agent: <code id="userAgent"></code></li>
+					<li>Timestamp: <code id="timestamp"></code></li>
+				</ul>
+			</div>
+		</section>
+
+		<!-- Example 7: Single File Upload -->
+		<section class="example-section">
+			<h2 class="h3 mb-3">Example 7: Single File Upload (Avatar)</h2>
+			<p>Upload a single profile picture with preview.</p>
+
+			<form id="avatarForm" class="ajax-form" enctype="multipart/form-data">
+				<div class="mb-3">
+					<label for="avatar-file" class="form-label">Profile Picture</label>
+					<input type="file" class="form-control" id="avatar-file" name="avatar" accept="image/*" required>
+				</div>
+				<div class="mb-3">
+					<img id="avatarPreview" src="" alt="Avatar Preview" style="max-width: 200px; max-height: 200px; display: none; border-radius: 50%;" class="border">
+				</div>
+				<button type="submit" class="btn btn-primary">Upload Avatar</button>
+
+				<div class="ajax-form-progress" id="avatarProgress" style="display: none;">
+					<div class="progress">
+						<div class="progress-bar" id="avatarProgressBar" role="progressbar" style="width: 0%"></div>
+					</div>
+					<div class="progress-text" id="avatarProgressText">0%</div>
+				</div>
+
+				<div class="response-output" id="avatarResponse"></div>
+			</form>
+		</section>
+
+		<!-- Example 8: Clear Form After Success -->
+		<section class="example-section">
+			<h2 class="h3 mb-3">Example 8: Clear Form After Success</h2>
+			<p>Form automatically clears after successful submission.</p>
+
+			<form id="newsletterForm" class="ajax-form">
+				<div class="mb-3">
+					<label for="newsletter-name" class="form-label">Name</label>
+					<input type="text" class="form-control" id="newsletter-name" name="name" required>
+				</div>
+				<div class="mb-3">
+					<label for="newsletter-email" class="form-label">Email</label>
+					<input type="email" class="form-control" id="newsletter-email" name="email" required>
+				</div>
+				<div class="mb-3 form-check">
+					<input type="checkbox" class="form-check-input" id="newsletter-agree" name="agree" required>
+					<label class="form-check-label" for="newsletter-agree">
+						I agree to receive newsletters
+					</label>
+				</div>
+				<button type="submit" class="btn btn-primary">Subscribe</button>
+
+				<div class="alert alert-success mt-3" id="newsletterSuccess" style="display: none;">
+					Thank you for subscribing! The form has been cleared.
+				</div>
+				<div class="response-output" id="newsletterResponse"></div>
+			</form>
+		</section>
+	</div>
+
+	<!-- Bootstrap 5.3.7 JS Bundle -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- AjaxForm JS -->
+	<script src="js/AjaxForm.js"></script>
+	<script src="js/AjaxSubmit.js"></script>
+
+	<!-- MockServer JS -->
+	<script src="js/MockServer.js"></script>
+
+	<!-- Example JS with MockServer -->
+	<script src="ExampleJS/demo-with-mockserver.js"></script>
+</body>
+</html>

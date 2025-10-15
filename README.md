@@ -12,7 +12,7 @@ npm install yohns-bs5-components
 
 ## 📋 Quick Reference
 
-### ✅ Production Ready (10 Components)
+### ✅ Production Ready (11 Components)
 
 | Component | Demo | Documentation |
 |-----------|------|---------------|
@@ -26,6 +26,7 @@ npm install yohns-bs5-components
 | **Toast Alerts** | [🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/ToastAlerts/Example.html) | [📖 README](blob/main/ToastAlertsME.md) |
 | **Simple Lightbox** | [🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/SimpleLightbox/Example.html) | [📖 README](blob/main/SimpleLightboxME.md) |
 | **Context Menu** | [🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/ContextMenu/Example.html) | [📖 README](blob/main/ContextMenuME.md) |
+| **Ajax Form** | [🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/AjaxForm/Example.html) | [📖 README](blob/main/AjaxForm/README.md) |
 
 ### 🧪 Needs More Testing (4 Components)
 
@@ -53,7 +54,17 @@ This project extends Bootstrap 5.3.7 with custom components that maintain full c
 
 ## 📦 Component Details
 
-### ✅ Production Ready (10 Components)
+### ✅ Production Ready (11 Components)
+
+#### [Ajax Form](https://yohn.github.io/Bootstrap-Enhanced-Components/AjaxForm/Example.html)
+*Vanilla JavaScript drop-in replacement for jQuery ajaxForm() and ajaxSubmit()*
+
+Pure JavaScript form submission handler that replaces jQuery's Form Plugin. Supports both standard forms and file uploads (including multiple files) with real-time progress tracking. No jQuery dependency with a clean Promise-based API.
+
+- **Key Features**: File upload with progress, form validation callbacks, success/error handling, form reset/clear, target element updates
+- **Use Cases**: Contact forms, file uploads, user registration, search forms, any AJAX form submission
+- **Special Features**: Multiple file support, upload progress tracking, beforeSubmit validation, Promise-based, Bootstrap 5.3 compatible
+- **[📖 Documentation](blob/main/AjaxForm/README.md)** | **[🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/AjaxForm/Example.html)**
 
 #### [JSON Table](https://yohn.github.io/Bootstrap-Enhanced-Components/JsonTable/Example.html)
 *Advanced data tables without jQuery - sorting, filtering, pagination, and inline editing*
@@ -287,6 +298,35 @@ const component = new ComponentName('#element', {
 });
 ```
 
+### Quick Example (Ajax Form)
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<form id="contactForm">
+		<input type="text" name="name" class="form-control" required>
+		<input type="email" name="email" class="form-control" required>
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="AjaxForm/js/AjaxForm.js"></script>
+	<script>
+		new AjaxForm('#contactForm', {
+			url: 'submit.php',
+			success: function(data) {
+				alert('Form submitted successfully!');
+			}
+		});
+	</script>
+</body>
+</html>
+```
+
 ### Configuration Pattern
 
 All components follow a consistent configuration pattern:
@@ -477,10 +517,10 @@ This project is released under the MIT License. See [LICENSE](LICENSE) for detai
 
 | Category | Count | Percentage |
 |----------|-------|------------|
-| Production Ready | 10 | 62.5% |
-| Needs Testing | 4 | 25% |
-| Needs Improvements | 2 | 12.5% |
-| **Total** | **16** | **100%** |
+| Production Ready | 11 | 64.7% |
+| Needs Testing | 4 | 23.5% |
+| Needs Improvements | 2 | 11.8% |
+| **Total** | **17** | **100%** |
 
 ---
 

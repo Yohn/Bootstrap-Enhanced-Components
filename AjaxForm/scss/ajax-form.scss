@@ -1,0 +1,289 @@
+// AjaxForm SCSS - Using Bootstrap 5.3 CSS Variables
+// This file provides optional styling for forms using AjaxForm/AjaxSubmit
+
+// Variables (using Bootstrap 5 CSS custom properties)
+$ajax-form-progress-height: 0.5rem !default;
+$ajax-form-transition: all 0.3s ease !default;
+
+// Form states using Bootstrap's CSS variables
+.ajax-form {
+	position: relative;
+
+	// Submitting state
+	&.ajax-form-submitting {
+		opacity: 0.6;
+		pointer-events: none;
+
+		.ajax-form-overlay {
+			display: flex;
+		}
+	}
+
+	// Success state
+	&.ajax-form-success {
+		.ajax-form-message-success {
+			display: block;
+		}
+	}
+
+	// Error state
+	&.ajax-form-error {
+		.ajax-form-message-error {
+			display: block;
+		}
+	}
+}
+
+// Loading overlay
+.ajax-form-overlay {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(var(--bs-body-bg-rgb), 0.8);
+	align-items: center;
+	justify-content: center;
+	z-index: 10;
+
+	.spinner-border {
+		color: var(--bs-primary);
+	}
+}
+
+// Progress bar container
+.ajax-form-progress {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+
+	.progress {
+		height: $ajax-form-progress-height;
+		background-color: var(--bs-secondary-bg);
+		border-radius: var(--bs-border-radius);
+		overflow: hidden;
+	}
+
+	.progress-bar {
+		background-color: var(--bs-primary);
+		transition: width 0.3s ease;
+		height: 100%;
+	}
+
+	.progress-text {
+		font-size: 0.875rem;
+		color: var(--bs-body-color);
+		margin-top: 0.25rem;
+		text-align: center;
+	}
+}
+
+// Message containers
+.ajax-form-message {
+	margin-top: 1rem;
+	display: none;
+
+	&.ajax-form-message-success {
+		display: none;
+
+		.alert {
+			background-color: var(--bs-success-bg-subtle);
+			color: var(--bs-success-text-emphasis);
+			border-color: var(--bs-success-border-subtle);
+		}
+	}
+
+	&.ajax-form-message-error {
+		display: none;
+
+		.alert {
+			background-color: var(--bs-danger-bg-subtle);
+			color: var(--bs-danger-text-emphasis);
+			border-color: var(--bs-danger-border-subtle);
+		}
+	}
+}
+
+// File upload preview
+.ajax-form-file-preview {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	margin-top: 1rem;
+
+	.file-preview-item {
+		position: relative;
+		width: 100px;
+		height: 100px;
+		border: 1px solid var(--bs-border-color);
+		border-radius: var(--bs-border-radius);
+		overflow: hidden;
+		background-color: var(--bs-secondary-bg);
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.file-preview-name {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			background-color: rgba(var(--bs-dark-rgb), 0.8);
+			color: var(--bs-white);
+			font-size: 0.75rem;
+			padding: 0.25rem;
+			text-align: center;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.file-preview-remove {
+			position: absolute;
+			top: 0.25rem;
+			right: 0.25rem;
+			background-color: var(--bs-danger);
+			color: var(--bs-white);
+			border: none;
+			border-radius: 50%;
+			width: 1.5rem;
+			height: 1.5rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			font-size: 0.875rem;
+			line-height: 1;
+			padding: 0;
+			opacity: 0;
+			transition: $ajax-form-transition;
+
+			&:hover {
+				background-color: var(--bs-danger-text-emphasis);
+			}
+		}
+
+		&:hover .file-preview-remove {
+			opacity: 1;
+		}
+	}
+}
+
+// File input styling
+.ajax-form-file-input {
+	position: relative;
+
+	.form-control {
+		cursor: pointer;
+	}
+
+	.file-input-label {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.375rem 0.75rem;
+		background-color: var(--bs-secondary-bg);
+		border: 1px solid var(--bs-border-color);
+		border-radius: var(--bs-border-radius);
+		cursor: pointer;
+		transition: $ajax-form-transition;
+
+		&:hover {
+			background-color: var(--bs-tertiary-bg);
+		}
+
+		.file-input-icon {
+			font-size: 1.25rem;
+			color: var(--bs-primary);
+		}
+
+		.file-input-text {
+			color: var(--bs-body-color);
+		}
+	}
+
+	.file-input-info {
+		font-size: 0.875rem;
+		color: var(--bs-secondary-color);
+		margin-top: 0.25rem;
+	}
+}
+
+// Button loading state
+.btn-ajax-loading {
+	position: relative;
+	pointer-events: none;
+
+	.btn-ajax-text {
+		opacity: 0;
+	}
+
+	.btn-ajax-spinner {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		display: inline-block;
+		width: 1rem;
+		height: 1rem;
+		border: 2px solid currentColor;
+		border-right-color: transparent;
+		border-radius: 50%;
+		animation: btn-ajax-spin 0.75s linear infinite;
+	}
+}
+
+@keyframes btn-ajax-spin {
+	to {
+		transform: translate(-50%, -50%) rotate(360deg);
+	}
+}
+
+// Form validation states (enhanced for AJAX)
+.ajax-form {
+	.was-validated .form-control:valid,
+	.form-control.is-valid {
+		border-color: var(--bs-success);
+
+		&:focus {
+			border-color: var(--bs-success);
+			box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.25);
+		}
+	}
+
+	.was-validated .form-control:invalid,
+	.form-control.is-invalid {
+		border-color: var(--bs-danger);
+
+		&:focus {
+			border-color: var(--bs-danger);
+			box-shadow: 0 0 0 0.25rem rgba(var(--bs-danger-rgb), 0.25);
+		}
+	}
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+	.ajax-form-overlay {
+		background-color: rgba(var(--bs-dark-rgb), 0.9);
+	}
+
+	.ajax-form-file-preview {
+		.file-preview-item {
+			background-color: var(--bs-dark);
+		}
+	}
+}
+
+// Responsive adjustments
+@media (max-width: 576px) {
+	.ajax-form-file-preview {
+		.file-preview-item {
+			width: 80px;
+			height: 80px;
+		}
+	}
+}

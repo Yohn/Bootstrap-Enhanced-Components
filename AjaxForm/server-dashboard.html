@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MockServer Dashboard</title>
+
+	<!-- Bootstrap 5.3.7 CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<style>
+		body {
+			padding: 2rem 0;
+		}
+		.dashboard-header {
+			background: linear-gradient(135deg, var(--bs-primary), var(--bs-info));
+			color: white;
+			padding: 2rem;
+			border-radius: var(--bs-border-radius-lg);
+			margin-bottom: 2rem;
+		}
+		.data-card {
+			margin-bottom: 1.5rem;
+		}
+		.json-viewer {
+			background-color: var(--bs-dark);
+			padding: 1rem;
+			border-radius: var(--bs-border-radius);
+			font-family: 'Courier New', monospace;
+			font-size: 0.875rem;
+			max-height: 400px;
+			overflow-y: auto;
+			white-space: pre-wrap;
+			word-wrap: break-word;
+		}
+		.stat-card {
+			background: var(--bs-secondary-bg);
+			border-left: 4px solid var(--bs-primary);
+			padding: 1.5rem;
+			border-radius: var(--bs-border-radius);
+			margin-bottom: 1rem;
+		}
+		.stat-number {
+			font-size: 2.5rem;
+			font-weight: bold;
+			color: var(--bs-primary);
+		}
+		.stat-label {
+			font-size: 0.875rem;
+			color: var(--bs-secondary-color);
+			text-transform: uppercase;
+			letter-spacing: 1px;
+		}
+		.badge-custom {
+			padding: 0.5rem 1rem;
+			font-size: 0.875rem;
+		}
+		.table-responsive {
+			max-height: 500px;
+			overflow-y: auto;
+		}
+		.empty-state {
+			text-align: center;
+			padding: 3rem;
+			color: var(--bs-secondary-color);
+		}
+		.empty-state-icon {
+			font-size: 4rem;
+			margin-bottom: 1rem;
+			opacity: 0.5;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<!-- Header -->
+		<div class="dashboard-header">
+			<div class="d-flex justify-content-between align-items-center">
+				<div>
+					<h1 class="display-5 mb-2">MockServer Dashboard</h1>
+					<p class="mb-0">Real-time view of sessionStorage data</p>
+				</div>
+				<div>
+					<button class="btn btn-light btn-lg" onclick="refreshData()">
+						🔄 Refresh
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Statistics -->
+		<div class="row mb-4">
+			<div class="col-md-3 col-sm-6">
+				<div class="stat-card">
+					<div class="stat-number" id="stat-contacts">0</div>
+					<div class="stat-label">Contact Forms</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6">
+				<div class="stat-card">
+					<div class="stat-number" id="stat-uploads">0</div>
+					<div class="stat-label">File Uploads</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6">
+				<div class="stat-card">
+					<div class="stat-number" id="stat-users">0</div>
+					<div class="stat-label">Registered Users</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6">
+				<div class="stat-card">
+					<div class="stat-number" id="stat-total">0</div>
+					<div class="stat-label">Total Submissions</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Actions -->
+		<div class="row mb-4">
+			<div class="col-12">
+				<div class="card bg-secondary-bg">
+					<div class="card-body">
+						<h5 class="card-title">Actions</h5>
+						<div class="btn-group" role="group">
+							<button class="btn btn-outline-primary" onclick="exportData()">
+								📥 Export Data
+							</button>
+							<button class="btn btn-outline-warning" onclick="clearAllData()">
+								🗑️ Clear All Data
+							</button>
+							<button class="btn btn-outline-info" onclick="viewRawStorage()">
+								👁️ View Raw Storage
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Tabs for different data types -->
+		<ul class="nav nav-tabs mb-3" id="dataTabs" role="tablist">
+			<li class="nav-item" role="presentation">
+				<button class="nav-link active" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts" type="button">
+					Contacts <span class="badge bg-primary" id="badge-contacts">0</span>
+				</button>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="uploads-tab" data-bs-toggle="tab" data-bs-target="#uploads" type="button">
+					Uploads <span class="badge bg-primary" id="badge-uploads">0</span>
+				</button>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button">
+					Users <span class="badge bg-primary" id="badge-users">0</span>
+				</button>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments" type="button">
+					Comments <span class="badge bg-primary" id="badge-comments">0</span>
+				</button>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="feedback-tab" data-bs-toggle="tab" data-bs-target="#feedback" type="button">
+					Feedback <span class="badge bg-primary" id="badge-feedback">0</span>
+				</button>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="newsletter-tab" data-bs-toggle="tab" data-bs-target="#newsletter" type="button">
+					Newsletter <span class="badge bg-primary" id="badge-newsletter">0</span>
+				</button>
+			</li>
+		</ul>
+
+		<!-- Tab content -->
+		<div class="tab-content" id="dataTabContent">
+			<!-- Contacts -->
+			<div class="tab-pane fade show active" id="contacts" role="tabpanel">
+				<div class="card data-card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h5 class="mb-0">Contact Form Submissions</h5>
+						<button class="btn btn-sm btn-outline-danger" onclick="clearDataType('contacts')">Clear</button>
+					</div>
+					<div class="card-body">
+						<div id="contacts-content"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Uploads -->
+			<div class="tab-pane fade" id="uploads" role="tabpanel">
+				<div class="card data-card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h5 class="mb-0">File Uploads</h5>
+						<button class="btn btn-sm btn-outline-danger" onclick="clearDataType('uploads')">Clear</button>
+					</div>
+					<div class="card-body">
+						<div id="uploads-content"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Users -->
+			<div class="tab-pane fade" id="users" role="tabpanel">
+				<div class="card data-card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h5 class="mb-0">Registered Users</h5>
+						<button class="btn btn-sm btn-outline-danger" onclick="clearDataType('users')">Clear</button>
+					</div>
+					<div class="card-body">
+						<div id="users-content"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Comments -->
+			<div class="tab-pane fade" id="comments" role="tabpanel">
+				<div class="card data-card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h5 class="mb-0">Posted Comments</h5>
+						<button class="btn btn-sm btn-outline-danger" onclick="clearDataType('comments')">Clear</button>
+					</div>
+					<div class="card-body">
+						<div id="comments-content"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Feedback -->
+			<div class="tab-pane fade" id="feedback" role="tabpanel">
+				<div class="card data-card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h5 class="mb-0">User Feedback</h5>
+						<button class="btn btn-sm btn-outline-danger" onclick="clearDataType('feedback')">Clear</button>
+					</div>
+					<div class="card-body">
+						<div id="feedback-content"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Newsletter -->
+			<div class="tab-pane fade" id="newsletter" role="tabpanel">
+				<div class="card data-card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h5 class="mb-0">Newsletter Subscribers</h5>
+						<button class="btn btn-sm btn-outline-danger" onclick="clearDataType('newsletter')">Clear</button>
+					</div>
+					<div class="card-body">
+						<div id="newsletter-content"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap 5.3.7 JS Bundle -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Dashboard JS -->
+	<script src="ExampleJS/dashboard.js"></script>
+</body>
+</html>
