@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>HTML Table Enhanced - Advanced Demo</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+	<style>
+		th.sortable {
+			cursor: pointer;
+			user-select: none;
+			white-space: nowrap;
+		}
+		th.sortable:hover {
+			background-color: rgba(var(--bs-emphasis-color-rgb), 0.05);
+		}
+		th.sortable .sort-icon {
+			opacity: 0.5;
+			font-size: 0.85em;
+			display: inline-block;
+		}
+		th.sortable:hover .sort-icon {
+			opacity: 1;
+		}
+		th.sortable .sort-icon i.bi-arrow-up,
+		th.sortable .sort-icon i.bi-arrow-down {
+			opacity: 1;
+			color: var(--bs-primary);
+		}
+		.table td {
+			vertical-align: middle;
+		}
+		.user-avatar {
+			width: 32px;
+			height: 32px;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+		.priority-badge {
+			min-width: 70px;
+			display: inline-block;
+		}
+	</style>
+</head>
+<body>
+
+		<!-- Navigation -->
+		<nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-gradient bg-body-tertiary">
+			<div class="container-fluid">
+				<a class="navbar-brand fw-bold" href="/../#overview">
+					<i class="bi bi-bootstrap-fill me-2"></i> Bootstrap Enhanced Components </a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav ms-auto">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Demos </a>
+							<ul class="dropdown-menu pt-0">
+								<li>
+									<h5 class="px-3 py-2 text-nowrap text-primary border-bottom border-primary bg-dark-subtle rounded-top">
+										Production Ready </h5>
+								</li>
+								<li>
+									<a class="dropdown-item" href="https://yohn.github.io/Bootstrap-Enhanced-Components/AjaxForm/Example.html">
+										AJAX Form &amp; Submit </a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="https://yohn.github.io/Bootstrap-Enhanced-Components/JsonTable/Example.html">
+										JSON Table (like Data Tables) </a>
+								</li>
+							<li>
+								<a class="dropdown-item" href="https://yohn.github.io/Bootstrap-Enhanced-Components/HtmlTable/Example.html">
+									HTML Table
+								</a>
+							</li>
+								<li>
+									<a class="dropdown-item" href="https://yohn.github.io/Bootstrap-Enhanced-Components/YoBox/Example.html">
+										YoBox </a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/AutoTextarea/Example.html"> Auto Textarea
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/InputMask/Example.html"> Input Mask </a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/MultiSelect/Example.html"> Multi Select
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/FileUploadPreview/Example.html"> File
+										Upload Preview </a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/WysiwygEditor/Example.html"> Wysiwyg Editor
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/ToastAlerts/Example.html"> Toast Alerts
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/SimpleLightbox/Example.html"> Simple
+										Lightbox </a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/ContextMenu/Example.html"> Context Menu
+									</a>
+								</li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li>
+									<h5 class="px-3 py-2 text-nowrap text-primary border-bottom border-primary bg-dark-subtle"> Needs
+										Testing </h5>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/BehaviorTracker/HumanVerified.html"> Human
+										Verified </a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/BehaviorTracker/Example.html"> Behavior
+										Tracker </a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/MultiLevelDropdown/Example.html"> Multi
+										Level Dropdown </a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/OnboardingTour/Example.html"> Onboarding
+										Tour </a>
+								</li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li>
+									<h5 class="px-3 py-2 text-nowrap text-primary border-bottom border-primary bg-dark-subtle rounded-top">
+										Needs Improvements </h5>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/RateLimiter/Example.html"> Rate Limiter
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+										href="https://yohn.github.io/Bootstrap-Enhanced-Components/ImageLightbox/Example.html"> Image Lightbox
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/../#components">Components</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="https://github.com/Yohn/Bootstrap-Enhanced-Components" target="_blank">
+								<i class="bi bi-github"></i> GitHub </a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	<div class="container-fluid mt-4 px-3">
+		<div class="row">
+			<div class="col-12">
+				<h2 class="mb-3">Advanced HTML Table Demo</h2>
+				<p class="text-muted">
+					This demo showcases complex nested HTML including images, badges, progress bars,
+					multiple form elements, and various Bootstrap components.
+				</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header border-bottom-0">
+						<div class="row g-2">
+							<div class="col-md-2 col-sm-6">
+								<div class="input-group input-group-sm">
+									<label class="input-group-text" for="rowsPerPageSelect">Show</label>
+									<select id="rowsPerPageSelect" class="form-select">
+										<option value="5">5</option>
+										<option value="10">10</option>
+										<option value="25">25</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-7 col-sm-6">
+								<div class="input-group input-group-sm">
+									<span class="input-group-text"><i class="bi bi-search"></i></span>
+									<input id="globalSearch" type="text" class="form-control"
+										placeholder="Search tasks, users, tags...">
+								</div>
+							</div>
+							<div class="col-md-3 col-sm-12">
+								<div class="d-flex justify-content-end gap-2">
+									<div id="columnVisibilityToggle"></div>
+									<button class="btn btn-sm btn-success" onclick="addTaskRow()">
+										<i class="bi bi-plus-lg"></i> New Task
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="table-responsive">
+						<table id="htmlTable" class="table table-hover mb-0 border-top">
+							<thead>
+								<tr>
+									<th data-key="task" data-sort-type="string" data-search-type="text">Task</th>
+									<th data-key="assignee" data-sort-type="string" data-search-type="text">Assignee</th>
+									<th data-key="priority" data-sort-type="string" data-search-type="select">Priority</th>
+									<th data-key="status" data-sort-type="string" data-search-type="select">Status</th>
+									<th data-key="progress" data-sort-type="number" data-search-type="number">Progress</th>
+									<th data-key="dueDate" data-sort-type="date" data-search-type="date">Due Date</th>
+									<th data-key="tags" data-sort-type="string" data-search-type="text">Tags</th>
+									<th data-key="actions" data-sortable="false" data-search-type="false">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<div class="d-flex align-items-center">
+											<input type="checkbox" class="form-check-input me-2">
+											<div>
+												<strong>Design Homepage Mockup</strong>
+												<br>
+												<small class="text-muted">Create initial wireframes and mockups</small>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="d-flex align-items-center gap-2">
+											<img src="https://i.pravatar.cc/150?img=1" class="user-avatar" alt="User">
+											<span>Sarah Chen</span>
+										</div>
+									</td>
+									<td>
+										<select class="form-select form-select-sm priority-badge">
+											<option value="high" selected>High</option>
+											<option value="medium">Medium</option>
+											<option value="low">Low</option>
+										</select>
+									</td>
+									<td>
+										<span class="badge bg-warning text-dark">In Progress</span>
+									</td>
+									<td>
+										<input type="number" class="form-control form-control-sm text-center"
+											value="65" min="0" max="100" style="width: 70px;">
+									</td>
+									<td>2024-02-20</td>
+									<td>
+										<span class="badge bg-primary">Design</span>
+										<span class="badge bg-info">UI/UX</span>
+									</td>
+									<td>
+										<div class="btn-group btn-group-sm" role="group">
+											<button class="btn btn-outline-primary" title="Edit">
+												<i class="bi bi-pencil"></i>
+											</button>
+											<button class="btn btn-outline-danger" title="Delete">
+												<i class="bi bi-trash"></i>
+											</button>
+										</div>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<div class="d-flex align-items-center">
+											<input type="checkbox" class="form-check-input me-2" checked>
+											<div>
+												<strong>API Integration</strong>
+												<br>
+												<small class="text-muted">Connect frontend to backend API</small>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="d-flex align-items-center gap-2">
+											<img src="https://i.pravatar.cc/150?img=5" class="user-avatar" alt="User">
+											<span>Mike Rodriguez</span>
+										</div>
+									</td>
+									<td>
+										<select class="form-select form-select-sm priority-badge">
+											<option value="high">High</option>
+											<option value="medium">Medium</option>
+											<option value="low" selected>Low</option>
+										</select>
+									</td>
+									<td>
+										<span class="badge bg-success">Completed</span>
+									</td>
+									<td>
+										<input type="number" class="form-control form-control-sm text-center"
+											value="100" min="0" max="100" style="width: 70px;">
+									</td>
+									<td>2024-02-15</td>
+									<td>
+										<span class="badge bg-danger">Backend</span>
+										<span class="badge bg-success">API</span>
+									</td>
+									<td>
+										<div class="btn-group btn-group-sm" role="group">
+											<button class="btn btn-outline-primary" title="Edit">
+												<i class="bi bi-pencil"></i>
+											</button>
+											<button class="btn btn-outline-danger" title="Delete">
+												<i class="bi bi-trash"></i>
+											</button>
+										</div>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<div class="d-flex align-items-center">
+											<input type="checkbox" class="form-check-input me-2">
+											<div>
+												<strong>Database Migration</strong>
+												<br>
+												<small class="text-muted">Migrate to PostgreSQL 15</small>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="d-flex align-items-center gap-2">
+											<img src="https://i.pravatar.cc/150?img=8" class="user-avatar" alt="User">
+											<span>Emily Watson</span>
+										</div>
+									</td>
+									<td>
+										<select class="form-select form-select-sm priority-badge">
+											<option value="high" selected>High</option>
+											<option value="medium">Medium</option>
+											<option value="low">Low</option>
+										</select>
+									</td>
+									<td>
+										<span class="badge bg-secondary">Not Started</span>
+									</td>
+									<td>
+										<input type="number" class="form-control form-control-sm text-center"
+											value="0" min="0" max="100" style="width: 70px;">
+									</td>
+									<td>2024-02-28</td>
+									<td>
+										<span class="badge bg-danger">Backend</span>
+										<span class="badge bg-warning text-dark">Database</span>
+									</td>
+									<td>
+										<div class="btn-group btn-group-sm" role="group">
+											<button class="btn btn-outline-primary" title="Edit">
+												<i class="bi bi-pencil"></i>
+											</button>
+											<button class="btn btn-outline-danger" title="Delete">
+												<i class="bi bi-trash"></i>
+											</button>
+										</div>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<div class="d-flex align-items-center">
+											<input type="checkbox" class="form-check-input me-2">
+											<div>
+												<strong>Write Documentation</strong>
+												<br>
+												<small class="text-muted">API reference and user guides</small>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="d-flex align-items-center gap-2">
+											<img src="https://i.pravatar.cc/150?img=12" class="user-avatar" alt="User">
+											<span>Alex Kim</span>
+										</div>
+									</td>
+									<td>
+										<select class="form-select form-select-sm priority-badge">
+											<option value="high">High</option>
+											<option value="medium" selected>Medium</option>
+											<option value="low">Low</option>
+										</select>
+									</td>
+									<td>
+										<span class="badge bg-warning text-dark">In Progress</span>
+									</td>
+									<td>
+										<input type="number" class="form-control form-control-sm text-center"
+											value="40" min="0" max="100" style="width: 70px;">
+									</td>
+									<td>2024-02-25</td>
+									<td>
+										<span class="badge bg-secondary">Documentation</span>
+									</td>
+									<td>
+										<div class="btn-group btn-group-sm" role="group">
+											<button class="btn btn-outline-primary" title="Edit">
+												<i class="bi bi-pencil"></i>
+											</button>
+											<button class="btn btn-outline-danger" title="Delete">
+												<i class="bi bi-trash"></i>
+											</button>
+										</div>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<div class="d-flex align-items-center">
+											<input type="checkbox" class="form-check-input me-2">
+											<div>
+												<strong>Performance Optimization</strong>
+												<br>
+												<small class="text-muted">Reduce page load time by 50%</small>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="d-flex align-items-center gap-2">
+											<img src="https://i.pravatar.cc/150?img=20" class="user-avatar" alt="User">
+											<span>Rachel Green</span>
+										</div>
+									</td>
+									<td>
+										<select class="form-select form-select-sm priority-badge">
+											<option value="high">High</option>
+											<option value="medium" selected>Medium</option>
+											<option value="low">Low</option>
+										</select>
+									</td>
+									<td>
+										<span class="badge bg-warning text-dark">In Progress</span>
+									</td>
+									<td>
+										<input type="number" class="form-control form-control-sm text-center"
+											value="30" min="0" max="100" style="width: 70px;">
+									</td>
+									<td>2024-03-05</td>
+									<td>
+										<span class="badge bg-primary">Frontend</span>
+										<span class="badge bg-warning text-dark">Performance</span>
+									</td>
+									<td>
+										<div class="btn-group btn-group-sm" role="group">
+											<button class="btn btn-outline-primary" title="Edit">
+												<i class="bi bi-pencil"></i>
+											</button>
+											<button class="btn btn-outline-danger" title="Delete">
+												<i class="bi bi-trash"></i>
+											</button>
+										</div>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<div class="d-flex align-items-center">
+											<input type="checkbox" class="form-check-input me-2" checked>
+											<div>
+												<strong>Security Audit</strong>
+												<br>
+												<small class="text-muted">Penetration testing and fixes</small>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="d-flex align-items-center gap-2">
+											<img src="https://i.pravatar.cc/150?img=15" class="user-avatar" alt="User">
+											<span>David Lee</span>
+										</div>
+									</td>
+									<td>
+										<select class="form-select form-select-sm priority-badge">
+											<option value="high" selected>High</option>
+											<option value="medium">Medium</option>
+											<option value="low">Low</option>
+										</select>
+									</td>
+									<td>
+										<span class="badge bg-success">Completed</span>
+									</td>
+									<td>
+										<input type="number" class="form-control form-control-sm text-center"
+											value="100" min="0" max="100" style="width: 70px;">
+									</td>
+									<td>2024-02-10</td>
+									<td>
+										<span class="badge bg-danger">Security</span>
+										<span class="badge bg-info">Testing</span>
+									</td>
+									<td>
+										<div class="btn-group btn-group-sm" role="group">
+											<button class="btn btn-outline-primary" title="Edit">
+												<i class="bi bi-pencil"></i>
+											</button>
+											<button class="btn btn-outline-danger" title="Delete">
+												<i class="bi bi-trash"></i>
+											</button>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="card-footer border-top-0 d-flex justify-content-between align-items-center">
+						<div>
+							<span id="recordCount" class="badge bg-secondary"></span>
+						</div>
+						<nav>
+							<ul id="pagination" class="pagination mb-0"></ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Statistics -->
+		<div class="row mt-4">
+			<div class="col-md-3 col-sm-6 mb-3">
+				<div class="card bg-primary">
+					<div class="card-body text-center">
+						<h3 id="totalTasks" class="mb-0">0</h3>
+						<p class="mb-0">Total Tasks</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6 mb-3">
+				<div class="card bg-warning text-dark">
+					<div class="card-body text-center">
+						<h3 id="inProgressTasks" class="mb-0">0</h3>
+						<p class="mb-0">In Progress</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6 mb-3">
+				<div class="card bg-success">
+					<div class="card-body text-center">
+						<h3 id="completedTasks" class="mb-0">0</h3>
+						<p class="mb-0">Completed</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6 mb-3">
+				<div class="card bg-info">
+					<div class="card-body text-center">
+						<h3 id="avgProgress" class="mb-0">0%</h3>
+						<p class="mb-0">Avg Progress</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="js/HtmlTable.js"></script>
+	<script>
+		let tableInstance;
+
+		document.addEventListener('DOMContentLoaded', function () {
+			tableInstance = new HtmlTable({
+				container: '#htmlTable',
+				globalSearch: '#globalSearch',
+				pagination: '#pagination',
+				rowsPerPageSelect: '#rowsPerPageSelect',
+				columnVisibilityToggle: '#columnVisibilityToggle',
+				foundEntriesContainer: '#recordCount',
+				rowsPerPage: 5,
+				rowsPerPageOptions: [5, 10, 25],
+				foundEntriesText: 'XX Tasks',
+				foundSearchedText: 'XX of XX Tasks'
+			});
+
+			updateStatistics();
+
+			// Update statistics when data changes
+			const tableElement = document.querySelector('#htmlTable');
+
+			tableElement.addEventListener('load.yo.htmltable', updateStatistics);
+			tableElement.addEventListener('filtered.yo.htmltable', updateStatistics);
+			tableElement.addEventListener('rowadded.yo.htmltable', updateStatistics);
+		});
+
+		function updateStatistics() {
+			const total = tableInstance.filteredData.length;
+			let inProgress = 0;
+			let completed = 0;
+			let totalProgress = 0;
+
+			tableInstance.filteredData.forEach(row => {
+				const status = row.status?.html || '';
+				const progress = parseInt(row.progress?.value || 0);
+
+				if (status.includes('In Progress')) inProgress++;
+				if (status.includes('Completed')) completed++;
+				totalProgress += progress;
+			});
+
+			const avgProgress = total > 0 ? Math.round(totalProgress / total) : 0;
+
+			document.getElementById('totalTasks').textContent = total;
+			document.getElementById('inProgressTasks').textContent = inProgress;
+			document.getElementById('completedTasks').textContent = completed;
+			document.getElementById('avgProgress').textContent = avgProgress + '%';
+		}
+
+		function addTaskRow() {
+			const tasks = [
+				'Code Review',
+				'Bug Fixes',
+				'Deploy to Production',
+				'Update Dependencies',
+				'Create Tests'
+			];
+			const users = [
+				{ name: 'John Doe', img: 3 },
+				{ name: 'Jane Smith', img: 9 },
+				{ name: 'Bob Wilson', img: 14 }
+			];
+			const priorities = ['high', 'medium', 'low'];
+			const statuses = [
+				'<span class="badge bg-secondary">Not Started</span>',
+				'<span class="badge bg-warning text-dark">In Progress</span>'
+			];
+			const tagSets = [
+				'<span class="badge bg-primary">Frontend</span>',
+				'<span class="badge bg-danger">Backend</span>',
+				'<span class="badge bg-info">Testing</span>'
+			];
+
+			const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
+			const randomUser = users[Math.floor(Math.random() * users.length)];
+			const randomPriority = priorities[Math.floor(Math.random() * priorities.length)];
+			const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+			const randomTag = tagSets[Math.floor(Math.random() * tagSets.length)];
+			const randomProgress = Math.floor(Math.random() * 50);
+			const randomDate = `2024-03-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`;
+
+			const newRow = document.createElement('tr');
+			newRow.innerHTML = `
+				<td>
+					<div class="d-flex align-items-center">
+						<input type="checkbox" class="form-check-input me-2">
+						<div>
+							<strong>${randomTask}</strong>
+							<br>
+							<small class="text-muted">New task description</small>
+						</div>
+					</div>
+				</td>
+				<td>
+					<div class="d-flex align-items-center gap-2">
+						<img src="https://i.pravatar.cc/150?img=${randomUser.img}" class="user-avatar" alt="User">
+						<span>${randomUser.name}</span>
+					</div>
+				</td>
+				<td>
+					<select class="form-select form-select-sm priority-badge">
+						<option value="high" ${randomPriority === 'high' ? 'selected' : ''}>High</option>
+						<option value="medium" ${randomPriority === 'medium' ? 'selected' : ''}>Medium</option>
+						<option value="low" ${randomPriority === 'low' ? 'selected' : ''}>Low</option>
+					</select>
+				</td>
+				<td>${randomStatus}</td>
+				<td>
+					<input type="number" class="form-control form-control-sm text-center"
+						value="${randomProgress}" min="0" max="100" style="width: 70px;">
+				</td>
+				<td>${randomDate}</td>
+				<td>${randomTag}</td>
+				<td>
+					<div class="btn-group btn-group-sm" role="group">
+						<button class="btn btn-outline-primary" title="Edit">
+							<i class="bi bi-pencil"></i>
+						</button>
+						<button class="btn btn-outline-danger" title="Delete">
+							<i class="bi bi-trash"></i>
+						</button>
+					</div>
+				</td>
+			`;
+
+			tableInstance.addRow(newRow);
+		}
+
+		// Event delegation for buttons
+		document.querySelector('#htmlTable').addEventListener('click', function(e) {
+			const editBtn = e.target.closest('.btn-outline-primary');
+			const deleteBtn = e.target.closest('.btn-outline-danger');
+
+			if (editBtn) {
+				e.stopPropagation();
+				const row = editBtn.closest('tr');
+				const taskName = row.querySelector('strong')?.textContent;
+				alert('Edit task: ' + taskName);
+			}
+
+			if (deleteBtn) {
+				e.stopPropagation();
+				const row = deleteBtn.closest('tr');
+				const taskName = row.querySelector('strong')?.textContent;
+				if (confirm('Delete task: ' + taskName + '?')) {
+					row.remove();
+					tableInstance.refresh();
+				}
+			}
+		});
+	</script>
+</body>
+</html>

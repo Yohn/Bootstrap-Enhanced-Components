@@ -12,11 +12,12 @@ npm install yohns-bs5-components
 
 ## 📋 Quick Reference
 
-### ✅ Production Ready (11 Components)
+### ✅ Production Ready (12 Components)
 
 | Component | Demo | Documentation |
 |-----------|------|---------------|
 | **JSON Table** | [🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/JsonTable/Example.html) | [📖 README](blob/main/JsonTableME.md) |
+| **HTML Table** | [🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/HtmlTable/Example.html) | [📖 README](blob/main/HtmlTable/README.md) |
 | **YoBox** | [🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/YoBox/Example.html) | [📖 README](blob/main/YoBoxME.md) |
 | **Auto Textarea** | [🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/AutoTextarea/Example.html) | [📖 README](blob/main/AutoTextareaME.md) |
 | **Input Mask** | [🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/InputMask/Example.html) | [📖 README](blob/main/InputMaskME.md) |
@@ -75,6 +76,16 @@ A lightweight yet powerful data table implementation that rivals DataTables func
 - **Use Cases**: Admin panels, data dashboards, reporting interfaces, content management, user directories
 - **Special Features**: Floating labels in edit modals, toast notifications, event system for all actions, custom sort functions for dates/currency
 - **[📖 Documentation](blob/main/JsonTableME.md)** | **[🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/JsonTable/Example.html)**
+
+#### [HTML Table](https://yohn.github.io/Bootstrap-Enhanced-Components/HtmlTable/Example.html)
+*Enhanced HTML tables with sorting, filtering, pagination, and column visibility*
+
+Transform existing HTML tables into dynamic, interactive tables without converting to JSON. Unlike traditional data table libraries, HTML Table preserves your carefully crafted HTML structure including form elements, buttons, links, and custom markup. Smart value extraction automatically handles inputs, selects, checkboxes, and text content.
+
+- **Key Features**: Works with existing HTML, preserves nested elements, column sorting (ASC/DESC), global & column-specific search, pagination, column visibility toggle, dynamic row management
+- **Use Cases**: Admin panels, data grids with form inputs, editable tables, dashboards, report tables with action buttons
+- **Special Features**: Smart value extraction from form elements, works with checkboxes/selects/inputs, event system for all actions, Bootstrap 5.3.8 integration
+- **[📖 Documentation](blob/main/HtmlTable/README.md)** | **[🎯 Demo](https://yohn.github.io/Bootstrap-Enhanced-Components/HtmlTable/Example.html)**
 
 #### [YoBox](https://yohn.github.io/Bootstrap-Enhanced-Components/YoBox/Example.html)
 *Modern Bootstrap modal dialogs - a vanilla JS replacement for Bootbox*
